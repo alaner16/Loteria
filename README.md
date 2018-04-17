@@ -30,4 +30,4 @@ Native
 https://ionicframework.com/docs/native/
 
 
-Para instalar todo solo hacer "ng install"
+Para instalar todo solo hacer "npm install"
