@@ -1,17 +1,40 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>Home</ion-title>
+    <ion-title>Loteria 4-02</ion-title>
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-  <h2>Welcome to Ionic!</h2>
-  <p>
-    This starter project comes with simple tabs-based layout for apps
-    that are going to primarily use a Tabbed UI.
-  </p>
-  <p>
-    Take a look at the <code>src/pages/</code> directory to add or change tabs,
-    update any existing page or create new pages.
-  </p>
+<ion-content padding class="Login">
+
+
+  <ion-grid>
+    <ion-row>
+      <ion-col col-12 >
+        <button right ion-button col-1 offset-11>
+          <ion-icon name="trophy"></ion-icon>
+        </button>
+      </ion-col>
+      <ion-col col-12>
+
+        <img src="../../assets/imgs/logo.png" col-12>
+        <ion-list>
+        
+          <ion-item>
+            <ion-label stacked>
+              <ion-icon name="person"></ion-icon> Nombre</ion-label>
+            <ion-input type="text" value=""></ion-input>
+          </ion-item>
+        
+          <!--ion-item>
+              <ion-label stacked><ion-icon name="unlock"></ion-icon> Contraseña</ion-label>
+              <ion-input type="password"></ion-input>
+            </ion-item-->
+        <button ion-button color="light" round block>Crear partida</button>
+        <button ion-button color="dark" round block>Unirse a partida</button>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+
+  </ion-grid>
+  
 </ion-content>
