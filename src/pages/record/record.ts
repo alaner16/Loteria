@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
-
 /**
- * Generated class for the JuegoPage page.
+ * Generated class for the RecordPage page.
  *
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
@@ -11,16 +10,16 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 @IonicPage()
 @Component({
-  selector: 'page-juego',
-  templateUrl: 'juego.html',
+  selector: 'page-record',
+  templateUrl: 'record.html',
 })
-export class JuegoPage {
+export class RecordPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad JuegoPage');
+    console.log('ionViewDidLoad RecordPage');
   }
 
 }

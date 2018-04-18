@@ -9,6 +9,9 @@ import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
 import { JuegoPage } from '../pages/juego/juego';
 import { UnirsePage } from "../pages/unirse/unirse";
+import { CrearPartidaPage } from "../pages/crear-partida/crear-partida";
+import { RecordPage } from "../pages/record/record";
+import { ConfigPage } from "../pages/config/config";
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
@@ -20,24 +23,29 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     HomePage,
     TabsPage,
     JuegoPage,
-    UnirsePage
+    UnirsePage,
+    ConfigPage,
+    RecordPage,
+    CrearPartidaPage
   ],
-  imports: [
-    BrowserModule,
-    IonicModule.forRoot(MyApp)
-  ],
+  imports: [BrowserModule, IonicModule.forRoot(MyApp)],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
     AboutPage,
     ContactPage,
     HomePage,
-    TabsPage
+    TabsPage,
+    JuegoPage,
+    UnirsePage,
+    ConfigPage,
+    RecordPage,
+    CrearPartidaPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    { provide: ErrorHandler, useClass: IonicErrorHandler }
   ]
 })
 export class AppModule {}
