@@ -86,4 +86,5 @@
     <plugin name="cordova-plugin-network-information" spec="^2.0.1" />
     <plugin name="cordova-plugin-nativeaudio" spec="^3.0.9" />
     <plugin name="cordova-plugin-firebase" spec="^1.0.0" />
+    <engine name="ios" spec="~4.5.4" />
 </widget>
