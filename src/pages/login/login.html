@@ -14,16 +14,13 @@
 
 
 <ion-content padding>
-
+  <form (ngSubmit)="login()" [formGroup]="loginForm">
   <ion-grid>
     <ion-row>
       <ion-col col-12 col-md-6 offset-md-3 col-xl-4 offset-xl-4>
-        <form (ngSubmit)="login()" [formGroup]="loginForm">
+
           <ion-list>
-            <button ion-button color="secondary" outline block>Conectar con &nbsp;
-                <ion-icon name="logo-google"></ion-icon>
-            </button>
-            <p text-center>Ó</p>
+
             <ion-item [ngClass]="{ invalid: emailErrors.hasError('*', ['touched', 'dirty']) }">
               <ion-input type="email" placeholder="Correo electrónico" formControlName="email"></ion-input>
             </ion-item>
@@ -47,14 +44,17 @@
         
             <button ion-button full type="submit" [disabled]="!loginForm.valid">Iniciar Sesión</button>
             <div class="login-footer">
-              <p text-center><a href="#">Olvidó su contraseña?</a></p>
-              <p text-center>Si es un nuevo jugador, porfavor inicie sesión</p>
+              <p text-center><a href="#">Olvidó su contraseña?</a> Si es un nuevo jugador, por favor registrese.</p>
             </div>
         
             <ion-list>
         
 
           
+				      <button ion-button icon-left block clear (click)="loginWithGoogle()">
+                <ion-icon name="logo-google"></ion-icon>
+                Acceso con Google
+              </button>
               <button ion-button icon-left block clear (click)="signup()">
                 <ion-icon name="person-add"></ion-icon>
                   Registrarse
@@ -63,9 +63,9 @@
             </ion-list>
 
           </div>
-        </form>
+    
       </ion-col>
     </ion-row>
   </ion-grid>
-
+</form>
 </ion-content>
