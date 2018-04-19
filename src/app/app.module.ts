@@ -18,14 +18,17 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 //Server modules
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule, AngularFireDatabase } from 'angularfire2/database';
-import { AngularFireAuthModule } from 'angularfire2/auth';
+import { AngularFireAuthModule, AngularFireAuth } from 'angularfire2/auth';
 
 export const firebaseConfig = {
-  //apiKey "",
-  //authDomain: "",
-  databaseURL: "https://loteria-88975.firebaseio.com/",
-  //storageBucket "",
-  //messagingSenderId: ''
+  fire: {
+    apiKey: "AIzaSyAzc86-ph5SfRHm22l0vNZDSUcixAk_ElM",
+    authDomain: "loteria-88975.firebaseapp.com",
+    databaseURL: "https://loteria-88975.firebaseio.com",
+    projectId: "loteria-88975",
+    storageBucket: "loteria-88975.appspot.com",
+    messagingSenderId: "477126197467"
+  }
 }
 
 @NgModule({
@@ -42,7 +45,7 @@ export const firebaseConfig = {
     CrearPartidaPage
   ],
   imports: [BrowserModule, IonicModule.forRoot(MyApp),
-    AngularFireModule.initializeApp(firebaseConfig),
+    AngularFireModule.initializeApp(firebaseConfig.fire),
     AngularFireDatabaseModule,
     AngularFireAuthModule
   ],
@@ -62,7 +65,8 @@ export const firebaseConfig = {
   providers: [
     StatusBar,
     SplashScreen,
-    { provide: ErrorHandler, useClass: IonicErrorHandler }
+    { provide: ErrorHandler, useClass: IonicErrorHandler },
+    AngularFireAuth
   ]
 })
 export class AppModule {}
