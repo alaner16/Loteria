@@ -15,6 +15,19 @@ import { ConfigPage } from "../pages/config/config";
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
+//Server modules
+import { AngularFireModule } from 'angularfire2';
+import { AngularFireDatabaseModule, AngularFireDatabase } from 'angularfire2/database';
+import { AngularFireAuthModule } from 'angularfire2/auth';
+
+export const firebaseConfig = {
+  //apiKey "",
+  //authDomain: "",
+  databaseURL: "https://loteria-88975.firebaseio.com/",
+  //storageBucket "",
+  //messagingSenderId: ''
+}
+
 @NgModule({
   declarations: [
     MyApp,
@@ -28,7 +41,11 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     RecordPage,
     CrearPartidaPage
   ],
-  imports: [BrowserModule, IonicModule.forRoot(MyApp)],
+  imports: [BrowserModule, IonicModule.forRoot(MyApp),
+    AngularFireModule.initializeApp(firebaseConfig),
+    AngularFireDatabaseModule,
+    AngularFireAuthModule
+  ],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
