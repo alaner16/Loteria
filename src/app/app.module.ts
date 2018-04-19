@@ -21,6 +21,9 @@ import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule, AngularFireDatabase } from 'angularfire2/database';
 import { AngularFireAuthModule, AngularFireAuth } from 'angularfire2/auth';
 
+//Services
+import { AuthService } from '../services/auth.service';
+
 export const firebaseConfig = {
   fire: {
     apiKey: "AIzaSyAzc86-ph5SfRHm22l0vNZDSUcixAk_ElM",
@@ -69,6 +72,7 @@ export const firebaseConfig = {
     StatusBar,
     SplashScreen,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
+    AuthService,
     AngularFireAuth
   ]
 })
