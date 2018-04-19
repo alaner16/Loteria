@@ -1,10 +1,7 @@
 import { Component } from '@angular/core';
-
-import { AboutPage } from '../about/about';
-import { ContactPage } from '../contact/contact';
 import { HomePage } from '../home/home';
 import { RecordPage } from '../record/record';
-import { ConfigPage } from "../config/config";
+import { ConfigPage } from '../config/config';
 
 @Component({
   templateUrl: 'tabs.html'
