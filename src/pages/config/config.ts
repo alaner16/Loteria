@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { LoginPage } from '../login/login';
 
 /**
  * Generated class for the ConfigPage page.
@@ -10,16 +11,16 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 @IonicPage()
 @Component({
-  selector: 'page-config',
-  templateUrl: 'config.html',
+  selector: "page-config",
+  templateUrl: "config.html"
 })
 export class ConfigPage {
-
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
-  }
+  constructor(public navCtrl: NavController, public navParams: NavParams) {}
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad ConfigPage');
+    console.log("ionViewDidLoad ConfigPage");
   }
-
+  Login(): void {
+    this.navCtrl.push(LoginPage);
+  }
 }

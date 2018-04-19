@@ -12,6 +12,7 @@ import { UnirsePage } from "../pages/unirse/unirse";
 import { CrearPartidaPage } from "../pages/crear-partida/crear-partida";
 import { RecordPage } from "../pages/record/record";
 import { ConfigPage } from "../pages/config/config";
+import { LoginPage } from "../pages/login/login";
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
@@ -42,7 +43,8 @@ export const firebaseConfig = {
     UnirsePage,
     ConfigPage,
     RecordPage,
-    CrearPartidaPage
+    CrearPartidaPage,
+    LoginPage
   ],
   imports: [BrowserModule, IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(firebaseConfig.fire),
@@ -60,7 +62,8 @@ export const firebaseConfig = {
     UnirsePage,
     ConfigPage,
     RecordPage,
-    CrearPartidaPage
+    CrearPartidaPage,
+    LoginPage
   ],
   providers: [
     StatusBar,
