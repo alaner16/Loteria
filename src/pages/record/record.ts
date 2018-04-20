@@ -14,8 +14,10 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'record.html',
 })
 export class RecordPage {
-
+  partidas: boolean = false;
+  cartas: boolean = true;
   constructor(public navCtrl: NavController, public navParams: NavParams) {
+    
   }
 
   ionViewDidLoad() {
