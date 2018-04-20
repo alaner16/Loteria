@@ -8,17 +8,23 @@
 
   <ion-navbar>
     
-    <ion-title text-center>Records</ion-title>
+    
     <ion-buttons left>
         <button ion-button icon-only menuToggle>
           <ion-icon name="menu"></ion-icon>
         </button>
     </ion-buttons>
+    <ion-title text-center>Records</ion-title>
   </ion-navbar>
   
 </ion-header>
 
   <ion-content>
-    <p [hidden]="partidas">Partidas </p>
-    <p [hidden]="cartas">Mejores Cartas </p>
+    <p [hidden]="partidas">Partidas ganadas</p>
+    <p [hidden]="tablas">Mejores tablas</p>
+    <p [hidden]="jugadores">Mejores jugadores</p>
+    <p [hidden]="chorro">Mas chorros</p>
+    <p [hidden]="esquina">Mas 4 esquinas</p>
+    <p [hidden]="centrito">Mas centritos</p>
+    <p [hidden]="perdedores">Los mas perdedores</p>
   </ion-content>
