@@ -14,6 +14,7 @@ import { CrearPartidaPage } from "../pages/crear-partida/crear-partida";
 import { RecordPage } from "../pages/record/record";
 import { ConfigPage } from "../pages/config/config";
 import { LoginPage } from "../pages/login/login";
+import { RegistroPage } from "../pages/registro/registro";
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
@@ -48,7 +49,8 @@ export const firebaseConfig = {
     ConfigPage,
     RecordPage,
     CrearPartidaPage,
-    LoginPage
+    LoginPage,
+    RegistroPage
   ],
   imports: [BrowserModule, IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(firebaseConfig.fire),
@@ -68,7 +70,8 @@ export const firebaseConfig = {
     ConfigPage,
     RecordPage,
     CrearPartidaPage,
-    LoginPage
+    LoginPage,
+    RegistroPage
   ],
   providers: [
     StatusBar,
