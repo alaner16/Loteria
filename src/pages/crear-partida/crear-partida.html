@@ -14,7 +14,7 @@
 
           <ion-item>
             <ion-label floating>Partida de...</ion-label>
-            <ion-input type="text"></ion-input>
+            <ion-input type="text" [(ngModel)]="id"></ion-input>
           </ion-item>
 
           <ion-item>
@@ -30,7 +30,7 @@
           </ion-item>
           <ion-item>
             <ion-label>Tiempo de espera de carta</ion-label>
-            <ion-select [(ngModel)]="players">
+            <ion-select [(ngModel)]="tiempo">
               <ion-option value="1">3 segundos</ion-option>
               <ion-option value="2">5 segundos</ion-option>
               <ion-option value="3">7 segundos</ion-option>
@@ -38,19 +38,19 @@
           </ion-item>
           <ion-item>
             <ion-label>Llenas</ion-label>
-            <ion-checkbox color="dark" checked="true"></ion-checkbox>
+            <ion-checkbox color="dark" checked="true" [(ngModel)]="llena"></ion-checkbox>
           </ion-item>
           <ion-item>
             <ion-label>Chorro</ion-label>
-            <ion-checkbox color="dark"></ion-checkbox>
+            <ion-checkbox color="dark" [(ngModel)]="chorro"></ion-checkbox>
           </ion-item>
           <ion-item>
             <ion-label>4 esquinas</ion-label>
-            <ion-checkbox color="dark"></ion-checkbox>
+            <ion-checkbox color="dark" [(ngModel)]="esquinas"></ion-checkbox>
           </ion-item>
           <ion-item>
             <ion-label>Centrito</ion-label>
-            <ion-checkbox color="dark"></ion-checkbox>
+            <ion-checkbox color="dark" [(ngModel)]="centrito"></ion-checkbox>
           </ion-item>
           <button ion-button color="secondary" float-right (click)="entrarJuego()">Comenzar</button>
         </ion-list>
