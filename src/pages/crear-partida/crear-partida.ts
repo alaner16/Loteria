@@ -15,9 +15,9 @@ import { PartidaProvider } from '../../providers/partida/partida';
   templateUrl: "crear-partida.html"
 })
 export class CrearPartidaPage {
-  newItem = {id:0,players:0,tiempo:0,llena:false,chorro:false,esquinas:false,centrito:false};
+  newItem = {id:'',players:0,tiempo:0,llena:false,chorro:false,esquinas:false,centrito:false,random:[],actual:0};
   constructor(public navCtrl: NavController, public navParams: NavParams,public pp:PartidaProvider) {}
-  id:any=0; players:any=0;tiempo:any=0;llena:any=false;chorro:any=false;esquinas:any=false;centrito:any=false;
+  id:any=''; players:any=0;tiempo:any=0;llena:any=false;chorro:any=false;esquinas:any=false;centrito:any=false;
   ionViewDidLoad() {
     console.log("ionViewDidLoad CrearPartidaPage");
   }
@@ -29,7 +29,24 @@ export class CrearPartidaPage {
     this.newItem.chorro=this.chorro;
     this.newItem.esquinas=this.esquinas;
     this.newItem.centrito=this.centrito;
-
+//Define la cantidad de numeros aleatorios.
+    var cantidadNumeros = 54;
+    var myArray = []
+    while(myArray.length < cantidadNumeros ){
+      var numeroAleatorio = Math.ceil(Math.random()*cantidadNumeros);
+      var existe = false;
+      for(var i=0;i<myArray.length;i++){
+      if(myArray [i] == numeroAleatorio){
+            existe = true;
+            break;
+        }
+      }
+      if(!existe){
+        myArray[myArray.length] = numeroAleatorio;
+      }
+    }
+    this.newItem.random=myArray;
+    console.log(this.newItem.random);
   }
   entrarJuego(): void {
     this.setData();
