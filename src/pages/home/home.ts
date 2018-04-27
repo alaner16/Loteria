@@ -3,12 +3,14 @@ import { NavController } from 'ionic-angular';
 import { CrearPartidaPage } from '../crear-partida/crear-partida';
 import { UnirsePage } from "../unirse/unirse";
 import { RecordPage } from "../record/record";
+import { AuthService } from '../../services/auth.service';
+
 @Component({
   selector: "page-home",
   templateUrl: "home.html"
 })
 export class HomePage {
-  constructor(public navCtrl: NavController) {}
+  constructor(public navCtrl: NavController, private auth: AuthService) {}
 
   crearPartida(): void {
     this.navCtrl.push(CrearPartidaPage);
@@ -18,5 +20,9 @@ export class HomePage {
   }
   records(): void {
     this.navCtrl.push(RecordPage);
+  }
+  logout(): void {
+    this.auth.signOut();
+    this.navCtrl.setRoot(HomePage);
   }
 }
