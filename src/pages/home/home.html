@@ -9,27 +9,26 @@
 
   <ion-grid>
     <ion-row>
-      <ion-col col-12 col-md-6 offset-md-3 col-xl-4 offset-xl-4>
-
-        
+      <ion-col col-12 col-md-6 offset-md-3 col-xl-4 offset-xl-4>    
         <ion-list>
-        
-          
-        
           <!--ion-item>
               <ion-label stacked><ion-icon name="unlock"></ion-icon> Contraseña</ion-label>
               <ion-input type="password"></ion-input>
             </ion-item-->
 
             <ion-card>
-            
               <ion-card-header>
                 <img src="../../assets/imgs/logo.png" col-12>
                 
               </ion-card-header>
             
               <ion-card-content>
-                <ion-item>
+                <ion-list-header *ngIf="auth.getEmail()">{{auth.getEmail()}}
+                    <button ion-button color="light" round block (click)="logout()" *ngIf="auth.authenticated" >              
+                        <ion-icon name="log-out" item-left></ion-icon>
+                        Salir</button>
+                </ion-list-header>
+                <ion-item *ngIf="!auth.authenticated">
                   <ion-label stacked floating>
                     <ion-icon name="person"></ion-icon> Tu nombre</ion-label>
                   <ion-input type="text" value=""></ion-input>

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { LoginPage } from '../login/login';
+import { AuthService } from '../../services/auth.service';
 
 /**
  * Generated class for the ConfigPage page.
@@ -15,7 +16,7 @@ import { LoginPage } from '../login/login';
   templateUrl: "config.html"
 })
 export class ConfigPage {
-  constructor(public navCtrl: NavController, public navParams: NavParams) {}
+  constructor(public navCtrl: NavController, public navParams: NavParams, private auth: AuthService) {}
 
   ionViewDidLoad() {
     console.log("ionViewDidLoad ConfigPage");
