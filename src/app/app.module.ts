@@ -16,6 +16,7 @@ import { ConfigPage } from "../pages/config/config";
 import { LoginPage } from "../pages/login/login";
 import { RegistroPage } from "../pages/registro/registro";
 import { ElegirCartaPage } from '../pages/elegir-carta/elegir-carta';
+import { PerfilPage } from '../pages/perfil/perfil';
 
 // Ionic Native
 import { StatusBar } from '@ionic-native/status-bar';
@@ -55,7 +56,8 @@ export const firebaseConfig = {
     CrearPartidaPage,
     LoginPage,
     RegistroPage,
-    ElegirCartaPage
+    ElegirCartaPage,
+    PerfilPage
   ],
   imports: [BrowserModule, IonicModule.forRoot(Loteria),
     AngularFireModule.initializeApp(firebaseConfig.fire),
@@ -77,7 +79,8 @@ export const firebaseConfig = {
     CrearPartidaPage,
     LoginPage,
     RegistroPage,
-    ElegirCartaPage
+    ElegirCartaPage,
+    PerfilPage
   ],
   providers: [
     StatusBar,

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { LoginPage } from '../login/login';
+import { PerfilPage } from '../perfil/perfil';
 
 /**
  * Generated class for the ConfigPage page.
@@ -23,4 +24,9 @@ export class ConfigPage {
   Login(): void {
     this.navCtrl.push(LoginPage);
   }
+
+  Perfil(){
+    this.navCtrl.push(PerfilPage);
+  }
+
 }
