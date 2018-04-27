@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import fontawesome from "@fortawesome/fontawesome";
 
 /**
  * Generated class for the RecordPage page.

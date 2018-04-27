@@ -1,6 +1,6 @@
 {
   "name": "Loteria",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "author": "402 Software",
   "homepage": "http://loteria-8897.firebase.com/",
   "private": true,
@@ -50,6 +50,7 @@
     "cordova-plugin-x-socialsharing": "^5.3.2",
     "es6-promise-plugin": "^4.2.2",
     "firebase": "^4.12.1",
+    "hoek": "^5.0.3",
     "ionic-angular": "3.9.2",
     "ionicons": "3.0.0",
     "promise-polyfill": "^7.1.2",

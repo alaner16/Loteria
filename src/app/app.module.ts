@@ -1,9 +1,9 @@
 import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
-import { MyApp } from './app.component';
+import { Loteria } from './app.component';
 import { NgxErrorsModule } from  '@ultimate/ngxerrors';
-import fontawesome from "@fortawesome/fontawesome";
+// Paginas
 import { AboutPage } from '../pages/about/about';
 import { ContactPage } from '../pages/contact/contact';
 import { HomePage } from '../pages/home/home';
@@ -16,6 +16,8 @@ import { ConfigPage } from "../pages/config/config";
 import { LoginPage } from "../pages/login/login";
 import { RegistroPage } from "../pages/registro/registro";
 import { ElegirCartaPage } from '../pages/elegir-carta/elegir-carta';
+
+// Ionic Native
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
@@ -41,7 +43,7 @@ export const firebaseConfig = {
 
 @NgModule({
   declarations: [
-    MyApp,
+    Loteria,
     AboutPage,
     ContactPage,
     HomePage,
@@ -55,7 +57,7 @@ export const firebaseConfig = {
     RegistroPage,
     ElegirCartaPage
   ],
-  imports: [BrowserModule, IonicModule.forRoot(MyApp),
+  imports: [BrowserModule, IonicModule.forRoot(Loteria),
     AngularFireModule.initializeApp(firebaseConfig.fire),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
@@ -63,7 +65,7 @@ export const firebaseConfig = {
   ],
   bootstrap: [IonicApp],
   entryComponents: [
-    MyApp,
+    Loteria,
     AboutPage,
     ContactPage,
     HomePage,
