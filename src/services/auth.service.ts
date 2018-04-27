@@ -13,6 +13,10 @@ export class AuthService {
 		});
 	}
 
+	signUp(credentials) {
+		return this.afAuth.auth.createUserWithEmailAndPassword(credentials.email, credentials.password);
+	}
+
 	signInWithEmail(credentials) {
 		console.log('Sign in with email');
 		return this.afAuth.auth.signInWithEmailAndPassword(credentials.email,
