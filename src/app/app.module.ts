@@ -30,6 +30,7 @@ import { AngularFireAuthModule, AngularFireAuth } from 'angularfire2/auth';
 //Services
 import { AuthService } from '../services/auth.service';
 import { PartidaProvider } from '../providers/partida/partida';
+import { PerfilProvider } from '../providers/perfil/perfil';
 
 export const firebaseConfig = {
   fire: {
@@ -88,7 +89,8 @@ export const firebaseConfig = {
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     AuthService,
     AngularFireAuth,
-    PartidaProvider
+    PartidaProvider,
+    PerfilProvider
   ]
 })
 export class AppModule {}
