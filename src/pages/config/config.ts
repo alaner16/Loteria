@@ -29,6 +29,7 @@ export class ConfigPage {
   logout(): void {
     this.auth.signOut();
     this.navCtrl.setRoot(ConfigPage);
+    this.navCtrl.parent.select(0);
   }
 
 }
