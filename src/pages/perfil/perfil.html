@@ -15,25 +15,10 @@
 
 <ion-content padding>
   <ion-item>
-<ion-avatar item-start>
-  <ion-img src="../../assets/imgs/blank-avatar.png"></ion-img>
-  <ion-input class="ImagenPerfil" type="file"></ion-input>
-  
-</ion-avatar>
-  </ion-item>
-  <!-- Hay que usar este modelo, para seleccionar entre una coleccion de img de perfil -->
-  <!--ion-list [virtualScroll]="items">
-  
-    <ion-item *virtualItem="let item">
-      <ion-avatar item-start>
-        <ion-img [src]="item.avatarUrl"></ion-img>
-      </ion-avatar>
-      {{ item.firstName }} {{ item.lastName }}
-    </ion-item>
-  
-  </ion-list-->
-  <ion-item>
-    <ion-label stacked floating col-12>
+    <ion-avatar item-start>
+        <img src="../../assets/imgs/blank-avatar.png">
+    </ion-avatar>
+    <ion-label stacked floating>
        Nombre</ion-label>
     <ion-input type="text" [(ngModel)]="Perfil.Nombre"></ion-input>
   </ion-item>
