@@ -21,7 +21,6 @@ export class ConfigPage {
   ionViewDidLoad() {
     console.log("ionViewDidLoad ConfigPage");
   }
- 
 
   Perfil(){
     this.navCtrl.push(PerfilPage);
@@ -30,6 +29,10 @@ export class ConfigPage {
     this.auth.signOut();
     this.navCtrl.setRoot(ConfigPage);
     this.navCtrl.parent.select(0);
+  }
+
+  silenciar(){
+    console.log("Mutear");
   }
 
 }

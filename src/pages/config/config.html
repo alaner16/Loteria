@@ -22,7 +22,15 @@
       <button ion-button color="danger" block (click)="logout()" *ngIf="auth.authenticated">
           <ion-icon name="log-out" item-left></ion-icon>
           &nbsp; Salir</button>
+      
     </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col col-12 col-md-6 offset-md-3 col-xl-4 offset-xl-4>
+      <button ion-button color="dark" block (click)="silenciar()">
+          <ion-icon name="volume-off" item-left></ion-icon>
+          &nbsp; Silenciar</button>
+      </ion-col>
   </ion-row>
 </ion-grid>
 
