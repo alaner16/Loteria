@@ -16,14 +16,12 @@
 <ion-content padding>
 
   <ion-grid>
-  <ion-row *ngIf="!auth.authenticated">
-    <ion-col col-12 col-md-6 offset-md-3 col-xl-4 offset-xl-4>
-      <button ion-button (click)='Login()' block>Iniciar Sesión</button>
-    </ion-col>
-  </ion-row>
   <ion-row *ngIf="auth.authenticated">
     <ion-col col-12 col-md-6 offset-md-3 col-xl-4 offset-xl-4>
       <button ion-button (click)='Perfil()' block>Perfil</button>
+      <button ion-button color="danger" block (click)="logout()" *ngIf="auth.authenticated">
+          <ion-icon name="log-out" item-left></ion-icon>
+          &nbsp; Salir</button>
     </ion-col>
   </ion-row>
 </ion-grid>

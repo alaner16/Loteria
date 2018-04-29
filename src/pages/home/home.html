@@ -18,21 +18,19 @@
 
             <ion-card>
               <ion-card-header>
-                <img src="../../assets/imgs/logo.png" col-12>
+                <img src="/assets/imgs/logo.png" col-12>
                 
               </ion-card-header>
             
               <ion-card-content>
+                
                 <ion-list-header *ngIf="auth.getEmail()">{{auth.getEmail()}}
-                    <button ion-button color="light" round block (click)="logout()" *ngIf="auth.authenticated" >              
-                        <ion-icon name="log-out" item-left></ion-icon>
-                        Salir</button>
+                  
                 </ion-list-header>
                 <ion-item *ngIf="!auth.authenticated">
-                  <ion-label stacked floating>
-                    <ion-icon name="person"></ion-icon> Tu nombre</ion-label>
                   <ion-input type="text" value=""></ion-input>
                 </ion-item>
+                <button ion-button (click)='Login()' block round *ngIf="!auth.authenticated">Iniciar Sesión</button>
                 <button ion-button color="light" round block (click)="crearPartida()">Crear partida</button>
                 <button ion-button color="dark" round block (click)="unirsePartida()">Unirse a partida</button>
               </ion-card-content>

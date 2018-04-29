@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { LoginPage } from '../login/login';
 import { PerfilPage } from '../perfil/perfil';
 import { AuthService } from '../../services/auth.service';
 
@@ -22,12 +21,14 @@ export class ConfigPage {
   ionViewDidLoad() {
     console.log("ionViewDidLoad ConfigPage");
   }
-  Login(): void {
-    this.navCtrl.push(LoginPage);
-  }
+ 
 
   Perfil(){
     this.navCtrl.push(PerfilPage);
+  }
+  logout(): void {
+    this.auth.signOut();
+    this.navCtrl.setRoot(ConfigPage);
   }
 
 }
