@@ -24,7 +24,7 @@ export class CrearPartidaPage {
   i:any;
   email:any;
  
-  newGame = {title: '', description: null, datetime: '', actual:0, email: '', settings: {},random:{}};
+  newGame = {title: '', description: null, datetime: '', actual:0, email: '', status:'', settings: {},random:{}};
   settings = {players:0,timer:0, full:false, blast:false, quarters:false, middle:false};
 
   constructor(public navCtrl: NavController, public navParams: NavParams,public pp:PartidaProvider, private modal: ModalController) {
@@ -39,15 +39,17 @@ export class CrearPartidaPage {
       //console.log(this.Perfil);
     });}*/
   }
-  title:any=''; description:any = null; datetime:any; players:any;timer:any;full:any=false;blast:any=false;quarters:any=false;middle:any=false; correo:any = ''; 
+  title:any=''; description:any = null; datetime:any; players:any;timer:any;full:any=false;blast:any=false;quarters:any=false;middle:any=false; correo:any = ''; status:any;
   
 
   setData(){
     this.datetime = new Date();
+    this.status = 'w';
     this.newGame.title = this.title;
     this.newGame.description = null;
     this.newGame.datetime = this.datetime;
     this.newGame.email = this.email;
+    this.newGame.status = this.status;
     this.settings.players = this.players;
     this.settings.timer = this.timer;
     this.settings.full = this.full;
