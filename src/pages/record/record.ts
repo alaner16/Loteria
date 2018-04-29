@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, MenuController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 /**
  * Generated class for the RecordPage page.
@@ -16,14 +16,12 @@ import { IonicPage, NavController, NavParams, MenuController } from 'ionic-angul
 export class RecordPage {
   partidas: boolean = false;
   cartas: boolean = true;
-  constructor(public navCtrl: NavController, public navParams: NavParams, private menu: MenuController) {}
-
-  ionViewWillEnter(){
-    this.menu.enable(true,'menurecords');
+  constructor(public navCtrl: NavController, public navParams: NavParams) {
+    
   }
 
-  ionViewWillLeave(){
-    this.menu.enable(false,'menurecords');
+  ionViewDidLoad() {
+    console.log('ionViewDidLoad RecordPage');
   }
 
 }
