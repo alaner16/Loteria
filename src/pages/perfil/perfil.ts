@@ -17,11 +17,11 @@ import { AngularFireDatabase } from 'angularfire2/database';
   templateUrl: 'perfil.html',
 })
 export class PerfilPage implements OnInit {
-auth:any;
-users:any;
-i:any;
-//Nombre:any;Apodo:any;Ciudad:any;FechaNacimiento:any;
-Perfil={Correo: '',Nombre:'',Apodo:'',FechaNacimiento:'',Ciudad:''}
+  auth:any;
+  users:any;
+  i:any;
+  //Nombre:any;Apodo:any;Ciudad:any;FechaNacimiento:any;
+  Perfil={Correo: '',Nombre:'',Apodo:'',FechaNacimiento:'',Ciudad:''};
 
   constructor(public afd:AngularFireDatabase, public navCtrl: NavController, public navParams: NavParams,private authService:AuthService,private perfilService:PerfilProvider) {
     this.i=true;
