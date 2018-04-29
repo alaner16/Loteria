@@ -1,40 +1,55 @@
 <!--
-  Generated template for the PerfilPage page.
+ Generated template for the PerfilPage page.
 
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
+ See http://ionicframework.com/docs/components/#navigation for more info on
+ Ionic pages and navigation.
 -->
 <ion-header>
 
   <ion-navbar>
     <ion-title> Perfil</ion-title>
   </ion-navbar>
-
-</ion-header>
-
-
-<ion-content padding>
+ 
+ </ion-header>
+ 
+ 
+ <ion-content padding>
   <ion-item>
-    <ion-avatar item-start>
-        <img src="../../assets/imgs/blank-avatar.png">
-    </ion-avatar>
-    <ion-label stacked floating>
+ <ion-avatar item-start>
+  <ion-img src="../../assets/imgs/blank-avatar.png"></ion-img>
+  <ion-input class="ImagenPerfil" type="file"></ion-input>
+  
+ </ion-avatar>
+  </ion-item>
+  <!-- Hay que usar este modelo, para seleccionar entre una coleccion de img de perfil -->
+  <!--ion-list [virtualScroll]="items">
+  
+    <ion-item *virtualItem="let item">
+      <ion-avatar item-start>
+        <ion-img [src]="item.avatarUrl"></ion-img>
+      </ion-avatar>
+      {{ item.firstName }} {{ item.lastName }}
+    </ion-item>
+  
+  </ion-list-->
+  <ion-item>
+    <ion-label stacked floating col-12>
        Nombre</ion-label>
     <ion-input type="text" [(ngModel)]="Perfil.Nombre"></ion-input>
   </ion-item>
-
+ 
   <ion-item>
     <ion-label stacked floating>
       <ion-icon name="person"></ion-icon> Apodo</ion-label>
     <ion-input type="text" [(ngModel)]="Perfil.Apodo"></ion-input>
   </ion-item>
-
+ 
   <ion-item>
     <ion-label stacked floating>
         <ion-icon name="md-calendar"></ion-icon> Fecha de Nacimiento</ion-label>
     <ion-datetime displayFormat="DD/MMM/YYYY" min="1960" max="2018" [(ngModel)]="Perfil.FechaNacimiento"> </ion-datetime>
   </ion-item>
-
+ 
   <ion-item>
     <ion-label stacked floating>
         <ion-icon name="home"></ion-icon> Ciudad</ion-label>
@@ -50,6 +65,6 @@
     Guardar
   </button>
   
-
-
-</ion-content>
+ 
+ 
+ </ion-content>
