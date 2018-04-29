@@ -47,7 +47,7 @@ export class LoginPage {
     };
     this.auth.signInWithEmail(credentials)
       .then(
-        () => this.navCtrl.setRoot(TabsPage),
+        () => this.navCtrl.parent.select(0),
         error => this.loginError = error.message
       );
   }
