@@ -3,6 +3,9 @@ import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angu
 import { JuegoPage } from "../juego/juego";
 import { PartidaProvider } from '../../providers/partida/partida';
 import { ElegirCartaPage } from '../elegir-carta/elegir-carta';
+import { PerfilProvider } from '../../providers/perfil/perfil';
+import * as firebase from 'firebase';
+
 /**
  * Generated class for the CrearPartidaPage page.
  *
@@ -16,25 +19,48 @@ import { ElegirCartaPage } from '../elegir-carta/elegir-carta';
   templateUrl: "crear-partida.html"
 })
 export class CrearPartidaPage {
-  newItem = {id:'',players:0,tiempo:0,llena:false,chorro:false,esquinas:false,centrito:false,random:[],actual:0};
-  constructor(public navCtrl: NavController, public navParams: NavParams,public pp:PartidaProvider, private modal: ModalController) {}
-  id:any=''; players:any=0;tiempo:any=0;llena:any=false;chorro:any=false;esquinas:any=false;centrito:any=false;
-  ionViewDidLoad() {
-    console.log("ionViewDidLoad CrearPartidaPage");
+  auth:any;
+  user:any;
+  i:any;
+  email:any;
+ 
+  newGame = {title: '', description: null, datetime: '', actual:0, email: '', settings: {},random:{}};
+  settings = {players:0,timer:0, full:false, blast:false, quarters:false, middle:false};
+
+  constructor(public navCtrl: NavController, public navParams: NavParams,public pp:PartidaProvider, private modal: ModalController) {
+    this.i=true;
+    this.user= firebase.auth().currentUser;
+    this.email=this.user.email;
+    //console.log(this.email);
+    /*if(this.i==true){
+    this.i=false;
+    this.perfilService.getPerfil((this.user.email),(result) => { 
+      if(result!=null)this.email=result;
+      //console.log(this.Perfil);
+    });}*/
   }
+  title:any=''; description:any = null; datetime:any; players:any;timer:any;full:any=false;blast:any=false;quarters:any=false;middle:any=false; correo:any = ''; 
+  
+
   setData(){
-    this.newItem.id=this.id;
-    this.newItem.players;
-    this.newItem.tiempo=this.tiempo;
-    this.newItem.llena=this.llena;
-    this.newItem.chorro=this.chorro;
-    this.newItem.esquinas=this.esquinas;
-    this.newItem.centrito=this.centrito;
-//Define la cantidad de numeros aleatorios.
-    var cantidadNumeros = 54;
+    this.datetime = new Date();
+    this.newGame.title = this.title;
+    this.newGame.description = null;
+    this.newGame.datetime = this.datetime;
+    this.newGame.email = this.email;
+    this.settings.players = this.players;
+    this.settings.timer = this.timer;
+    this.settings.full = this.full;
+    this.settings.blast = this.blast;
+    this.settings.quarters = this.quarters;
+    this.settings.middle = this.middle;
+
+    //Define la cantidad de numeros aleatorios.
+    var numCards = 54;
+    
     var myArray = []
-    while(myArray.length < cantidadNumeros ){
-      var numeroAleatorio = Math.ceil(Math.random()*cantidadNumeros);
+    while(myArray.length < numCards ){
+      var numeroAleatorio = Math.ceil(Math.random() * numCards);
       var existe = false;
       for(var i=0;i<myArray.length;i++){
       if(myArray [i] == numeroAleatorio){
@@ -46,12 +72,14 @@ export class CrearPartidaPage {
         myArray[myArray.length] = numeroAleatorio;
       }
     }
-    this.newItem.random=myArray;
-    console.log(this.newItem.random);
+    this.newGame.random = myArray;
+    this.newGame.settings = this.settings;
+
+    console.log(this.newGame.random);
   }
   entrarJuego(): void {
     this.setData();
-    console.log(this.newItem);
+    console.log(this.newGame);
     this.addItem();
     this.navCtrl.push(JuegoPage);
     const modalElegirCarta = this.modal.create(ElegirCartaPage);
@@ -59,6 +87,10 @@ export class CrearPartidaPage {
   }
   addItem() {
     //console.log("hola");
-    this.pp.crearPartida(this.newItem);
+    this.pp.crearPartida(this.newGame);
+  }
+
+  ionViewDidLoad() {
+    console.log("ionViewDidLoad CrearPartidaPage");
   }
 }

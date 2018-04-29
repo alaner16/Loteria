@@ -20,11 +20,11 @@ import { ConfigPage } from '../config/config';
  templateUrl: 'perfil.html',
 })
 export class PerfilPage implements OnInit {
-auth:any;
-users:any;
-i:any;
-//Nombre:any;Apodo:any;Ciudad:any;FechaNacimiento:any;
-Perfil={Correo: '',Nombre:'',Apodo:'',FechaNacimiento:'',Ciudad:''}
+  auth:any;
+  users:any;
+  i:any;
+  //Nombre:any;Apodo:any;Ciudad:any;FechaNacimiento:any;
+  Perfil={Correo: '',Nombre:'',Apodo:'',FechaNacimiento:'',Ciudad:''};
 
  constructor(public afd:AngularFireDatabase, public navCtrl: NavController, public navParams: NavParams,private authService:AuthService,private perfilService:PerfilProvider, private toastCtrl: ToastController) {
    this.i=true;
