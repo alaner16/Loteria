@@ -24,7 +24,7 @@ export class CrearPartidaPage {
   i:any;
   email:any;
  
-  newGame = {title: '', description: null, datetime: '', actual:0, email: '', status:'', settings: {},random:{}};
+  newGame = {title: '', description: null, datetime: '', email: '', type: '', status:'', settings: {},random:{}};
   settings = {players:0,timer:0, full:false, blast:false, quarters:false, middle:false};
 
   constructor(public navCtrl: NavController, public navParams: NavParams,public pp:PartidaProvider, private modal: ModalController) {
@@ -39,7 +39,7 @@ export class CrearPartidaPage {
       //console.log(this.Perfil);
     });}*/
   }
-  title:any=''; description:any = null; datetime:any; players:any;timer:any;full:any=false;blast:any=false;quarters:any=false;middle:any=false; correo:any = ''; status:any;
+  title:any=''; description:any = null; datetime:any; players:any;timer:any;full:any=false;blast:any=false;quarters:any=false;middle:any=false; correo:any = ''; status:any; type:any = '';
   
 
   setData(){
@@ -49,6 +49,7 @@ export class CrearPartidaPage {
     this.newGame.description = null;
     this.newGame.datetime = this.datetime;
     this.newGame.email = this.email;
+    this.newGame.type = this.type;
     this.newGame.status = this.status;
     this.settings.players = this.players;
     this.settings.timer = this.timer;
@@ -77,7 +78,6 @@ export class CrearPartidaPage {
     this.newGame.random = myArray;
     this.newGame.settings = this.settings;
 
-    console.log(this.newGame.random);
   }
   entrarJuego(): void {
     this.setData();

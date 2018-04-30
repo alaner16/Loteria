@@ -24,10 +24,10 @@
   </button>
 <h6>Partidas disponibles</h6>
 
-  <ion-list>
-    Lista:
-    <button ion-item *ngFor="let item of items" (click)="itemSelected(item)">
-      {{ item }} 
+  <ion-list >
+    Lista: 
+    <button ion-item *ngFor="let game of listGame" (click)="goPlay(game.item)">
+        {{ game.title }} 
     </button>
   </ion-list>
 </div>
