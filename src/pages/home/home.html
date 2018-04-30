@@ -24,12 +24,10 @@
             
               <ion-card-content>
                 
-                <ion-list-header *ngIf="auth.getEmail()">{{auth.getEmail()}}
-                  
+                <ion-list-header *ngIf="auth.getEmail()" text-center color="info">
+                    {{auth.getEmail()}}
                 </ion-list-header>
-                <ion-item *ngIf="!auth.authenticated">
-                  <ion-input type="text" value=""></ion-input>
-                </ion-item>
+                
                 <button ion-button (click)='Login()' block round *ngIf="!auth.authenticated">Iniciar Sesión</button>
                 <button ion-button color="light" round block (click)="crearPartida()" [disabled]="!auth.authenticated">Crear partida</button>
                 <button ion-button color="dark" round block (click)="unirsePartida()" [disabled]="!auth.authenticated">Unirse a partida</button>

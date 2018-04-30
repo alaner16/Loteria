@@ -1,3 +1,5 @@
+import { FormsModule } from '@angular/forms';
+import { MbscModule, mobiscroll } from '@mobiscroll/angular';
 import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
@@ -61,7 +63,9 @@ export const firebaseConfig = {
     ElegirCartaPage,
     PerfilPage
   ],
-  imports: [BrowserModule, IonicModule.forRoot(Loteria),
+  imports: [ 
+    FormsModule, 
+    MbscModule,BrowserModule, IonicModule.forRoot(Loteria),
     AngularFireModule.initializeApp(firebaseConfig.fire),
     AngularFireDatabaseModule,
     AngularFireAuthModule,
@@ -92,7 +96,7 @@ export const firebaseConfig = {
     AngularFireAuth,
     PartidaProvider,
     PerfilProvider,
-    NativeAudio
+    NativeAudio,
   ]
 })
 export class AppModule {}

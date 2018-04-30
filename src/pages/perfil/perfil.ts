@@ -16,52 +16,75 @@ import { ConfigPage } from '../config/config';
 
 @IonicPage()
 @Component({
- selector: 'page-perfil',
- templateUrl: 'perfil.html',
+  selector: "page-perfil",
+  templateUrl: "perfil.html"
 })
 export class PerfilPage implements OnInit {
-  auth:any;
-  users:any;
-  i:any;
+  auth: any;
+  users: any;
+  i: any;
   //Nombre:any;Apodo:any;Ciudad:any;FechaNacimiento:any;
-  Perfil={Correo: '',Nombre:'',Apodo:'',FechaNacimiento:'',Ciudad:''};
+  Perfil = {
+    Correo: "",
+    Nombre: "",
+    Apodo: "",
+    FechaNacimiento: "",
+    Ciudad: ""
+  };
 
- constructor(public afd:AngularFireDatabase, public navCtrl: NavController, public navParams: NavParams,private authService:AuthService,private perfilService:PerfilProvider, private toastCtrl: ToastController) {
-   this.i=true;
-   this.users= firebase.auth().currentUser;
-   this.Perfil.Correo=this.users.email;
+  constructor(
+    public afd: AngularFireDatabase,
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    private authService: AuthService,
+    private perfilService: PerfilProvider,
+    private toastCtrl: ToastController
+  ) {
+    this.i = true;
+    this.users = firebase.auth().currentUser;
+    this.Perfil.Correo = this.users.email;
 
-   if(this.i==true){
-   this.i=false;
-   this.perfilService.getPerfil((this.users.email),(result) => {
-     if(result!=null)this.Perfil=result;
-     //console.log(this.Perfil);
-   });}
- }
+    if (this.i == true) {
+      this.i = false;
+      this.perfilService.getPerfil(this.users.email, result => {
+        if (result != null) this.Perfil = result;
+        //console.log(this.Perfil);
+      });
+    }
+  }
 
- presentToast() {
- let toast = this.toastCtrl.create({
-   message: 'Datos guardados exitosamente',
-   duration: 1500,
-   position: 'top'
- });
+  presentToast() {
+    let toast = this.toastCtrl.create({
+      message: "Datos guardados exitosamente",
+      duration: 1500,
+      position: "top"
+    });
 
- toast.onDidDismiss(() => {
-   this.navCtrl.setRoot(ConfigPage);
-   this.navCtrl.parent.select(0);
- });
+    toast.onDidDismiss(() => {
+      this.navCtrl.setRoot(ConfigPage);
+      this.navCtrl.parent.select(0);
+    });
 
- toast.present();
-}
+    toast.present();
+  }
 
- save(){
-   this.perfilService.crearPerfil(this.Perfil);
- }
- ionViewDidLoad() {
-   console.log('ionViewDidLoad PerfilPage');
- }
+  save() {
+    this.perfilService.crearPerfil(this.Perfil);
+  }
+  ionViewDidLoad() {
+    console.log("ionViewDidLoad PerfilPage");
+  }
 
- ngOnInit(){
-   
- }
+  ngOnInit() {}
+  image: string;
+  imageSettings: any = {
+    theme: "windows",
+    lang: "es",
+    display: "center",
+    cssClass: "mbsc-sc md-image-perfil",
+    labels: ["Elegir imagen de perfil"],
+    placeholder: "Seleccionar una...",
+    width: 200,
+    enhance: true
+  };
 }
