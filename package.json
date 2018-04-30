@@ -46,7 +46,6 @@
     "cordova-plugin-firebase": "^1.0.3",
     "cordova-plugin-ionic-keyboard": "^2.0.5",
     "cordova-plugin-ionic-webview": "^1.2.1",
-    "cordova-plugin-media": "^5.0.2",
     "cordova-plugin-nativeaudio": "^3.0.9",
     "cordova-plugin-network-information": "^2.0.1",
     "cordova-plugin-splashscreen": "^5.0.2",
@@ -78,8 +77,7 @@
       "cordova-plugin-device": {},
       "cordova-plugin-splashscreen": {},
       "cordova-plugin-ionic-webview": {},
-      "cordova-plugin-ionic-keyboard": {},
-      "cordova-plugin-media": {}
+      "cordova-plugin-ionic-keyboard": {}
     },
     "platforms": [
       "ios",
