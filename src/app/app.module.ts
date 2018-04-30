@@ -21,7 +21,6 @@ import { PerfilPage } from '../pages/perfil/perfil';
 // Ionic Native
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { Media } from '@ionic-native/media';
 import { NativeAudio } from '@ionic-native/native-audio';
 
 //Server modules
@@ -93,7 +92,6 @@ export const firebaseConfig = {
     AngularFireAuth,
     PartidaProvider,
     PerfilProvider,
-    Media,
     NativeAudio
   ]
 })
