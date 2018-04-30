@@ -10,27 +10,31 @@ import * as firebase from 'firebase';
 @Injectable()
 export class PartidaProvider {
   result :any;
-  paja?: any;
+  listGame?: any;
   correo ='hola';
+  private db = firebase.database();
+
   constructor(public afd: AngularFireDatabase) { }
     crearPartida(name){
-    console.log(name);
-    this.afd.list('/partida/').push(name);
+    this.afd.list('/game/').push(name);
    }
-   getItem(id){
-    this.paja = this.getfn(id);
-    console.log(this.paja);
-    return this.paja;
- }
-getfn(id){
-var query = firebase.database().ref('/partida/').orderByChild('id').equalTo(id);
-query.on('value', (snapshot) => {
-  var arr = snapshot.val();
-  var arr2 = Object.keys(arr);
-  var key = arr2[0];
-  var paja=snapshot.child(key).val();
-  this.paja=paja;
-});
-return this.paja;
+  
+  getGames(callback){
+    let lsGames:any;
+    this.db.ref('/game/').orderByChild('type').equalTo('public').on('value',(snapshot)=> {
+    try{
+    var arr = snapshot.val();
+    var arr2 = Object.keys(arr);
+    var key = arr2[0];
+  
+    lsGames = arr}
+    catch(e){}
+    callback(snapshot);
+    });
+  }
 }
-}
+
+
+
+
+ 
