@@ -12,18 +12,22 @@ import { ConfigPage } from '../pages/config/config';
 })
 export class Loteria {
   rootPage:any = TabsPage;
-
+  onSuccessPlaying:any;onError:any;
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, private auth: AuthService, private nativeAudio: NativeAudio) {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       statusBar.styleDefault();
       splashScreen.hide();
-      this.nativeAudio.preloadSimple('rolilla', 'assets/sounds/rolilla.mp3');
-      this.nativeAudio.play('rolilla');
-    this.nativeAudio.loop('rolilla');
-    this.nativeAudio.setVolumeForComplexAsset('rolilla',0.5);
+      this.nativeAudio.preloadComplex('rolilla', 'assets/sounds/rolilla.mp3',1,1,0).then(this.onSuccessPreloading, this.onError);
+      //this.nativeAudio.play('rolilla');
+    //this.nativeAudio.loop('rolilla');
+    //this.nativeAudio.setVolumeForComplexAsset('rolilla',0.5);
     });
   }
-
+  onSuccessPreloading = (data) => {
+    console.log('success preloading', data);
+    this.nativeAudio.play('rolilla').then(this.onSuccessPlaying, this.onError);
+    this.nativeAudio.loop('rolilla');
+  }
 }

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { PerfilPage } from '../perfil/perfil';
 import { AuthService } from '../../services/auth.service';
+import { NativeAudio } from '@ionic-native/native-audio';
 
 /**
  * Generated class for the ConfigPage page.
@@ -16,7 +17,10 @@ import { AuthService } from '../../services/auth.service';
   templateUrl: "config.html"
 })
 export class ConfigPage {
-  constructor(public navCtrl: NavController, public navParams: NavParams, private auth: AuthService) {}
+  volumen:any;
+  constructor(public navCtrl: NavController, public navParams: NavParams, private auth: AuthService,private nativeAudio: NativeAudio) {
+    this.volumen=1;
+  }
 
   ionViewDidLoad() {
     console.log("ionViewDidLoad ConfigPage");
@@ -33,6 +37,10 @@ export class ConfigPage {
 
   silenciar(){
     console.log("Mutear");
+    this.nativeAudio.setVolumeForComplexAsset('rolilla',this.volumen).then(() => {
+      if(this.volumen==1)this.volumen=0 
+      else this.volumen=1
+    });
   }
 
 }
