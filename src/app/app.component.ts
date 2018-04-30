@@ -5,7 +5,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { TabsPage } from '../pages/tabs/tabs';
 import { AuthService } from '../services/auth.service';
 import { NativeAudio } from '@ionic-native/native-audio';
-import { ConfigPage } from '../pages/config/config';
+//import { ConfigPage } from '../pages/config/config';
 
 @Component({
   templateUrl: 'app.html'

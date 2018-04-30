@@ -24,23 +24,25 @@ export class UnirsePage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad UnirsePage');
+    this.refreshGames();
+
+  }
+  refreshGames(){
+    console.log('refrescando');
     this.partidaService.getGames(result =>{
       if(result!=null)this.games=result.val();
       console.log(this.games);
       var ids = Object.keys(this.games);
-      console.log(ids[1]);
       //var x =this.games.child(key).val();
       var count = Object.keys(this.games).length;
         for(var i = 0; i < count; i++){
           var key = ids[i];
-          console.log(result.child(key).val());
+          //console.log(result.child(key).val());
           var game = result.child(key).val()
           this.listGame.push(game);
         }
-   
-      console.log(this.listGame);
+        return this.listGame;
     });
-
   }
 
 }

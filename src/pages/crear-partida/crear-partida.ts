@@ -3,7 +3,6 @@ import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angu
 import { JuegoPage } from "../juego/juego";
 import { PartidaProvider } from '../../providers/partida/partida';
 import { ElegirCartaPage } from '../elegir-carta/elegir-carta';
-import { PerfilProvider } from '../../providers/perfil/perfil';
 import * as firebase from 'firebase';
 
 /**
@@ -24,8 +23,8 @@ export class CrearPartidaPage {
   i:any;
   email:any;
  
-  newGame = {title: '', description: null, datetime: '', email: '', type: '', status:'', settings: {},random:{}};
-  settings = {players:0,timer:0, full:false, blast:false, quarters:false, middle:false};
+  newGame = {title: '', description: null, timestamp: 0, email: '', type: '', status:'', settings: {},random:{}};
+  settings = {players:0, cardtimer:0, full:false, blast:false, quarters:false, middle:false};
 
   constructor(public navCtrl: NavController, public navParams: NavParams,public pp:PartidaProvider, private modal: ModalController) {
     this.i=true;
@@ -39,20 +38,19 @@ export class CrearPartidaPage {
       //console.log(this.Perfil);
     });}*/
   }
-  title:any=''; description:any = null; datetime:any; players:any;timer:any;full:any=false;blast:any=false;quarters:any=false;middle:any=false; correo:any = ''; status:any; type:any = '';
+  title:any=''; description:any = null; timestamp:any; players:any; cardtimer:any; full:any=false; blast:any=false; quarters:any=false; middle:any=false; status:any; type:any = '';
   
 
   setData(){
-    this.datetime = new Date();
     this.status = 'w';
-    this.newGame.title = this.title;
+    this.newGame.title = this.title
     this.newGame.description = null;
-    this.newGame.datetime = this.datetime;
+    this.newGame.timestamp = this.timestamp;
     this.newGame.email = this.email;
     this.newGame.type = this.type;
     this.newGame.status = this.status;
     this.settings.players = this.players;
-    this.settings.timer = this.timer;
+    this.settings.cardtimer = this.cardtimer;
     this.settings.full = this.full;
     this.settings.blast = this.blast;
     this.settings.quarters = this.quarters;
@@ -80,6 +78,8 @@ export class CrearPartidaPage {
 
   }
   entrarJuego(): void {
+    this.timestamp = firebase.database.ServerValue.TIMESTAMP;
+ 
     this.setData();
     console.log(this.newGame);
     this.addItem();
