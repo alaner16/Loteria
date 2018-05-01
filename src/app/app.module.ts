@@ -19,7 +19,7 @@ import { RegistroPage } from "../pages/registro/registro";
 import { ElegirCartaPage } from '../pages/elegir-carta/elegir-carta';
 import { PerfilPage } from '../pages/perfil/perfil';
 import { ChatPage } from '../pages/chat/chat';
-
+//pelan putos
 // Ionic Native
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
