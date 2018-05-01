@@ -84,7 +84,14 @@ export class UnirsePage {
         });
         modalElegirCarta.present();
       }else{
-        alert('La sala esta llena');
+        
+          let toast = this.toastCtrl.create({
+            message: "La sala está llena",
+            duration: 1500,
+            position: "top"
+          });
+          toast.present();
+        
       }
     });
   }
