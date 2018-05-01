@@ -22,7 +22,7 @@ import * as firebase from 'firebase';
 export class UnirsePage {
   public i: any;
   public games: any;
-  public listGame = [];
+  public listGame: any;
   public user: any;
   public email: any;
 
@@ -45,36 +45,20 @@ export class UnirsePage {
     });
     toast.present();
   }
+
   refreshGames(){
     this.listGame = [];
     console.log('refrescando');
-    this.partidaService.getGames(result =>{
-      if(result!=null)this.games=result.val();
-      console.log(this.games);
-      var ids = Object.keys(this.games);
-      //var x =this.games.child(key).val();
-      var count = Object.keys(this.games).length;
-        for(var i = 0; i < count; i++){
-          var key = ids[i];
-          //console.log(result.child(key).val());
-          var item = result.child(key).val();
-          if(item.status == 'w'){
-          var game = {
-            id_game: key,
-            email: item.email,
-            random: item.random,
-            settings: item.settings,
-            status: item.status,
-            timestamp: item.timestamp,
-            title: item.title,
-            type: item.type
-          }
-          this.listGame.push(game);
-        }
-      }
-        return this.listGame;
-    });
+    this.partidaService.getPublicGames()
+    .then(response =>{
+      console.log(response);
+      this.listGame = response;
+    })
+    .catch(err =>{
+      console.error(err);
+    })
   }
+  
   goPlay(id){
     let timestamp = firebase.database.ServerValue.TIMESTAMP;
     var player ={
@@ -84,11 +68,26 @@ export class UnirsePage {
       status: 'A',
       timestamp: timestamp
     }
-    this.partidaService.joinGame(player);
+    this.partidaService.getGame(id).then(response =>{
+      let currentGame: any = [];
+      currentGame = response
 
-    this.navCtrl.push(JuegoPage);
-    const modalElegirCarta = this.modal.create(ElegirCartaPage);
-    modalElegirCarta.present();
+      return Promise.all([this.partidaService.getPlayers(id), currentGame]);
+      }).then(([response2, currentGame]) => {
+
+      if(response2 < currentGame.settings.players){
+        this.partidaService.joinGame(player);
+        this.navCtrl.push(JuegoPage);
+        const modalElegirCarta = this.modal.create(ElegirCartaPage);
+        modalElegirCarta.present(); 
+      }else{
+        alert('La sala esta llena');
+      }
+    });
+
+   
+ 
+ 
   }
 
   play(dataUser){
