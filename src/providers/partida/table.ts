@@ -11,7 +11,13 @@ export class TableProvider {
       this.db.ref('/table/').on('value', (snapshot) =>{
         try{
           let tables = snapshot.val();
-          resolve(tables);
+          let t = [];
+          t.push(tables.splice(0,4));
+          t.push(tables.splice(4,4));
+          t.push(tables.splice(8,4));
+          t.push(tables.splice(12,4));
+          t.push(tables.splice(16,4));
+          resolve(t);
         }catch(err){
           reject(err);
         }

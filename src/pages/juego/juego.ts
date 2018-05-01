@@ -22,10 +22,12 @@ export class JuegoPage {
   tabla4=['49','50','51','52','53','2','3','4','6','8','10','12','14','16','18','20'];
   tabla5=['22','24','26','28','30','32','34','36','38','40','42','44','46','48','50','52'];
   tb:any;
-  tabla=[];  
+  tabla=[];
   constructor(public navCtrl: NavController, public navParams: NavParams, private modal: ModalController) {
   }
+  ionViewWillLeave(){
 
+  }
   ionViewDidLoad() {
     console.log('ionViewDidLoad JuegoPage');
     this.tb=this.navParams.get('tabla');

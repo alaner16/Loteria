@@ -23,7 +23,7 @@ export class CrearPartidaPage {
   i:any;
   email:any;
   public player: any;
-  newGame = {title: '', description: null, timestamp: 0, owner: '', type: '', status:'', settings: {},random:{}};
+  newGame = {title: '', description: null, timestamp: 0, owner: '', type: '', status:'', settings: {},random:{}, control:{players: 1}};
   settings = {players:0, cardtimer:0, full:false, blast:false, quarters:false, middle:false};
 
   constructor(public navCtrl: NavController, public navParams: NavParams,public pp:PartidaProvider, private modal: ModalController) {
@@ -33,13 +33,13 @@ export class CrearPartidaPage {
     //console.log(this.email);
     /*if(this.i==true){
     this.i=false;
-    this.perfilService.getPerfil((this.user.email),(result) => { 
+    this.perfilService.getPerfil((this.user.email),(result) => {
       if(result!=null)this.email=result;
       //console.log(this.Perfil);
     });}*/
   }
   title:any=''; description:any = null; timestamp:any; players:any; cardtimer:any; full:any=false; blast:any=false; quarters:any=false; middle:any=false; status:any; type:any = '';
-  
+
 
   setData(){
     this.status = 'w';
@@ -58,7 +58,7 @@ export class CrearPartidaPage {
 
     //Define la cantidad de numeros aleatorios.
     var numCards = 54;
-    
+
     var myArray = []
     while(myArray.length < numCards ){
       var numeroAleatorio = Math.ceil(Math.random() * numCards);
