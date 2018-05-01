@@ -4,6 +4,7 @@ import { AngularFireDatabase } from 'angularfire2/database';
 import { PartidaProvider } from '../../providers/partida/partida';
 import { ElegirCartaPage } from '../elegir-carta/elegir-carta';
 import { JuegoPage } from "../juego/juego";
+import { ToastController } from 'ionic-angular';
 import * as firebase from 'firebase';
 
 /**
@@ -25,7 +26,7 @@ export class UnirsePage {
   public user: any;
   public email: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public partidaService: PartidaProvider, private modal: ModalController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public partidaService: PartidaProvider, private modal: ModalController, private toastCtrl: ToastController) {
     this.user= firebase.auth().currentUser;
     this.email=this.user.email;
   }
@@ -35,6 +36,14 @@ export class UnirsePage {
     console.log('ionViewDidLoad UnirsePage');
     this.refreshGames();
 
+  }
+  presentToast() {
+    let toast = this.toastCtrl.create({
+      message: "Se han actualizado las partidas disponibles",
+      duration: 1500,
+      position: "top"
+    });
+    toast.present();
   }
   refreshGames(){
     this.listGame = [];
