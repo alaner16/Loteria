@@ -54,10 +54,10 @@ export class PartidaProvider {
         var key = keys[0];
         console.log(keys);
 
-        var count = games.length;
+       /* var count = games.length;
         console.log(count);
         console.log(parseInt(this.game.settings.players));
-        if(count <= parseInt(this.game.settings.players)){
+        if(count <= parseInt(this.game.settings.players)){*/
         if(z==true){
           if (key!=null){
             z=false;
@@ -68,9 +68,9 @@ export class PartidaProvider {
            this.afd.list('/room/').push(player);        
           }
         }
-      }else{
-        alert('Sala llena');
-      }
+      //}else{
+      //  alert('Sala llena');
+      //}
       }catch(e){console.log(e)}
     });
   }
