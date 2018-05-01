@@ -58,7 +58,7 @@ export class UnirsePage {
       console.error(err);
     })
   }
-  
+
   goPlay(id){
     let timestamp = firebase.database.ServerValue.TIMESTAMP;
     var player ={
@@ -80,17 +80,13 @@ export class UnirsePage {
         const modalElegirCarta = this.modal.create(ElegirCartaPage,{carta:null });
         modalElegirCarta.onDidDismiss(data => {
           console.log('MODAL DATA', data);
-          this.navCtrl.push(JuegoPage,{tabla:data});   
+          this.navCtrl.push(JuegoPage,{tabla:data});
         });
         modalElegirCarta.present();
       }else{
         alert('La sala esta llena');
       }
     });
-
-   
- 
- 
   }
 
   play(dataUser){
