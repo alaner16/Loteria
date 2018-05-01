@@ -3,6 +3,11 @@
     <ion-title>
       Crear partida
     </ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only clear color="dark">
+        <ion-icon name="logo-usd"></ion-icon> 300
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
@@ -16,7 +21,10 @@
             <ion-label floating>Partida de...</ion-label>
             <ion-input type="text" [(ngModel)]="title"></ion-input>
           </ion-item>
-
+          <ion-item>
+            <ion-label><ion-icon name="logo-usd"></ion-icon> por carta</ion-label>
+            <ion-input type="number" placeholder="10"></ion-input>
+          </ion-item>
           <ion-item>
             <ion-label>Numero de jugadores máximo</ion-label>
             <ion-select [(ngModel)]="players">
@@ -44,8 +52,9 @@
               </ion-select>
             </ion-item>
           <ion-item>
-            <ion-label>Llenas</ion-label>
+            <ion-label>Llenas <!--Aqui poner variable de ganancia --></ion-label>
             <ion-checkbox color="dark" checked="true" [(ngModel)]="full"></ion-checkbox>
+            
           </ion-item>
           <ion-item>
             <ion-label>Chorro</ion-label>
@@ -54,10 +63,12 @@
           <ion-item>
             <ion-label>4 esquinas</ion-label>
             <ion-checkbox color="dark" [(ngModel)]="quarters"></ion-checkbox>
+            
           </ion-item>
           <ion-item>
             <ion-label>Centrito</ion-label>
             <ion-checkbox color="dark" [(ngModel)]="middle"></ion-checkbox>
+            
           </ion-item>
           <button ion-button color="secondary" float-right (click)="entrarJuego()">Comenzar</button>
         </ion-list>
