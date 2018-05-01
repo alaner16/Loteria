@@ -77,9 +77,12 @@ export class UnirsePage {
 
       if(response2 < currentGame.settings.players){
         this.partidaService.joinGame(player);
-        this.navCtrl.push(JuegoPage);
-        const modalElegirCarta = this.modal.create(ElegirCartaPage);
-        modalElegirCarta.present(); 
+        const modalElegirCarta = this.modal.create(ElegirCartaPage,{carta:null });
+        modalElegirCarta.onDidDismiss(data => {
+          console.log('MODAL DATA', data);
+          this.navCtrl.push(JuegoPage,{tabla:data});   
+        });
+        modalElegirCarta.present();
       }else{
         alert('La sala esta llena');
       }
