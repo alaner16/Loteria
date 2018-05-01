@@ -23,7 +23,7 @@ export class CrearPartidaPage {
   i:any;
   email:any;
   public player: any;
-  newGame = {title: '', description: null, timestamp: 0, creator: '', type: '', status:'', settings: {},random:{}, room: {}};
+  newGame = {title: '', description: null, timestamp: 0, owner: '', type: '', status:'', settings: {},random:{}, room: {}};
   settings = {players:0, cardtimer:0, full:false, blast:false, quarters:false, middle:false};
 
   constructor(public navCtrl: NavController, public navParams: NavParams,public pp:PartidaProvider, private modal: ModalController) {
@@ -46,7 +46,7 @@ export class CrearPartidaPage {
     this.newGame.title = this.title
     this.newGame.description = null;
     this.newGame.timestamp = this.timestamp;
-    this.newGame.creator = this.email;
+    this.newGame.owner = this.email;
     this.newGame.type = this.type;
     this.newGame.status = this.status;
     this.settings.players = this.players;
@@ -90,7 +90,7 @@ export class CrearPartidaPage {
     //console.log("hola");
     this.pp.crearPartida(this.newGame);
     this.player = {
-      owner: this.email,
+      player: this.email,
       status: 'A',
       table: 0,
       currentCard: 0,
