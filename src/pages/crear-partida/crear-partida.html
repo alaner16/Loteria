@@ -31,16 +31,16 @@
           <ion-item>
             <ion-label>Tiempo de espera de carta</ion-label>
             <ion-select [(ngModel)]="cardtimer">
-              <ion-option value="1">3 segundos</ion-option>
-              <ion-option value="2">5 segundos</ion-option>
-              <ion-option value="3">7 segundos</ion-option>
+              <ion-option value="1">1 segundo</ion-option>
+              <ion-option value="2">3 segundos</ion-option>
+              <ion-option value="3">5 segundos</ion-option>
             </ion-select>
           </ion-item>
           <ion-item>
               <ion-label>Tipo de partida</ion-label>
               <ion-select [(ngModel)]="type">
                 <ion-option value="public">Pública</ion-option>
-                <ion-option value="private">Privada</ion-option>
+                <ion-option value="private" disabled>Privada</ion-option>
               </ion-select>
             </ion-item>
           <ion-item>

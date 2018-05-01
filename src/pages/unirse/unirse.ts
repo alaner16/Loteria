@@ -1,10 +1,7 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { PartidaProvider } from '../../providers/partida/partida';
-import { ElegirCartaPage } from '../elegir-carta/elegir-carta';
-import { JuegoPage } from "../juego/juego";
-import * as firebase from 'firebase';
 
 /**
  * Generated class for the UnirsePage page.
@@ -22,13 +19,7 @@ export class UnirsePage {
   public i: any;
   public games: any;
   public listGame = [];
-  public user: any;
-  public email: any;
-
-  constructor(public navCtrl: NavController, public navParams: NavParams, public partidaService: PartidaProvider, private modal: ModalController) {
-    this.user= firebase.auth().currentUser;
-    this.email=this.user.email;
-  }
+  constructor(public navCtrl: NavController, public navParams: NavParams, public partidaService: PartidaProvider) {}
 
 
   ionViewDidLoad() {
@@ -48,6 +39,7 @@ export class UnirsePage {
         for(var i = 0; i < count; i++){
           var key = ids[i];
           //console.log(result.child(key).val());
+
           var item = result.child(key).val();
           if(item.status == 'w'){
           var game = {
@@ -66,6 +58,7 @@ export class UnirsePage {
         return this.listGame;
     });
   }
+  
   goPlay(id){
     let timestamp = firebase.database.ServerValue.TIMESTAMP;
     var player ={
@@ -85,5 +78,6 @@ export class UnirsePage {
   play(dataUser){
     console.log(dataUser);
   }
+
 
 }

@@ -16,10 +16,13 @@
 <ion-content padding>
 
   <ion-grid>
-  <ion-row *ngIf="auth.authenticated">
+  <ion-row>
     <ion-col col-12 col-md-6 offset-md-3 col-xl-4 offset-xl-4>
-      <button ion-button (click)='Perfil()' block>Perfil</button>
-      <button ion-button color="danger" block (click)="logout()" *ngIf="auth.authenticated">
+      <button ion-button (click)='Perfil()' block *ngIf="auth.authenticated"><ion-icon name="contact"></ion-icon> &nbsp; Perfil</button>
+      <button ion-button color="dark" block (click)="silenciar()">
+        <ion-icon name="volume-off" item-left></ion-icon>
+        &nbsp; Silenciar</button>
+      <button ion-button color="danger" class="Salir" block (click)="logout()" *ngIf="auth.authenticated">
           <ion-icon name="log-out" item-left></ion-icon>
           &nbsp; Salir</button>
       
@@ -27,9 +30,7 @@
   </ion-row>
   <ion-row>
     <ion-col col-12 col-md-6 offset-md-3 col-xl-4 offset-xl-4>
-      <button ion-button color="dark" block (click)="silenciar()">
-          <ion-icon name="volume-off" item-left></ion-icon>
-          &nbsp; Silenciar</button>
+      
       </ion-col>
   </ion-row>
 </ion-grid>
