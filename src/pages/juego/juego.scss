@@ -4,22 +4,23 @@ page-juego {
 .Baraja{
     background-color: darkblue;
     height: 11rem;
+    margin-bottom: 1rem;
 }
 
 
 .Carta{
-    background-color: chartreuse;
+    background-color: beige;
     
-    width: 5rem;
+    width: 7rem;
     height: auto;
     padding: 0%;
-    margin-bottom: -5%;
-    margin-right: -2rem;
+    
     
 }
 .tabla{
     border: 5px;
     border-color: beige;
+    color: beige;
 }
 .tabla img{
     width: 100%;
