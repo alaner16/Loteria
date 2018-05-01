@@ -37,6 +37,7 @@ export class UnirsePage {
 
   }
   refreshGames(){
+    this.listGame = [];
     console.log('refrescando');
     this.partidaService.getGames(result =>{
       if(result!=null)this.games=result.val();
@@ -48,7 +49,7 @@ export class UnirsePage {
           var key = ids[i];
           //console.log(result.child(key).val());
           var item = result.child(key).val();
-
+          if(item.status == 'w'){
           var game = {
             id_game: key,
             email: item.email,
@@ -61,12 +62,21 @@ export class UnirsePage {
           }
           this.listGame.push(game);
         }
+      }
         return this.listGame;
     });
   }
   goPlay(id){
-    var dataUser =id;
-    this.play(dataUser);
+    let timestamp = firebase.database.ServerValue.TIMESTAMP;
+    var player ={
+      id_game: id,
+      player: this.email,
+      table: 0,
+      status: 'A',
+      timestamp: timestamp
+    }
+    this.partidaService.joinGame(player);
+
     this.navCtrl.push(JuegoPage);
     const modalElegirCarta = this.modal.create(ElegirCartaPage);
     modalElegirCarta.present();

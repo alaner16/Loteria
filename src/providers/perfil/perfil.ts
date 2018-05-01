@@ -22,8 +22,8 @@ export class PerfilProvider {
       var arr2 = Object.keys(arr);
       var key = arr2[0];
       //console.log('barrido '+key)
-      }catch(e){//console.log('error')
-    }
+      }catch(e){}
+      
       if(z==true){
       if (key!=null){
         z=false;
@@ -35,6 +35,7 @@ export class PerfilProvider {
       }}
     });
   }
+  
  getPerfil(id,callback){
   let pf:any;
   firebase.database().ref('/Perfiles/').orderByChild('Correo').equalTo(id).on('value',function(snapshot){
