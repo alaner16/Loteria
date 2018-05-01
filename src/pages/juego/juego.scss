@@ -5,11 +5,7 @@ page-juego {
     background-color: darkblue;
     height: 11rem;
 }
-.Carta img {
-  height: auto;
-  width: 100%;
-  max-width: fit-content;
-}
+
 
 .Carta{
     background-color: chartreuse;
@@ -17,6 +13,18 @@ page-juego {
     width: 5rem;
     height: auto;
     padding: 0%;
-    margin-bottom: -15%;
+    margin-bottom: -5%;
+    margin-right: -2rem;
     
+}
+.tabla{
+    border: 5px;
+    border-color: beige;
+}
+.tabla img{
+    width: 100%;
+    max-width: fit-content;
+    height: auto;
+
+
 }
