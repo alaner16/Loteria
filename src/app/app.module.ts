@@ -34,6 +34,7 @@ import { AngularFireAuthModule, AngularFireAuth } from 'angularfire2/auth';
 import { AuthService } from '../services/auth.service';
 import { PartidaProvider } from '../providers/partida/partida';
 import { PerfilProvider } from '../providers/perfil/perfil';
+import { CardProvider } from '../providers/card/card'
 
 export const firebaseConfig = {
   fire: {
@@ -98,6 +99,7 @@ export const firebaseConfig = {
     AngularFireAuth,
     PartidaProvider,
     PerfilProvider,
+    CardProvider,
     NativeAudio,
   ]
 })
