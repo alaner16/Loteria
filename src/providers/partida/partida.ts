@@ -15,13 +15,15 @@ export class PartidaProvider {
   private db = firebase.database();
   data: any;
   id: any;
+  public game:any;
   constructor(public afd: AngularFireDatabase) { }
   crearPartida(name){
     this.afd.list('/game/').push(name);
+    this.game = name;
   }
 
   createRoom(player){
-    this.db.ref('/game/').orderByChild('email').equalTo(player.owner).on('value', (snapshopt) =>{
+    this.db.ref('/game/').orderByChild('owner').equalTo(player.player).on('value', (snapshopt) =>{
       //this.db.ref('/game/').orderByChild('status').equalTo('w').on('value', (result) => {
         let game = snapshopt.val();
         console.log(game);
@@ -47,22 +49,29 @@ export class PartidaProvider {
     let z=true;
    firebase.database().ref('/room/').orderByChild('id_game').equalTo(player.id_game).on('value', (snapshot) => {
       try{
-      var arr = snapshot.val();
-      var arr2 = Object.keys(arr);
-      var key = arr2[0];
-      console.log(key);
-      //console.log('barrido '+key)
-      }catch(e){//console.log('error')
-    }
-      if(z==true){
-      if (key!=null){
-        z=false;
-        //console.log('entre');
-        this.afd.list('/room/').push(player);
+        var games = snapshot.val();
+        var keys = Object.keys(games);
+        var key = keys[0];
+        console.log(keys);
+
+        var count = games.length;
+        console.log(count);
+        console.log(parseInt(this.game.settings.players));
+        if(count <= parseInt(this.game.settings.players)){
+        if(z==true){
+          if (key!=null){
+            z=false;
+            //console.log('entre');
+            this.afd.list('/room/').push(player);
+          }else{
+            z=false;
+           this.afd.list('/room/').push(player);        
+          }
+        }
       }else{
-        z=false;
-       this.afd.list('/room/').push(player);        
-      }}
+        alert('Sala llena');
+      }
+      }catch(e){console.log(e)}
     });
   }
 
