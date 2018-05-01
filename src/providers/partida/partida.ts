@@ -18,8 +18,8 @@ export class PartidaProvider {
   public game:any;
   constructor(public afd: AngularFireDatabase) { }
   crearPartida(name){
+    console.log(name);
     this.afd.list('/game/').push(name);
-    this.game = name;
   }
 
   createRoom(player){
@@ -54,9 +54,8 @@ export class PartidaProvider {
         var key = keys[0];
         console.log(keys);
 
-        var count = games.length;
-        console.log(count);
-        console.log(parseInt(this.game.settings.players));
+       var count = keys.length;
+
         if(count <= parseInt(this.game.settings.players)){
         if(z==true){
           if (key!=null){
@@ -69,9 +68,27 @@ export class PartidaProvider {
           }
         }
       }else{
-        alert('Sala llena');
+       alert('Sala llena');
       }
-      }catch(e){console.log(e)}
+      }catch(e){}
+    });
+  }
+
+  getPlayers(id_game){
+    firebase.database().ref('/room/').orderByChild('id_game').equalTo(id_game).on('value', (snapshot) => {
+      try{
+        var games = snapshot.val();
+        var keys = Object.keys(games);
+      
+        console.log(keys);
+        var count = games.length;
+        console.log(count);
+
+        let currentPlayers = (parseInt(this.game.settings.players));
+        return currentPlayers;
+      }catch(e){
+        console.error(e);
+      }
     });
   }
 

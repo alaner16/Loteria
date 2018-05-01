@@ -26,7 +26,7 @@
 
   <ion-list>
     Lista: 
-    <button ion-item *ngFor="let game of listGame" (click)="goPlay()">
+    <button ion-item *ngFor="let game of listGame" (click)="goPlay(game.id_game)">
         {{ game.title }} 
     </button>
   </ion-list>
