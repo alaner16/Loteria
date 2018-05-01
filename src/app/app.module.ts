@@ -34,8 +34,8 @@ import { AngularFireAuthModule, AngularFireAuth } from 'angularfire2/auth';
 import { AuthService } from '../services/auth.service';
 import { PartidaProvider } from '../providers/partida/partida';
 import { PerfilProvider } from '../providers/perfil/perfil';
-import { CardProvider } from '../providers/card/card'
-
+import { CardProvider } from '../providers/card/card';
+import { TableProvider } from '../providers/partida/table';
 export const firebaseConfig = {
   fire: {
     apiKey: "AIzaSyAzc86-ph5SfRHm22l0vNZDSUcixAk_ElM",
@@ -65,8 +65,8 @@ export const firebaseConfig = {
     PerfilPage,
     ChatPage
   ],
-  imports: [ 
-    FormsModule, 
+  imports: [
+    FormsModule,
     BrowserModule, IonicModule.forRoot(Loteria),
     AngularFireModule.initializeApp(firebaseConfig.fire),
     AngularFireDatabaseModule,
@@ -100,6 +100,7 @@ export const firebaseConfig = {
     PartidaProvider,
     PerfilProvider,
     CardProvider,
+    TableProvider,
     NativeAudio,
   ]
 })
