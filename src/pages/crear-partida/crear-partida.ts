@@ -22,8 +22,8 @@ export class CrearPartidaPage {
   user:any;
   i:any;
   email:any;
- 
-  newGame = {title: '', description: null, timestamp: 0, email: '', type: '', status:'', settings: {},random:{}};
+  public player: any;
+  newGame = {title: '', description: null, timestamp: 0, creator: '', type: '', status:'', settings: {},random:{}, room: {}};
   settings = {players:0, cardtimer:0, full:false, blast:false, quarters:false, middle:false};
 
   constructor(public navCtrl: NavController, public navParams: NavParams,public pp:PartidaProvider, private modal: ModalController) {
@@ -46,7 +46,7 @@ export class CrearPartidaPage {
     this.newGame.title = this.title
     this.newGame.description = null;
     this.newGame.timestamp = this.timestamp;
-    this.newGame.email = this.email;
+    this.newGame.creator = this.email;
     this.newGame.type = this.type;
     this.newGame.status = this.status;
     this.settings.players = this.players;
@@ -79,9 +79,8 @@ export class CrearPartidaPage {
   }
   entrarJuego(): void {
     this.timestamp = firebase.database.ServerValue.TIMESTAMP;
- 
     this.setData();
-    console.log(this.newGame);
+
     this.addItem();
     this.navCtrl.push(JuegoPage);
     const modalElegirCarta = this.modal.create(ElegirCartaPage);
@@ -90,6 +89,15 @@ export class CrearPartidaPage {
   addItem() {
     //console.log("hola");
     this.pp.crearPartida(this.newGame);
+    this.player = {
+      owner: this.email,
+      status: 'A',
+      table: 0,
+      currentCard: 0,
+      timestamp: this.timestamp
+    }
+    this.newGame.room = this.player;
+    this.pp.createRoom(this.player);
   }
 
   ionViewDidLoad() {
