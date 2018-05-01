@@ -76,7 +76,7 @@ export class PerfilPage implements OnInit {
   }
 
   ngOnInit() {}
-  image: string;
+  /* image: string;
   imageSettings: any = {
     theme: "windows",
     lang: "es",
@@ -86,5 +86,5 @@ export class PerfilPage implements OnInit {
     placeholder: "Seleccionar una...",
     width: 200,
     enhance: true
-  };
+  }; */
 }
