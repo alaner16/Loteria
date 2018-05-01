@@ -18,6 +18,7 @@ import { LoginPage } from "../pages/login/login";
 import { RegistroPage } from "../pages/registro/registro";
 import { ElegirCartaPage } from '../pages/elegir-carta/elegir-carta';
 import { PerfilPage } from '../pages/perfil/perfil';
+import { ChatPage } from '../pages/chat/chat';
 
 // Ionic Native
 import { StatusBar } from '@ionic-native/status-bar';
@@ -60,7 +61,8 @@ export const firebaseConfig = {
     LoginPage,
     RegistroPage,
     ElegirCartaPage,
-    PerfilPage
+    PerfilPage,
+    ChatPage
   ],
   imports: [ 
     FormsModule, 
@@ -85,7 +87,8 @@ export const firebaseConfig = {
     LoginPage,
     RegistroPage,
     ElegirCartaPage,
-    PerfilPage
+    PerfilPage,
+    ChatPage
   ],
   providers: [
     StatusBar,

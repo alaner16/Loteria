@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
+import { ChatPage } from '../chat/chat';
 
 
 /**
@@ -16,11 +17,16 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class JuegoPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private modal: ModalController) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad JuegoPage');
+  }
+
+  abrirChat(){
+    const modalChat = this.modal.create(ChatPage);
+    modalChat.present();
   }
 
 }
