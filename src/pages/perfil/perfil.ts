@@ -76,7 +76,7 @@ export class PerfilPage implements OnInit {
   }
 
   ngOnInit() {}
-  /* image: string;
+  /*image: string;
   imageSettings: any = {
     theme: "windows",
     lang: "es",
