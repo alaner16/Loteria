@@ -3,7 +3,7 @@
     <ion-title>
       Crear partida
     </ion-title>
-    <ion-buttons end>
+    <ion-buttons end *ngIf="auth.getEmail()">
       <button ion-button icon-only clear color="dark">
         <ion-icon name="logo-usd"></ion-icon> 300
       </button>
