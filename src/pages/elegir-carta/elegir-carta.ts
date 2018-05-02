@@ -42,7 +42,8 @@ export class ElegirCartaPage {
       console.error(err);
     })
   }
-
+  hola(id){console.log('la carta ' + id )}
+  
   elegir(id$){
     this.view.dismiss(id$);
     console.log(' aver el ID' + id$)

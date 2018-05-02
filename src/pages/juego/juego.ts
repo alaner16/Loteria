@@ -38,6 +38,7 @@ export class JuegoPage {
     this.play();
   }
 
+  card(id){console.log( id )}
 
   play(){
     this.tb=this.navParams.get('tabla');

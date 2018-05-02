@@ -16,20 +16,20 @@
 
 <ion-content padding>
     <ion-slides pager>
-
+      
       <ion-slide *ngFor="let item of tables; let i = index;">
         <h3>Carta {{i+1}}</h3>
-        <ion-grid>
+        <ion-grid (click)="elegir(i)">
             <ion-row *ngFor="let ite of item; let j = index;" no-padding offset-lg-3 offset-1 offset-md-2>
               <div *ngFor="let it of ite; let l = index;" class="Carta">
-                <button class="tabla">
+                <button class="tabla" >
                   <img src="assets/cards/{{it}}.png">
                 </button>
               </div>
             </ion-row>
         </ion-grid>
         <hr>
-        <button ion-button (click)="elegir(i)" > Elegir</button>
+        <!--<button ion-button (click)="elegir(i)" > Elegir</button>-->
       </ion-slide>
 
       </ion-slides>
