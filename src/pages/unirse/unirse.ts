@@ -51,7 +51,6 @@ export class UnirsePage {
     console.log('refrescando');
     this.partidaService.getPublicGames()
     .then(response =>{
-      console.log(response);
       this.listGame = response;
     })
     .catch(err =>{

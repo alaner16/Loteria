@@ -28,8 +28,8 @@ export class JuegoPage {
   constructor(public navCtrl: NavController,public partidaService: PartidaProvider, public navParams: NavParams, private modal: ModalController) {
   }
   ionViewWillLeave(){
-    //this.user= firebase.auth().currentUser;
-    //this.partidaService.joinGame(this.user.email);
+    this.user= firebase.auth().currentUser;
+    this.partidaService.leaveGame(this.user);
   }
   ionViewDidLoad() {
     console.log('ionViewDidLoad JuegoPage');
