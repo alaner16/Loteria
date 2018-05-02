@@ -71,11 +71,7 @@ export class UnirsePage {
     this.partidaService.getGame(id).then(response =>{
       let currentGame: any = [];
       currentGame = response
-
-      return Promise.all([this.partidaService.getPlayers(id), currentGame]);
-      }).then(([response2, currentGame]) => {
-
-      if(response2 < currentGame.settings.players){
+      if(currentGame.control.players < currentGame.settings.players){
         this.partidaService.joinGame(player);
         const modalElegirCarta = this.modal.create(ElegirCartaPage,{carta:null });
         modalElegirCarta.onDidDismiss(data => {
@@ -84,14 +80,14 @@ export class UnirsePage {
         });
         modalElegirCarta.present();
       }else{
-        
+
           let toast = this.toastCtrl.create({
             message: "La sala está llena",
             duration: 1500,
             position: "top"
           });
           toast.present();
-        
+
       }
     });
   }

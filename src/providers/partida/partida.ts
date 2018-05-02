@@ -46,18 +46,48 @@ export class PartidaProvider {
     });
   }
 
-  joinGame(player){
+  leaveGame(player){
     let z=true;
     firebase.database().ref('/room/').orderByChild('id_game').equalTo(player.id_game).on('value', (snapshot) => {
       this.db.ref('/game/').orderByKey().equalTo(player.id_game).on('value', result =>{
         let item = result.val();
         let id = Object.keys(item);
         let game = result.child(id[0]).val();
+        game.control.players = game.control.players - 1;
+        if (game.control.players < game.settings.players){
+          game.status = "w";
+        }
+        this.afd.list('/game/').update(id[0], game);
         try{
           var games = snapshot.val();
           var keys = Object.keys(games);
           var key = keys[0];
+        }catch(e){}
+      });
+    });
+  }
 
+
+  joinGame(player){
+    let z=true;
+    let gg = true;
+    firebase.database().ref('/room/').orderByChild('id_game').equalTo(player.id_game).on('value', (snapshot) => {
+      this.db.ref('/game/').orderByKey().equalTo(player.id_game).on('value', result =>{
+        let item = result.val();
+        let id = Object.keys(item);
+        let game = result.child(id[0]).val();
+        if (gg) {
+          gg=false;
+          game.control.players = game.control.players + 1;
+            if (game.control.players >= game.settings.players){
+              game.status = "f";
+            }
+            this.afd.list('/game/').update(id[0], game);
+        }
+        try{
+          var games = snapshot.val();
+          var keys = Object.keys(games);
+          var key = keys[0];
           if(z==true){
             if (key!=null){
               z=false;
@@ -65,7 +95,7 @@ export class PartidaProvider {
               this.afd.list('/room/').push(player);
             }else{
               z=false;
-             this.afd.list('/room/').push(player);        
+             this.afd.list('/room/').push(player);
             }
           }
         }catch(e){}
@@ -173,4 +203,4 @@ export class PartidaProvider {
 
 
 
- 
+

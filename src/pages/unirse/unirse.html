@@ -27,7 +27,7 @@
   <ion-list>
     Lista:
     <button ion-item *ngFor="let game of listGame" (click)="goPlay(game.id_game)">
-       <p style="display:inline-block;width:70%">{{ game.title }}</p><div *ngIf="game.status == 'w'" style="color:green;display:inline-flex">  /{{game.settings.players}}</div>
+       <p style="display:inline-block;width:70%">{{ game.title }}</p><div *ngIf="game.status == 'w'" style="color:green;display:inline-flex">  {{game.control.players}}/{{game.settings.players}}</div>
     </button>
   </ion-list>
 </div>

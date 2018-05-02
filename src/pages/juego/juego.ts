@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
 import { ChatPage } from '../chat/chat';
-
+import { PartidaProvider } from '../../providers/partida/partida';
+import * as firebase from 'firebase';
 
 /**
  * Generated class for the JuegoPage page.
@@ -23,10 +24,12 @@ export class JuegoPage {
   tabla5=['22','24','26','28','30','32','34','36','38','40','42','44','46','48','50','52'];
   tb:any;
   tabla=[];
-  constructor(public navCtrl: NavController, public navParams: NavParams, private modal: ModalController) {
+  user:any;
+  constructor(public navCtrl: NavController,public partidaService: PartidaProvider, public navParams: NavParams, private modal: ModalController) {
   }
   ionViewWillLeave(){
-
+    //this.user= firebase.auth().currentUser;
+    //this.partidaService.joinGame(this.user.email);
   }
   ionViewDidLoad() {
     console.log('ionViewDidLoad JuegoPage');
