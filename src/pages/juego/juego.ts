@@ -4,6 +4,7 @@ import { ChatPage } from '../chat/chat';
 import { PartidaProvider } from '../../providers/partida/partida';
 import { TableProvider } from '../../providers/partida/table';
 import * as firebase from 'firebase';
+import { TableProvider } from '../../providers/partida/table';
 
 /**
  * Generated class for the JuegoPage page.
@@ -18,13 +19,16 @@ import * as firebase from 'firebase';
   templateUrl: 'juego.html',
 })
 export class JuegoPage {
+
   tb:any;
   public id: any;
   public tables: any;
   public table: any;
   user:any;
+
   constructor(public navCtrl: NavController,public partidaService: PartidaProvider, public navParams: NavParams, private modal: ModalController, private tableService: TableProvider) {
   }
+  
   ionViewWillLeave(){
     this.user= firebase.auth().currentUser;
     this.partidaService.leaveGame(this.user);
@@ -38,6 +42,7 @@ export class JuegoPage {
   play(){
     this.tb=this.navParams.get('tabla');
     console.log(this.tb);
+
     this.tableService.getTables().then(response =>{
       this.tables = response;
       this.table = this.tables[this.tb]
