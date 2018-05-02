@@ -92,7 +92,10 @@ export class CrearPartidaPage {
 
     this.addItem();
     this.navCtrl.push(JuegoPage);
-    const modalElegirCarta = this.modal.create(ElegirCartaPage);
+    const modalElegirCarta = this.modal.create(ElegirCartaPage,{carta:null });
+    modalElegirCarta.onDidDismiss(data => {
+      this.navCtrl.push(JuegoPage,{tabla:data});
+    });
     modalElegirCarta.present();
   }
   addItem() {

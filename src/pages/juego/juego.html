@@ -21,22 +21,19 @@
         <img src="assets/imgs/naipeALT.png">
       </div>
     </ion-col>
-    <ion-col>
-      <div col-12 no-padding col-md-2 col-lg-1>
-        <div style="text-align:right">player 1</div>
-        <div style="text-align:right">player 2</div>
-        <div style="text-align:right">player 3</div>
-      </div>
-    </ion-col>
 
+    
   </ion-row>
-  <ion-row *ngFor="let item of tabla" no-padding offset-1>
 
-    <div *ngFor="let it of item" class="Carta">
-      <button class="tabla">
-        <img src="assets/cards/{{it}}.png">
-      </button>
-    </div>
+  <ion-grid>
+      <ion-row *ngFor="let ite of table; let j = index;" no-padding offset-lg-3 offset-1 offset-md-2>
+        <div *ngFor="let it of ite; let l = index;" class="Carta">
+          <button class="tabla">
+            <img src="assets/cards/{{it}}.png">
+          </button>
+        </div>
+      </ion-row>
+  </ion-grid>
 
   </ion-row>
 
