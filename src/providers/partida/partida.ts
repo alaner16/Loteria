@@ -69,7 +69,9 @@ export class PartidaProvider {
             if (gg) {
               gg=false;
               game.control.players = game.control.players - 1;
-                if (game.control.players < game.settings.players){
+              if (game.owner == user.email){
+                game.status = "L";
+              }else if (game.control.players < game.settings.players){
                   game.status = "w";
                 }
                 this.afd.list('/game/').update(id[0], game);
