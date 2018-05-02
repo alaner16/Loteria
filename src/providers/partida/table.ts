@@ -6,18 +6,22 @@ import * as firebase from 'firebase';
 export class TableProvider {
   private db = firebase.database();
   constructor(public afd: AngularFireDatabase) { }
-  getCards(){
+  getTables(){
     let promise = new Promise((resolve, reject) =>{
       this.db.ref('/table/').on('value', (snapshot) =>{
         try{
           let tables = snapshot.val();
-          let t = [];
-          t.push(tables.splice(0,4));
-          t.push(tables.splice(4,4));
-          t.push(tables.splice(8,4));
-          t.push(tables.splice(12,4));
-          t.push(tables.splice(16,4));
-          resolve(t);
+          
+          let allTables = [];
+          for(var i = 0; i<tables.length; i++){
+            let t = [];
+            for(var j = 0; j < 4; j++){
+              t.push(tables[i].splice(0,4));
+            }
+            allTables.push(t);
+          }
+    
+          resolve(allTables);
         }catch(err){
           reject(err);
         }

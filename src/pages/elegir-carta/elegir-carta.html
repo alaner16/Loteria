@@ -18,7 +18,7 @@
     <ion-slides pager>
 
       <ion-slide *ngFor="let item of tables; let i = index;">
-        <h3>Carta {{i}}</h3>
+        <h3>Carta {{i+1}}</h3>
         <ion-grid>
             <ion-row *ngFor="let ite of item; let j = index;" no-padding offset-lg-3 offset-1 offset-md-2>
               <div *ngFor="let it of ite; let l = index;" class="Carta">

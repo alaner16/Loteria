@@ -23,102 +23,17 @@
     </ion-col>
     
   </ion-row>
-  <ion-row no-padding offset-1>
-  
-    <div class="Carta">
-      <button class="tabla">
-        <img src="assets/cards/{{tabla[0]}}.png">
-      </button>
-    </div>
-    <div class="Carta">
-      <button class="tabla">
-        <img src="assets/cards/{{tabla[1]}}.png">
-      </button>
-    </div>
-    <div class="Carta">
-      <button class="tabla">
-        <img src="assets/cards/{{tabla[2]}}.png">
-      </button>
-    </div>
-    <div class="Carta">
-      <button class="tabla">
-        <img src="assets/cards/{{tabla[3]}}.png">
-      </button>
-    </div>
-  
-  </ion-row>
-  <ion-row no-padding offset-1>
-  
-      <div class="Carta">
-        <button class="tabla">
-          <img src="assets/cards/{{tabla[4]}}.png">
-        </button>
-      </div>
-      <div class="Carta">
-        <button class="tabla">
-          <img src="assets/cards/{{tabla[5]}}.png">
-        </button>
-      </div>
-      <div class="Carta">
-        <button class="tabla">
-          <img src="assets/cards/{{tabla[6]}}.png">
-        </button>
-      </div>
-      <div class="Carta">
-        <button class="tabla">
-          <img src="assets/cards/{{tabla[7]}}.png">
-        </button>
-      </div>
-  
-  </ion-row>
-  <ion-row no-padding offset-1>
-  
-    <div class="Carta">
-      <button class="tabla">
-        <img src="assets/cards/{{tabla[8]}}.png">
-      </button>
-    </div>
-    <div class="Carta">
-      <button class="tabla">
-        <img src="assets/cards/{{tabla[9]}}.png">
-      </button>
-    </div>
-    <div class="Carta">
-      <button class="tabla">
-        <img src="assets/cards/{{tabla[10]}}.png">
-      </button>
-    </div>
-    <div class="Carta">
-      <button class="tabla">
-        <img src="assets/cards/{{tabla[11]}}.png">
-      </button>
-    </div>
-  
-  </ion-row>
-  <ion-row no-padding offset-1>
-  
-    <div class="Carta">
-      <button class="tabla">
-        <img src="assets/cards/{{tabla[12]}}.png">
-      </button>
-    </div>
-    <div class="Carta">
-      <button class="tabla">
-        <img src="assets/cards/{{tabla[13]}}.png">
-      </button>
-    </div>
-    <div class="Carta">
-      <button class="tabla">
-        <img src="assets/cards/{{tabla[14]}}.png">
-      </button>
-    </div>
-    <div class="Carta">
-      <button class="tabla">
-        <img src="assets/cards/{{tabla[15]}}.png">
-      </button>
-    </div>
-  
-  </ion-row>
+
+  <ion-grid>
+      <ion-row *ngFor="let ite of table; let j = index;" no-padding offset-lg-3 offset-1 offset-md-2>
+        <div *ngFor="let it of ite; let l = index;" class="Carta">
+          <button class="tabla">
+            <img src="assets/cards/{{it}}.png">
+          </button>
+        </div>
+      </ion-row>
+  </ion-grid>
+
 </ion-grid>
 
 <ion-fab right bottom>

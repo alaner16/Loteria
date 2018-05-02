@@ -36,7 +36,7 @@ export class PartidaProvider {
           //console.log(item);
           if(item.status == 'w'){
             this.id = key;
-            console.log(this.id);
+            
           }
         }
       //})
