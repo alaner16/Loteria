@@ -215,6 +215,58 @@ export class PartidaProvider {
     return promise;
   }
 
+  get_my_room(player){
+    let promise = new Promise((resolve, reject) => {
+      firebase.database().ref('/room/').orderByChild('player').equalTo(player).on('value', (snap) => {
+        try {
+          let game = snap.val();
+          let ids = Object.keys(game);
+          let count = Object.keys(game).length;
+          let m:any;
+          for(var i=0; i< count; i++){
+            var key = ids[i];
+            var item = snap.child(key).val();
+            //A diferencia de get_my_game aquí se retorna el objeto completo
+            if(item.status == 'A'){
+ 
+              resolve(item);
+            }
+          }
+        }catch(err){
+          reject(err);
+        }
+
+      });
+    })
+    return promise
+
+
+  }
+
+  update_my_room(room){
+    let z=true;
+    this.db.ref('/room/').orderByChild('player').equalTo(room.player).on('value', (snapshot) => {
+      try{
+        let game = snapshot.val();
+        let ids = Object.keys(game);
+        let count = Object.keys(game).length;
+        let m:any;
+        for(var i=0; i< count; i++){
+          var key = ids[i];
+          var item = snapshot.child(key).val();
+          //A diferencia de get_my_game aquí se retorna el objeto completo
+          if(item.status == 'A'){
+            console.log('update player in room');
+            console.log(room);
+            console.log(key);
+            this.afd.list('/room/').update(key, room);
+          }
+        }
+      }catch(e){console.log(e)}
+      
+    });
+  }
+
 }
 
 
