@@ -80,7 +80,7 @@
       "cordova-plugin-ionic-webview": {},
       "cordova-plugin-ionic-keyboard": {}
     },
-<<<<<<< HEAD
+
     "dependencies": {
         "@angular/animations": "5.2.9",
         "@angular/common": "5.2.9",
@@ -157,13 +157,6 @@
             "android"
         ]
     }
-}
-=======
-    "platforms": [
-      "ios",
-      "browser",
-      "android"
-    ]
   }
 }
->>>>>>> a60c69c84ec03f61b669750036f21aa686f0e5a3
+
