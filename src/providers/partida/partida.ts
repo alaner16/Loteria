@@ -156,6 +156,7 @@ export class PartidaProvider {
                 owner: item.owner,
                 random: item.random,
                 settings: item.settings,
+                control: item.control,
                 status: item.status,
                 timestamp: item.timestamp,
                 title: item.title,
