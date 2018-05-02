@@ -38,7 +38,16 @@ export class CrearPartidaPage {
       //console.log(this.Perfil);
     });}*/
   }
-  title:any=''; description:any = null; timestamp:any; players:any=2; cardtimer:any="3"; full:any=true; blast:any=false; quarters:any=false; middle:any=false; status:any; type:any = 'public';
+  title:any='';
+  description:any = null;
+  timestamp:any; players:any=2;
+  cardtimer:any="3";
+  full:any=true;
+  blast:any=false;
+  quarters:any=false;
+  middle:any=false;
+  status:any;
+  type:any = 'public';
 
 
   setData(){
