@@ -38,7 +38,7 @@ export class CrearPartidaPage {
       //console.log(this.Perfil);
     });}*/
   }
-  title:any='';
+  title:any='amoroso';
   description:any = null;
   timestamp:any; players:any=2;
   cardtimer:any="3";
@@ -49,6 +49,7 @@ export class CrearPartidaPage {
   status:any;
   type:any = 'public';
 
+  ok:any;
 
   setData(){
     this.status = 'w';
@@ -91,10 +92,12 @@ export class CrearPartidaPage {
     this.setData();
 
     this.addItem();
-    this.navCtrl.push(JuegoPage);
-    const modalElegirCarta = this.modal.create(ElegirCartaPage,{carta:null });
+    const modalElegirCarta = this.modal.create(ElegirCartaPage);
     modalElegirCarta.onDidDismiss(data => {
-      this.navCtrl.push(JuegoPage,{tabla:data});
+      this.pp.get_my_game(this.player.player).then(obb => {
+        this.ok = obb;
+        this.navCtrl.push(JuegoPage,{tabla:data, game: this.ok});
+      });
     });
     modalElegirCarta.present();
   }
@@ -110,6 +113,7 @@ export class CrearPartidaPage {
     }
     this.pp.game = this.newGame;
     this.pp.createRoom(this.player);
+
   }
 
   ionViewDidLoad() {

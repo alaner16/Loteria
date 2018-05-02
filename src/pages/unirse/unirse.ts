@@ -74,8 +74,7 @@ export class UnirsePage {
         this.partidaService.joinGame(player);
         const modalElegirCarta = this.modal.create(ElegirCartaPage,{carta:null });
         modalElegirCarta.onDidDismiss(data => {
-          console.log('MODAL DATA', data);
-          this.navCtrl.push(JuegoPage,{tabla:data});
+          this.navCtrl.push(JuegoPage,{tabla:data, game: id});
         });
         modalElegirCarta.present();
       }else{

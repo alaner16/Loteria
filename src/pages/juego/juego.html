@@ -21,6 +21,11 @@
         <img src="assets/imgs/naipeALT.png">
       </div>
     </ion-col>
+    <ion-col>
+      <div col-12 no-padding col-md-2 col-lg-1>
+        <div *ngFor="let item of players | async as list" style="text-align:right">{{item.value.player}}</div>
+      </div>
+    </ion-col>
 
     
   </ion-row>

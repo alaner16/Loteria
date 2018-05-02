@@ -19,15 +19,40 @@ export class PartidaProvider {
   public game:any;
   constructor(public afd: AngularFireDatabase) { }
   crearPartida(name){
-    console.log(name);
     this.afd.list('/game/').push(name);
+  }
+
+  get_my_game(player){
+    let promise = new Promise((resolve, reject) => {
+      firebase.database().ref('/room/').orderByChild('player').equalTo(player).on('value', (snap) => {
+        try {
+          let game = snap.val();
+          let ids = Object.keys(game);
+          let count = Object.keys(game).length;
+          let m:any;
+          for(var i=0; i< count; i++){
+            var key = ids[i];
+            var item = snap.child(key).val();
+            //console.log(item);
+            if(item.status == 'A'){
+              m = item.id_game;
+              resolve(m);
+            }
+          }
+        }catch(err){
+          reject(err);
+        }
+
+      });
+    })
+    return promise
+
+
   }
 
   createRoom(player){
     this.db.ref('/game/').orderByChild('owner').equalTo(player.player).on('value', (snapshopt) =>{
-      //this.db.ref('/game/').orderByChild('status').equalTo('w').on('value', (result) => {
         let game = snapshopt.val();
-        console.log(game);
         let ids = Object.keys(game);
         let count = Object.keys(game).length;
         for(var i=0; i< count; i++){
@@ -41,7 +66,6 @@ export class PartidaProvider {
         }
       //})
       player.id_game = this.id;
-      console.log(player);
       player['last'] = 1;
       this.db.ref('/room/').push(player)
     });
@@ -108,21 +132,8 @@ export class PartidaProvider {
   }
 
   getPlayers(id_game){
-    let promise = new Promise((resolve, reject) => {
-      firebase.database().ref('/room/').orderByChild('id_game').equalTo(id_game).on('value', (snapshot) => {
-        try{
-          let currentPlayers: any;
-          let games = snapshot.val();
-          let count = Object.keys(games).length;
-          console.log(count);
-          currentPlayers = count;
-          resolve(currentPlayers);
-        }catch(err){
-          reject(err);
-        }
-      });
-    })
-    return promise
+      let df = firebase.database().ref('/room/').orderByChild('id_game').equalTo(id_game);
+      return this.afd.list(df).snapshotChanges();
   }
 
   getGame(id_game){
@@ -132,6 +143,7 @@ export class PartidaProvider {
           let item = result.val();
           let id = Object.keys(item);
           let game = result.child(id[0]).val();
+          game.id = id[0];
           resolve(game)
         }catch(err){
           reject(err);
