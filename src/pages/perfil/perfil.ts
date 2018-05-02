@@ -1,12 +1,14 @@
 import { Component,OnInit } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, PopoverController } from 'ionic-angular';
 import { AuthService } from '../../services/auth.service';
 import * as firebase from 'firebase';
 import { PerfilProvider } from '../../providers/perfil/perfil';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { ToastController } from 'ionic-angular';
 import { HomePage } from '../home/home';
+import { AvatarPage } from '../avatar/avatar';
 import { ConfigPage } from '../config/config';
+
 /**
 * Generated class for the PerfilPage page.
 *
@@ -38,7 +40,8 @@ export class PerfilPage implements OnInit {
     public navParams: NavParams,
     private authService: AuthService,
     private perfilService: PerfilProvider,
-    private toastCtrl: ToastController
+    private toastCtrl: ToastController,
+    private popoverCtrl: PopoverController
   ) {
     this.i = true;
     this.users = firebase.auth().currentUser;
@@ -67,6 +70,14 @@ export class PerfilPage implements OnInit {
 
     toast.present();
   }
+
+  presentPopover(myEvent) {
+    let popover = this.popoverCtrl.create(AvatarPage);
+    popover.present({
+      ev: myEvent
+    });
+  }
+   
 
   save() {
     this.perfilService.crearPerfil(this.Perfil);
