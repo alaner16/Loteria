@@ -42,33 +42,67 @@ export class PartidaProvider {
       //})
       player.id_game = this.id;
       console.log(player);
+      player['last'] = 1;
       this.db.ref('/room/').push(player)
     });
   }
 
+  leaveGame(user){
+    let z=true;
+    let gg = true;
+    let ddd;
+    firebase.database().ref('/room/').orderByChild('last').equalTo(1).on('value', (snapshot) => {
+        try{
+          Object.keys(snapshot.val()).forEach(element => {
+            if(snapshot.child(element).val().player == user.email){
+              let obj = snapshot.child(element).val();
+              ddd = obj;
+              obj.status = 'L';
+              obj.last = 0;
+              this.afd.list('/room/').update(element, obj);
+            }
+          });
+          this.db.ref('/game/').orderByKey().equalTo(ddd.id_game).on('value', result =>{
+            let item = result.val();
+            let id = Object.keys(item);
+            let game = result.child(id[0]).val();
+            if (gg) {
+              gg=false;
+              game.control.players = game.control.players - 1;
+              if (game.owner == user.email){
+                game.status = "L";
+              }else if (game.control.players < game.settings.players){
+                  game.status = "w";
+                }
+                this.afd.list('/game/').update(id[0], game);
+            }
+          });
+        }catch{}
+    });
+  }
+
+
   joinGame(player){
     let z=true;
+    let gg = true;
     firebase.database().ref('/room/').orderByChild('id_game').equalTo(player.id_game).on('value', (snapshot) => {
       this.db.ref('/game/').orderByKey().equalTo(player.id_game).on('value', result =>{
         let item = result.val();
         let id = Object.keys(item);
         let game = result.child(id[0]).val();
-        try{
-          var games = snapshot.val();
-          var keys = Object.keys(games);
-          var key = keys[0];
-
-          if(z==true){
-            if (key!=null){
-              z=false;
-              //console.log('entre');
-              this.afd.list('/room/').push(player);
-            }else{
-              z=false;
-             this.afd.list('/room/').push(player);        
+        if (gg) {
+          gg=false;
+          game.control.players = game.control.players + 1;
+            if (game.control.players >= game.settings.players){
+              game.status = "f";
             }
+            this.afd.list('/game/').update(id[0], game);
+        }
+          if(z==true){
+              z = false;
+              player['last'] = 1;
+              this.afd.list('/room/').push(player);
           }
-        }catch(e){}
       });
     });
   }
@@ -126,6 +160,7 @@ export class PartidaProvider {
                 owner: item.owner,
                 random: item.random,
                 settings: item.settings,
+                control: item.control,
                 status: item.status,
                 timestamp: item.timestamp,
                 title: item.title,
@@ -173,4 +208,4 @@ export class PartidaProvider {
 
 
 
- 
+

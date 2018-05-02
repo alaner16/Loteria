@@ -25,13 +25,13 @@
 <h6>Partidas disponibles</h6>
 
   <ion-list>
-    Lista: 
+    Lista:
     <button ion-item *ngFor="let game of listGame" (click)="goPlay(game.id_game)">
-        {{ game.title }} 
+       <p style="display:inline-block;width:70%">{{ game.title }}</p><div *ngIf="game.status == 'w'" style="color:green;display:inline-flex">  {{game.control.players}}/{{game.settings.players}}</div>
     </button>
   </ion-list>
 </div>
-        
+
       </ion-col>
     </ion-row>
   </ion-grid>
