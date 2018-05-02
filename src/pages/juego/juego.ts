@@ -4,7 +4,6 @@ import { ChatPage } from '../chat/chat';
 import { PartidaProvider } from '../../providers/partida/partida';
 import { TableProvider } from '../../providers/partida/table';
 import * as firebase from 'firebase';
-import { TableProvider } from '../../providers/partida/table';
 import { Observable } from 'rxjs/Observable';
 
 
