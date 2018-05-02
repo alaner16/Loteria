@@ -79,7 +79,7 @@
     </platform>
     <engine name="ios" spec="4.5.4" />
     <engine name="browser" spec="5.0.3" />
-    <engine name="android" spec="^7.0.0" />
+    <engine name="android" spec="^7.1.0" />
     <plugin name="com.paypal.cordova.mobilesdk" spec="^3.5.0" />
     <plugin name="cordova-plugin-x-socialsharing" spec="^5.4.0" />
     <plugin name="cordova-plugin-network-information" spec="^2.0.1" />
