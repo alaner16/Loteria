@@ -19,14 +19,25 @@
 </ion-header>
 
 
-<ion-content padding style="background-color: rgba(255, 255, 255, 0.397);">
-
+<ion-content #content padding id="content" style="background-color: rgba(255, 255, 255, 0.397);">
+<ion-card *ngFor="let message of messages">
+<ion-card-header>
+  {{ message.email }}
+</ion-card-header>
+<ion-card-content>
+  {{ message.mensaje }}
+</ion-card-content>
+</ion-card>
+<div id="content-end"></div>
 </ion-content>
 
 <ion-footer>
   <ion-item>
-    <ion-input type="text" placeholder="Mensaje"></ion-input>
-    <button ion-button item-right color="secondary"><ion-icon name="send"></ion-icon> </button>
+    <ion-input type="text" placeholder="Mensaje" [(ngModel)]="message"></ion-input>
+    
+      <button ion-button item-right color="secondary" (click)="sendMessage()"><ion-icon name="send"></ion-icon> </button>
+
+    
   </ion-item>
   
     
