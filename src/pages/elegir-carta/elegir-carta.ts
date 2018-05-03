@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 import { TableProvider } from '../../providers/partida/table';
-
+import { PartidaProvider } from '../../providers/partida/partida';
+import * as firebase from 'firebase';
 /**
  * import 'owl.carousel/dist/assets/owl.carousel.css';
 import 'owl.carousel';
@@ -24,13 +25,17 @@ import 'owl.carousel';
 export class ElegirCartaPage {
 
   public tables: any;
+  public user: any;
+  public player: any;
+  public room: any;
 
-
-  constructor(public navCtrl: NavController, public navParams: NavParams, private view: ViewController, private tableService: TableProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private view: ViewController, private tableService: TableProvider, public partidaService: PartidaProvider) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ElegirCartaPage');
+    this.user= firebase.auth().currentUser;
+    this.player=this.user.email;
     this.getTables();
   }
 
@@ -42,10 +47,20 @@ export class ElegirCartaPage {
       console.error(err);
     })
   }
-  hola(id){console.log('la carta ' + id )}
+
+  busyTables(){
+
+  }
   
   elegir(id$){
     this.view.dismiss(id$);
+    this.partidaService.get_my_room(this.player).then(obb => {
+      //this.room = obb;
+      //this.room.table = id$;
+      //this.partidaService.update_my_room(this.room);
+      //this.partidaService.updateTablesGame(this.room.id_game, this.room.table)
+    });
+
     console.log(' aver el ID' + id$)
   }
 
