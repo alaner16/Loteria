@@ -34,6 +34,8 @@ export class JuegoPage {
   indice = 0;
   intervalito = 1;
   subControl: any;
+  owner: any;
+  email: any;
 
 
   constructor(public navCtrl: NavController,public partidaService: PartidaProvider, public navParams: NavParams, private modal: ModalController, private tableService: TableProvider) {
@@ -49,6 +51,7 @@ export class JuegoPage {
 
   ionViewDidLoad() {
     this.user= firebase.auth().currentUser;
+    this.email = this.user.email;
     console.log('ionViewDidLoad JuegoPage');
     let elem = <HTMLElement>document.querySelector(".tabbar");
     if (elem != null) {
@@ -58,6 +61,14 @@ export class JuegoPage {
     this.partidaService.getGame(this.game_id).then( aa => {
       this.game = aa;
       this.intervalito = Number(this.game.settings.cardtimer);
+    });
+  }
+
+  ionViewWillEnter(){
+    this.game_id = this.navParams.get('game');
+    this.partidaService.getGame(this.game_id).then( ab => {
+      this.owner = ab;
+      this.owner = this.owner.owner;
     });
   }
 
