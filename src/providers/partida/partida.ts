@@ -51,7 +51,10 @@ export class PartidaProvider {
   }
 
   createRoom(player){
+    let z = true;
     this.db.ref('/game/').orderByChild('owner').equalTo(player.player).on('value', (snapshopt) =>{
+      if(z==true){
+        z = false;
         let game = snapshopt.val();
         let ids = Object.keys(game);
         let count = Object.keys(game).length;
@@ -67,7 +70,9 @@ export class PartidaProvider {
       //})
       player.id_game = this.id;
       player['last'] = 1;
-      this.db.ref('/room/').push(player)
+      console.log('creando la sala');
+      this.db.ref('/room/').push(player);
+      }
     });
   }
 
@@ -95,6 +100,7 @@ export class PartidaProvider {
               game.control.players = game.control.players - 1;
               if (game.owner == user.email){
                 game.status = "L";
+                console.log('Saliendo de juego en servicio');
               }else if (game.control.players < game.settings.players){
                   game.status = "w";
                 }
@@ -104,7 +110,6 @@ export class PartidaProvider {
         }catch{}
     });
   }
-
 
   joinGame(player){
     let z=true;
@@ -152,6 +157,33 @@ export class PartidaProvider {
     })
     return promise;
   }
+
+  updateTablesGame(id_game, id_table){
+      
+      let control = true;
+      this.db.ref('/game/').orderByKey().equalTo(id_game).on('value', result => {
+        try{
+          if(control == true){
+          control = false;
+          let item = result.val();
+          let id = Object.keys(item);
+          let game = result.child(id[0]).val();
+          game.id = id[0];
+          console.log(id_table);
+        
+          game.control.tables.push(id_table);
+
+          this.afd.list('/game/').update(id[0], game);
+          control = false;
+          console.log(control);
+          }
+          console.log('no entre en update tables');
+        }catch(e){console.log(e)}
+       
+      });
+    }
+ 
+  
 
   getPublicGames(){
     let promise = new Promise((resolve, reject) => {
@@ -204,7 +236,9 @@ export class PartidaProvider {
           for(var i=0; i< count; i++){
             let key = ids[i];
             let item = snapshot.child(key).val();
+            if(item.status == 'A'){
             lsRooms.push(item);
+            }
           }
           resolve(lsRooms);
         }catch(err){
@@ -256,10 +290,13 @@ export class PartidaProvider {
           var item = snapshot.child(key).val();
           //A diferencia de get_my_game aquí se retorna el objeto completo
           if(item.status == 'A'){
+            if(z == true){
+              z=false;
             console.log('update player in room');
-            console.log(room);
-            console.log(key);
+            //console.log(room);
+            //console.log(key);
             this.afd.list('/room/').update(key, room);
+            }
           }
         }
       }catch(e){console.log(e)}
