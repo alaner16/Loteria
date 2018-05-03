@@ -24,7 +24,7 @@
 
     <ion-col>
       <div col-3 no-padding col-md-2 col-lg-1 offset-1 offset-md-1>
-          <button ion-button round color="verde" (click)="iniciar()">Iniciar</button>
+          <button ion-button round color="verde" (click)="iniciar()" *ngIf="owner==email">Iniciar</button>
       </div>
     </ion-col>
 
