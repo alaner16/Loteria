@@ -24,6 +24,9 @@ export class PartidaProvider {
   update_card(element, obj){
     this.afd.list('/game/').update(element, obj);
   }
+  update_wins(id_game, game){
+    this.afd.list('/game/').update(id_game, game);
+  }
   update_stats(obj){
     this.afd.list('/room/').update(obj.id, obj);
   }

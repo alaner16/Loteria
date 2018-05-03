@@ -23,7 +23,7 @@ export class CrearPartidaPage {
   i:any;
   email:any;
   public player: any;
-  newGame = {title: '', description: null, timestamp: 0, owner: '', type: '', status:'', settings: {},random:{}, currentCard: 0, control:{players: 1, tables:[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19]}};
+  newGame = {title: '', description: null, timestamp: 0, owner: '', type: '', status:'', settings: {},random:{}, currentCard: 0, control:{players: 1,wins:{full:false, blast:false, center: false,quarter:false}, tables:[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19]}};
   settings = {players:0, cardtimer:0, full:false, blast:false, quarters:false, middle:false};
 
   constructor(public navCtrl: NavController, public navParams: NavParams,public pp:PartidaProvider, private modal: ModalController) {

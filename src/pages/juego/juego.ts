@@ -135,7 +135,6 @@ export class JuegoPage {
       });
       if(this.email != this.owner){
         this.afDB.list('/game/').valueChanges().subscribe(games => {
-        this.games = games;
         this.partidaService.getGame(this.game_id).then(response =>{
 
           this.iniciar();
@@ -214,25 +213,42 @@ is_full(room){
     a[3][2].marked == true &&
     a[3][3].marked == true
   ){
-    console.log('es full alv');
+    this.partidaService.getGame(this.game_id).then( aa => {
+        let a:any = aa;
+      if (this.user.email == this.game.owner) {
+        a.control['wins']['full'] = this.user.email;
+      this.partidaService.update_card(this.game_id, a);}
+    });
   }
 }
 is_blast(room){
   let a = room.stats;
-  if((a[0][0].marked == true && a[1][1].marked == true && a[2][2].marked == true && a[3][3].marked == true)||(a[0][3].marked == true && a[1][2].marked == true && a[2][1].marked == true && a[2][0].marked == true)){
-    console.log('chorro');
+  if((a[0][0].marked == true && a[0][0].showed == true && a[1][1].marked == true && a[1][1].showed == true && a[2][2].marked == true && a[2][2].showed == true && a[3][3].marked == true && a[3][3].showed == true)||(a[0][3].marked == true && a[0][3].showed == true && a[1][2].marked == true && a[1][2].showed == true && a[2][1].marked == true && a[2][1].showed == true && a[2][0].marked == true && a[2][0].showed == true)){
+    this.partidaService.getGame(this.game_id).then(response =>{
+      let d:any = response;
+      d.control.wins.blast = this.user.email;
+      this.partidaService.update_wins(this.game_id, d);
+    })
   }
 }
 is_center(room){
   let a = room.stats;
-  if(a[1][1].marked == true && a[1][2].marked == true && a[2][1].marked == true && a[2][2].marked == true){
-    console.log('centro');
+  if(a[1][1].marked == true && a[1][1].showed == true && a[1][2].marked == true && a[1][2].showed == true && a[2][1].marked == true && a[2][1].showed == true && a[2][2].marked == true && a[2][2].showed == true){
+    this.partidaService.getGame(this.game_id).then(response =>{
+      let d:any = response;
+      d.control.wins.center = this.user.email;
+      this.partidaService.update_wins(this.game_id, d);
+    })
   }
 }
 is_kuatro(room){
   let a = room.stats;
-  if(a[0][0].marked == true && a[0][3].marked == true && a[3][0].marked == true && a[3][3].marked == true){
-    console.log('centro');
+  if(a[0][0].marked == true && a[0][0].showed == true && a[0][3].marked == true && a[0][3].showed == true && a[3][0].marked == true && a[3][0].showed == true && a[3][3].marked == true && a[3][3].showed == true){
+    this.partidaService.getGame(this.game_id).then(response =>{
+      let d:any = response;
+      d.control.wins.quarter = this.user.email;
+      this.partidaService.update_wins(this.game_id, d);
+    })
   }
 }
 
