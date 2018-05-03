@@ -42,8 +42,9 @@ export class JuegoPage {
   email: any;
   currentCard: any;
   players:any;
-  public games: any
-
+  public games: any;
+  public showCard: any;
+  public showControl: any;
 
   constructor(public navCtrl: NavController,public partidaService: PartidaProvider, public navParams: NavParams, private modal: ModalController, private tableService: TableProvider, public afDB: AngularFireDatabase) {
     this.game = {random: [0,0,0]}
@@ -134,9 +135,10 @@ export class JuegoPage {
         )
       });
       if(this.email != this.owner){
-        this.afDB.list('/game/').valueChanges().subscribe(games => {
-        this.partidaService.getGame(this.game_id).then(response =>{
-
+        this.showControl = true;
+        this.showCard = this.afDB.list('/game/');
+        this.showCard.valueChanges().subscribe(games => {
+          this.partidaService.getGame(this.game_id).then(response =>{
           this.iniciar();
         })
       });
@@ -166,6 +168,9 @@ export class JuegoPage {
   salir(){
     if(this.subControl == true){
       this.sub.unsubscribe();
+    }
+    if(this.showControl = true){
+      //this.showCard.unsubscribe();
     }
     this.partidaService.leaveGame(this.user);
     this.navCtrl.setRoot(HomePage);
