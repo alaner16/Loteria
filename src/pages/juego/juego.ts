@@ -69,6 +69,7 @@ export class JuegoPage {
     if (elem != null) {
       elem.style.display = 'flex';
     }
+    this.partidaService.leaveGame(this.user);
   }
 
   ionViewDidLoad() {

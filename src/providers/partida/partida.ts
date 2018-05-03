@@ -285,8 +285,34 @@ export class PartidaProvider {
       });
     })
     return promise
+  }
 
-
+  updateUserTable(player, id_table){
+      let control = true;
+      let write = true;
+      firebase.database().ref('/room/').orderByChild('player').equalTo(player).on('value', (snap) => {
+        try {
+          control = false;
+          let game = snap.val();
+          let ids = Object.keys(game);
+          let count = Object.keys(game).length;
+          let m:any;
+          for(var i=0; i< count; i++){
+            var key = ids[i];
+            var item = snap.child(key).val();
+            //A diferencia de get_my_game aquí se retorna el objeto completo
+            if(item.status == 'A' && write == true){
+              write = false;
+              //item.id = key;
+              item.table = id_table
+              this.afd.list('/room/').update(key, item);
+              //resolve(item);
+            }
+          }
+        }catch(err){
+          console.log(err);
+        }
+      });
   }
 
   update_my_room(room){
