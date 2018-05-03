@@ -33,6 +33,7 @@ export class JuegoPage {
   game_id:any;
   indice = 0;
   intervalito = 1;
+  subControl: any;
 
   constructor(public navCtrl: NavController,public partidaService: PartidaProvider, public navParams: NavParams, private modal: ModalController, private tableService: TableProvider) {
     this.game = {random: [0,0,0]}
@@ -78,12 +79,15 @@ export class JuegoPage {
   }
 
   salir(){
-    this.sub.unsubscribe();
+    if(this.subControl == true){
+      this.sub.unsubscribe();
+    }
     this.partidaService.leaveGame(this.user);
     this.navCtrl.setRoot(HomePage);
   }
 
   iniciar(){
+    this.subControl = true;
     this.sub = Observable.interval(1000*this.intervalito).subscribe((val) => {
       this.partidaService.getGame(this.game_id).then( aa => {
         this.game = aa;
