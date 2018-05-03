@@ -103,10 +103,15 @@ export class JuegoPage {
     this.sub = Observable.interval(1000*this.intervalito).subscribe((val) => {
       this.partidaService.getGame(this.game_id).then( aa => {
         this.game = aa;
-        console.log(this.game.random[this.indice]);
+        if (this.user.email == this.game.owner) {
+          this.game.currentCard = this.indice;
+        this.partidaService.update_card(this.game_id, this.game);
         this.indice ++;
         if(this.indice>15){
           this.indice = 0;
+        }
+        }else{
+          this.indice = this.game.currentCard;
         }
       });
      });

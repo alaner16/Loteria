@@ -10,10 +10,11 @@ page-juego {
 
 .Carta{
     background-color: beige;
-    margin-top: 1rem;
+    margin-top: none;
     width: 5.5rem;
     height: auto;
     padding: 0%;
+    width:25%;
     
     
 }
@@ -21,11 +22,28 @@ page-juego {
     border: 5px;
     border-color: beige;
     color: beige;
+
+    background: transparent;
 }
 .tabla img{
     width: 100%;
     max-width: fit-content;
     height: auto;
 
+    border: 1.4px solid black;
+}
 
+.grid-estilo{
+    border: 1.2px solid darkgrey;
+    background-color: beige;
+    width: 90%;
+
+}
+
+//Seleccionar Carta
+.si{
+    background-color: #6c5;
+}
+.no{
+    background-color: transparent;
 }
