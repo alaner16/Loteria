@@ -5,6 +5,7 @@ import { PartidaProvider } from '../../providers/partida/partida';
 import { TableProvider } from '../../providers/partida/table';
 import * as firebase from 'firebase';
 import { Observable } from 'rxjs/Observable';
+import { HomePage } from "../home/home";
 import 'rxjs/add/observable/interval';
 
 
@@ -38,7 +39,6 @@ export class JuegoPage {
   }
 
   ionViewWillLeave(){
-
     let elem = <HTMLElement>document.querySelector(".tabbar");
     if (elem != null) {
       elem.style.display = 'flex';
@@ -84,6 +84,8 @@ export class JuegoPage {
   }
 
   salir(){
+    this.sub.unsubscribe();
+    this.partidaService.leaveGame(this.user);
     this.navCtrl.setRoot(HomePage);
   }
 
