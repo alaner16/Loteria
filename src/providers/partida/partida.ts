@@ -24,6 +24,9 @@ export class PartidaProvider {
   update_card(element, obj){
     this.afd.list('/game/').update(element, obj);
   }
+  update_stats(obj){
+    this.afd.list('/room/').update(obj.id, obj);
+  }
 
   get_my_game(player){
     let promise = new Promise((resolve, reject) => {
@@ -271,7 +274,7 @@ export class PartidaProvider {
             var item = snap.child(key).val();
             //A diferencia de get_my_game aquí se retorna el objeto completo
             if(item.status == 'A'){
-
+              item.id = key;
               resolve(item);
             }
           }

@@ -24,7 +24,7 @@
 
     <ion-col>
       <div col-3 no-padding col-md-2 col-lg-1 offset-1 offset-md-1>
-          <button ion-button round color="verde" (click)="iniciar()">Iniciar</button>
+          <button ion-button round color="verde" (click)="iniciar()" *ngIf="owner==email">Iniciar</button>
       </div>
     </ion-col>
 
@@ -39,8 +39,8 @@
 
 <ion-row>
 
-  <ion-grid>
-      <ion-row *ngFor="let ite of table; let j = index;" no-padding offset-lg-3 offset-1 offset-md-2>
+  <ion-grid class="grid-estilo">
+      <ion-row justify-content-center  *ngFor="let ite of table; let j = index;" >
         <div *ngFor="let it of ite; let l = index;" class="Carta">
           <button class="tabla" [ngClass]="{si: estadoPositivo[it], no: !estadoPositivo[it]}" id="item{{it}}" (click)="card(it)">
             <img src="assets/cards/{{it}}.png">
