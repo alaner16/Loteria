@@ -51,14 +51,13 @@ export class UnirsePage {
     console.log('refrescando');
     this.partidaService.getPublicGames()
     .then(response =>{
-      console.log(response);
       this.listGame = response;
     })
     .catch(err =>{
       console.error(err);
     })
   }
-  
+
   goPlay(id){
     let timestamp = firebase.database.ServerValue.TIMESTAMP;
     var player ={
@@ -71,26 +70,24 @@ export class UnirsePage {
     this.partidaService.getGame(id).then(response =>{
       let currentGame: any = [];
       currentGame = response
-
-      return Promise.all([this.partidaService.getPlayers(id), currentGame]);
-      }).then(([response2, currentGame]) => {
-
-      if(response2 < currentGame.settings.players){
+      if(currentGame.control.players < currentGame.settings.players){
         this.partidaService.joinGame(player);
         const modalElegirCarta = this.modal.create(ElegirCartaPage,{carta:null });
         modalElegirCarta.onDidDismiss(data => {
-          console.log('MODAL DATA', data);
-          this.navCtrl.push(JuegoPage,{tabla:data});   
+          this.navCtrl.push(JuegoPage,{tabla:data, game: id});
         });
         modalElegirCarta.present();
       }else{
-        alert('La sala esta llena');
+
+          let toast = this.toastCtrl.create({
+            message: "La sala está llena",
+            duration: 1500,
+            position: "top"
+          });
+          toast.present();
+
       }
     });
-
-   
- 
- 
   }
 
   play(dataUser){

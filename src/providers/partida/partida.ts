@@ -19,15 +19,43 @@ export class PartidaProvider {
   public game:any;
   constructor(public afd: AngularFireDatabase) { }
   crearPartida(name){
-    console.log(name);
     this.afd.list('/game/').push(name);
   }
 
+  get_my_game(player){
+    let promise = new Promise((resolve, reject) => {
+      firebase.database().ref('/room/').orderByChild('player').equalTo(player).on('value', (snap) => {
+        try {
+          let game = snap.val();
+          let ids = Object.keys(game);
+          let count = Object.keys(game).length;
+          let m:any;
+          for(var i=0; i< count; i++){
+            var key = ids[i];
+            var item = snap.child(key).val();
+            //console.log(item);
+            if(item.status == 'A'){
+              m = item.id_game;
+              resolve(m);
+            }
+          }
+        }catch(err){
+          reject(err);
+        }
+
+      });
+    })
+    return promise
+
+
+  }
+
   createRoom(player){
+    let z = true;
     this.db.ref('/game/').orderByChild('owner').equalTo(player.player).on('value', (snapshopt) =>{
-      //this.db.ref('/game/').orderByChild('status').equalTo('w').on('value', (result) => {
+      if(z==true){
+        z = false;
         let game = snapshopt.val();
-        console.log(game);
         let ids = Object.keys(game);
         let count = Object.keys(game).length;
         for(var i=0; i< count; i++){
@@ -36,59 +64,81 @@ export class PartidaProvider {
           //console.log(item);
           if(item.status == 'w'){
             this.id = key;
-            console.log(this.id);
+            
           }
         }
       //})
       player.id_game = this.id;
-      console.log(player);
-      this.db.ref('/room/').push(player)
+      player['last'] = 1;
+      console.log('creando la sala');
+      this.db.ref('/room/').push(player);
+      }
+    });
+  }
+
+  leaveGame(user){
+    let z=true;
+    let gg = true;
+    let ddd;
+    firebase.database().ref('/room/').orderByChild('last').equalTo(1).on('value', (snapshot) => {
+        try{
+          Object.keys(snapshot.val()).forEach(element => {
+            if(snapshot.child(element).val().player == user.email){
+              let obj = snapshot.child(element).val();
+              ddd = obj;
+              obj.status = 'L';
+              obj.last = 0;
+              this.afd.list('/room/').update(element, obj);
+            }
+          });
+          this.db.ref('/game/').orderByKey().equalTo(ddd.id_game).on('value', result =>{
+            let item = result.val();
+            let id = Object.keys(item);
+            let game = result.child(id[0]).val();
+            if (gg) {
+              gg=false;
+              game.control.players = game.control.players - 1;
+              if (game.owner == user.email){
+                game.status = "L";
+                console.log('Saliendo de juego en servicio');
+              }else if (game.control.players < game.settings.players){
+                  game.status = "w";
+                }
+                this.afd.list('/game/').update(id[0], game);
+            }
+          });
+        }catch{}
     });
   }
 
   joinGame(player){
     let z=true;
+    let gg = true;
     firebase.database().ref('/room/').orderByChild('id_game').equalTo(player.id_game).on('value', (snapshot) => {
       this.db.ref('/game/').orderByKey().equalTo(player.id_game).on('value', result =>{
         let item = result.val();
         let id = Object.keys(item);
         let game = result.child(id[0]).val();
-        try{
-          var games = snapshot.val();
-          var keys = Object.keys(games);
-          var key = keys[0];
-
-          if(z==true){
-            if (key!=null){
-              z=false;
-              //console.log('entre');
-              this.afd.list('/room/').push(player);
-            }else{
-              z=false;
-             this.afd.list('/room/').push(player);        
+        if (gg) {
+          gg=false;
+          game.control.players = game.control.players + 1;
+            if (game.control.players >= game.settings.players){
+              game.status = "f";
             }
+            this.afd.list('/game/').update(id[0], game);
+        }
+          if(z==true){
+              z = false;
+              player['last'] = 1;
+              this.afd.list('/room/').push(player);
           }
-        }catch(e){}
       });
     });
   }
 
   getPlayers(id_game){
-    let promise = new Promise((resolve, reject) => {
-      firebase.database().ref('/room/').orderByChild('id_game').equalTo(id_game).on('value', (snapshot) => {
-        try{
-          let currentPlayers: any;
-          let games = snapshot.val();
-          let count = Object.keys(games).length;
-          console.log(count);
-          currentPlayers = count;
-          resolve(currentPlayers);
-        }catch(err){
-          reject(err);
-        }
-      });
-    })
-    return promise
+      let df = firebase.database().ref('/room/').orderByChild('id_game').equalTo(id_game);
+      return this.afd.list(df).snapshotChanges();
   }
 
   getGame(id_game){
@@ -98,6 +148,7 @@ export class PartidaProvider {
           let item = result.val();
           let id = Object.keys(item);
           let game = result.child(id[0]).val();
+          game.id = id[0];
           resolve(game)
         }catch(err){
           reject(err);
@@ -106,6 +157,33 @@ export class PartidaProvider {
     })
     return promise;
   }
+
+  updateTablesGame(id_game, id_table){
+      
+      let control = true;
+      this.db.ref('/game/').orderByKey().equalTo(id_game).on('value', result => {
+        try{
+          if(control == true){
+          control = false;
+          let item = result.val();
+          let id = Object.keys(item);
+          let game = result.child(id[0]).val();
+          game.id = id[0];
+          console.log(id_table);
+        
+          game.control.tables.push(id_table);
+
+          this.afd.list('/game/').update(id[0], game);
+          control = false;
+          console.log(control);
+          }
+          console.log('no entre en update tables');
+        }catch(e){console.log(e)}
+       
+      });
+    }
+ 
+  
 
   getPublicGames(){
     let promise = new Promise((resolve, reject) => {
@@ -126,6 +204,7 @@ export class PartidaProvider {
                 owner: item.owner,
                 random: item.random,
                 settings: item.settings,
+                control: item.control,
                 status: item.status,
                 timestamp: item.timestamp,
                 title: item.title,
@@ -157,7 +236,9 @@ export class PartidaProvider {
           for(var i=0; i< count; i++){
             let key = ids[i];
             let item = snapshot.child(key).val();
+            if(item.status == 'A'){
             lsRooms.push(item);
+            }
           }
           resolve(lsRooms);
         }catch(err){
@@ -168,9 +249,64 @@ export class PartidaProvider {
     return promise;
   }
 
+  get_my_room(player){
+    let promise = new Promise((resolve, reject) => {
+      firebase.database().ref('/room/').orderByChild('player').equalTo(player).on('value', (snap) => {
+        try {
+          let game = snap.val();
+          let ids = Object.keys(game);
+          let count = Object.keys(game).length;
+          let m:any;
+          for(var i=0; i< count; i++){
+            var key = ids[i];
+            var item = snap.child(key).val();
+            //A diferencia de get_my_game aquí se retorna el objeto completo
+            if(item.status == 'A'){
+ 
+              resolve(item);
+            }
+          }
+        }catch(err){
+          reject(err);
+        }
+
+      });
+    })
+    return promise
+
+
+  }
+
+  update_my_room(room){
+    let z=true;
+    this.db.ref('/room/').orderByChild('player').equalTo(room.player).on('value', (snapshot) => {
+      try{
+        let game = snapshot.val();
+        let ids = Object.keys(game);
+        let count = Object.keys(game).length;
+        let m:any;
+        for(var i=0; i< count; i++){
+          var key = ids[i];
+          var item = snapshot.child(key).val();
+          //A diferencia de get_my_game aquí se retorna el objeto completo
+          if(item.status == 'A'){
+            if(z == true){
+              z=false;
+            console.log('update player in room');
+            //console.log(room);
+            //console.log(key);
+            this.afd.list('/room/').update(key, room);
+            }
+          }
+        }
+      }catch(e){console.log(e)}
+      
+    });
+  }
+
 }
 
 
 
 
- 
+
