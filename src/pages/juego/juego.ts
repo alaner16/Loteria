@@ -5,6 +5,7 @@ import { PartidaProvider } from '../../providers/partida/partida';
 import { TableProvider } from '../../providers/partida/table';
 import * as firebase from 'firebase';
 import { Observable } from 'rxjs/Observable';
+import { HomePage } from '../home/home';
 
 
 /**
@@ -33,11 +34,18 @@ export class JuegoPage {
   ionViewWillLeave(){
     this.user= firebase.auth().currentUser;
     this.partidaService.leaveGame(this.user);
-    console.log('Saliendo de juego');
+    let elem = <HTMLElement>document.querySelector(".tabbar");
+    if (elem != null) {
+      elem.style.display = 'flex';
+    }
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad JuegoPage');
+    let elem = <HTMLElement>document.querySelector(".tabbar");
+    if (elem != null) {
+      elem.style.display = 'none';
+    }
     this.play();
   }
 
@@ -58,6 +66,10 @@ export class JuegoPage {
   abrirChat(){
     const modalChat = this.modal.create(ChatPage);
     modalChat.present();
+  }
+
+  salir(){
+    this.navCtrl.setRoot(HomePage);
   }
 
 }
