@@ -54,6 +54,8 @@ export class ElegirCartaPage {
   
   elegir(id$){
     this.view.dismiss(id$);
+    console.log('arriba de lastagame Function');
+  
     this.partidaService.updateUserTable(this.player, id$);
     //this.partidaService.get_my_room(this.player).then(obb => {
       //this.room = obb;

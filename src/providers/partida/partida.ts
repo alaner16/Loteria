@@ -21,6 +21,41 @@ export class PartidaProvider {
   crearPartida(name){
     this.afd.list('/game/').push(name);
   }
+  
+  createGame(game){
+    let promise = new Promise((resolve,reject)=>{
+      this.afd.list('/game/').push(game);
+      this.get_my_game(game).then(response =>{
+        resolve(response);
+        //console.log(this.tables);
+      }).catch(err =>{
+        reject(err);
+      })
+    })
+  }
+  getlastgame(player){
+    let promise = new Promise((resolve, reject)=>{
+      let control = true;
+      this.db.ref('/game/').orderByChild("player").limitToLast(1).on('value',(snap)=>{
+        try{
+          if(control == true){
+          control = false;
+          console.log("en last game service");
+          console.log(snap);
+          let lastGame = snap.val();
+          let id = Object.keys(lastGame);
+          let game = snap.child(id[0]).val();
+          game.id = id[0];
+          //console.log(game);
+          //console.log(game.id);
+          resolve(game);
+          }
+        }catch(err){ reject(err)}
+      });
+    })
+    return promise;
+  }
+
   update_card(element, obj){
     this.afd.list('/game/').update(element, obj);
   }
@@ -45,7 +80,7 @@ export class PartidaProvider {
             //console.log(item);
             if(item.status == 'A'){
               m = item.id_game;
-              resolve(m);
+             resolve(m);
             }
           }
         }catch(err){
@@ -57,6 +92,14 @@ export class PartidaProvider {
     return promise
 
 
+  }
+
+  newRoom(player, game){
+    console.log(game.id);
+    player.id_game = game.id;
+    player['last'] = 1;
+    console.log('creando la sala');
+    this.db.ref('/room/').push(player);
   }
 
   createRoom(player){

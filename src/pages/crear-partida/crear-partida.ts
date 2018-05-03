@@ -117,7 +117,14 @@ export class CrearPartidaPage {
       table: 0,
       timestamp: this.timestamp
     }
-    this.pp.createRoom(this.player);
+    this.pp.getlastgame(this.player).then(response =>{
+      response;
+      console.log(response);
+      this.pp.newRoom(this.player, response);
+    }).catch(err =>{
+      console.error(err);
+    })
+    
   }
 
   ionViewDidLoad() {
