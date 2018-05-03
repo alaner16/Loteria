@@ -21,7 +21,7 @@
  <ion-content padding>
   <ion-item>
  <ion-avatar item-start>
-  <ion-img src="assets/imgs/blank-avatar.png"></ion-img>
+  <ion-img src="assets/imgs/perfil/{{Perfil.Avatar}}"></ion-img>
   <button ion-button round color="verde" (click)="presentPopover($event)">Cambiar</button>
   
  </ion-avatar>
@@ -31,7 +31,7 @@
   
     <ion-item *virtualItem="let item">
       <ion-avatar item-start>
-        <ion-img [src]="item.avatarUrl"></ion-img>
+        <ion-img [src]="item.avatarUrl" [(ngModel)]="Perfil.Avatar"></ion-img>
       </ion-avatar>
       {{ item.firstName }} {{ item.lastName }}
     </ion-item>

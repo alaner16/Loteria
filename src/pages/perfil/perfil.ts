@@ -1,5 +1,5 @@
 import { Component,OnInit } from '@angular/core';
-import { IonicPage, NavController, NavParams, PopoverController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, PopoverController, ViewController } from 'ionic-angular';
 import { AuthService } from '../../services/auth.service';
 import * as firebase from 'firebase';
 import { PerfilProvider } from '../../providers/perfil/perfil';
@@ -27,6 +27,7 @@ export class PerfilPage implements OnInit {
   i: any;
   //Nombre:any;Apodo:any;Ciudad:any;FechaNacimiento:any;
   Perfil = {
+    Avatar: "",
     Correo: "",
     Nombre: "",
     Apodo: "",
@@ -41,7 +42,8 @@ export class PerfilPage implements OnInit {
     private authService: AuthService,
     private perfilService: PerfilProvider,
     private toastCtrl: ToastController,
-    private popoverCtrl: PopoverController
+    private popoverCtrl: PopoverController,
+    private view: ViewController
   ) {
     this.i = true;
     this.users = firebase.auth().currentUser;
@@ -76,6 +78,10 @@ export class PerfilPage implements OnInit {
     popover.present({
       ev: myEvent
     });
+    popover.onDidDismiss(id => {
+      this.Perfil.Avatar = id;
+      console.log(id);
+    })
   }
    
 
