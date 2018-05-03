@@ -96,6 +96,7 @@ export class CrearPartidaPage {
     modalElegirCarta.onDidDismiss(data => {
       this.pp.get_my_game(this.player.player).then(obb => {
         this.ok = obb;
+        console.log('en el crear partida con datos y carta');
         this.navCtrl.push(JuegoPage,{tabla:data, game: this.ok});
       });
     });
@@ -111,9 +112,7 @@ export class CrearPartidaPage {
       currentCard: 0,
       timestamp: this.timestamp
     }
-    //this.pp.game = this.newGame;
     this.pp.createRoom(this.player);
-
   }
 
   ionViewDidLoad() {

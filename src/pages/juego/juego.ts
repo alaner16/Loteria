@@ -38,11 +38,15 @@ export class JuegoPage {
   }
 
   ionViewWillLeave(){
-    this.user= firebase.auth().currentUser;
-    this.partidaService.leaveGame(this.user);
+
+    let elem = <HTMLElement>document.querySelector(".tabbar");
+    if (elem != null) {
+      elem.style.display = 'flex';
+    }
   }
 
   ionViewDidLoad() {
+    this.user= firebase.auth().currentUser;
     console.log('ionViewDidLoad JuegoPage');
     this.play();
     this.partidaService.getGame(this.game_id).then( aa => {
@@ -77,6 +81,10 @@ export class JuegoPage {
   abrirChat(){
     const modalChat = this.modal.create(ChatPage);
     modalChat.present();
+  }
+
+  salir(){
+    this.navCtrl.setRoot(HomePage);
   }
 
 }
