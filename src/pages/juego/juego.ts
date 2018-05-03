@@ -40,6 +40,7 @@ export class JuegoPage {
   subControl: any;
   owner: any;
   email: any;
+  currentCard: any;
 
 
   constructor(public navCtrl: NavController,public partidaService: PartidaProvider, public navParams: NavParams, private modal: ModalController, private tableService: TableProvider) {
