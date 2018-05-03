@@ -32,8 +32,7 @@ export class JuegoPage {
   }
   
   ionViewWillLeave(){
-    this.user= firebase.auth().currentUser;
-    this.partidaService.leaveGame(this.user);
+
     let elem = <HTMLElement>document.querySelector(".tabbar");
     if (elem != null) {
       elem.style.display = 'flex';
@@ -41,6 +40,7 @@ export class JuegoPage {
   }
 
   ionViewDidLoad() {
+    this.user= firebase.auth().currentUser;
     console.log('ionViewDidLoad JuegoPage');
     let elem = <HTMLElement>document.querySelector(".tabbar");
     if (elem != null) {
@@ -69,6 +69,7 @@ export class JuegoPage {
   }
 
   salir(){
+    this.partidaService.leaveGame(this.user);
     this.navCtrl.setRoot(HomePage);
   }
 

@@ -79,6 +79,7 @@ export class PartidaProvider {
   leaveGame(user){
     let z=true;
     let gg = true;
+    let control_room = true;
     let ddd;
     firebase.database().ref('/room/').orderByChild('last').equalTo(1).on('value', (snapshot) => {
         try{
@@ -88,7 +89,11 @@ export class PartidaProvider {
               ddd = obj;
               obj.status = 'L';
               obj.last = 0;
+              if(control_room == true){
+                control_room = false;
+              console.log('estoy en leave room');
               this.afd.list('/room/').update(element, obj);
+              }
             }
           });
           this.db.ref('/game/').orderByKey().equalTo(ddd.id_game).on('value', result =>{
@@ -101,6 +106,7 @@ export class PartidaProvider {
               if (game.owner == user.email){
                 game.status = "L";
                 console.log('Saliendo de juego en servicio');
+                console.log('estoy en leave game');
               }else if (game.control.players < game.settings.players){
                   game.status = "w";
                 }
