@@ -62,9 +62,6 @@ export class JuegoPage {
     this.estadoPositivo[13] = false;
     this.estadoPositivo[14] = false;
     this.estadoPositivo[15] = false;
-    
- 
-
   }
 
   ionViewWillLeave(){
