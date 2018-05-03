@@ -4,7 +4,6 @@ import { ChatPage } from '../chat/chat';
 import { PartidaProvider } from '../../providers/partida/partida';
 import { TableProvider } from '../../providers/partida/table';
 import * as firebase from 'firebase';
-import { TableProvider } from '../../providers/partida/table';
 import { Observable } from 'rxjs/Observable';
 
 
@@ -30,7 +29,7 @@ export class JuegoPage {
 
   constructor(public navCtrl: NavController,public partidaService: PartidaProvider, public navParams: NavParams, private modal: ModalController, private tableService: TableProvider) {
   }
-  
+
   ionViewWillLeave(){
     this.user= firebase.auth().currentUser;
     this.partidaService.leaveGame(this.user);
