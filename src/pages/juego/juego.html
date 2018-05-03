@@ -18,7 +18,7 @@
   <ion-row>
     <ion-col>
       <div class="Baraja" col-3 no-padding col-md-2 col-lg-1>
-        <img src="assets/imgs/naipeALT.png">
+        <img class="baraja-diseño" src="assets/cards/{{game.random[indice]}}.png">
       </div>
     </ion-col>
 
@@ -27,14 +27,14 @@
           <button ion-button round color="verde" (click)="iniciar()" *ngIf="owner==email">Iniciar</button>
       </div>
     </ion-col>
-
+<!--
     <ion-col>
       <div col-12 no-padding col-md-2 col-lg-1>
         {{game.random[indice]}}
         <div *ngFor="let item of players | async as list" style="text-align:right">{{item.value.player}}</div>
       </div>
     </ion-col>
-
+-->
   </ion-row>
 
 <ion-row>
