@@ -34,6 +34,7 @@ export class JuegoPage {
   indice = 0;
   intervalito = 1;
 
+
   constructor(public navCtrl: NavController,public partidaService: PartidaProvider, public navParams: NavParams, private modal: ModalController, private tableService: TableProvider) {
     this.game = {random: [0,0,0]}
   }
@@ -56,7 +57,8 @@ export class JuegoPage {
     this.sub = Observable.interval(1000*this.intervalito).subscribe((val) => {
       this.partidaService.getGame(this.game_id).then( aa => {
         this.game = aa;
-        console.log(this.game.random[this.indice]);
+        this.game.currentCard = this.game.random[this.indice];
+        this.partidaService.update_card(this.game_id, this.game);
         this.indice ++;
         if(this.indice>15){
           this.indice = 0;

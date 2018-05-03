@@ -23,7 +23,7 @@ export class CrearPartidaPage {
   i:any;
   email:any;
   public player: any;
-  newGame = {title: '', description: null, timestamp: 0, owner: '', type: '', status:'', settings: {},random:{}, control:{players: 1, tables:["-1"]}};
+  newGame = {title: '', description: null, timestamp: 0, owner: '', type: '', status:'', settings: {},random:{}, currentCard: 0, control:{players: 1, tables:["-1"]}};
   settings = {players:0, cardtimer:0, full:false, blast:false, quarters:false, middle:false};
 
   constructor(public navCtrl: NavController, public navParams: NavParams,public pp:PartidaProvider, private modal: ModalController) {
@@ -108,8 +108,13 @@ export class CrearPartidaPage {
     this.player = {
       player: this.email,
       status: 'A',
+      stats: [
+        [{showed: false, marked:false},{showed: false, marked:false},{showed: false, marked:false},{showed: false, marked:false}],
+        [{showed: false, marked:false},{showed: false, marked:false},{showed: false, marked:false},{showed: false, marked:false}],
+        [{showed: false, marked:false},{showed: false, marked:false},{showed: false, marked:false},{showed: false, marked:false}],
+        [{showed: false, marked:false},{showed: false, marked:false},{showed: false, marked:false},{showed: false, marked:false}]
+        ],
       table: 0,
-      currentCard: 0,
       timestamp: this.timestamp
     }
     this.pp.createRoom(this.player);
