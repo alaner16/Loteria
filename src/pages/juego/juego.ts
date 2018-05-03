@@ -33,6 +33,7 @@ export class JuegoPage {
   ionViewWillLeave(){
     this.user= firebase.auth().currentUser;
     this.partidaService.leaveGame(this.user);
+    console.log('Saliendo de juego');
   }
 
   ionViewDidLoad() {

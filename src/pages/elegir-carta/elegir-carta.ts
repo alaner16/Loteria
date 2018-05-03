@@ -47,13 +47,18 @@ export class ElegirCartaPage {
       console.error(err);
     })
   }
+
+  busyTables(){
+
+  }
   
   elegir(id$){
     this.view.dismiss(id$);
     this.partidaService.get_my_room(this.player).then(obb => {
-      this.room = obb;
-      this.room.table = id$;
-      this.partidaService.update_my_room(this.room);
+      //this.room = obb;
+      //this.room.table = id$;
+      //this.partidaService.update_my_room(this.room);
+      //this.partidaService.updateTablesGame(this.room.id_game, this.room.table)
     });
 
     console.log(' aver el ID' + id$)
