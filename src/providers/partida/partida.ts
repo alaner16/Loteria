@@ -24,6 +24,9 @@ export class PartidaProvider {
   update_card(element, obj){
     this.afd.list('/game/').update(element, obj);
   }
+  update_wins(id_game, game){
+    this.afd.list('/game/').update(id_game, game);
+  }
   update_stats(obj){
     this.afd.list('/room/').update(obj.id, obj);
   }
@@ -149,8 +152,41 @@ export class PartidaProvider {
   }
 
   getPlayers(id_game){
-      let df = firebase.database().ref('/room/').orderByChild('id_game').equalTo(id_game);
-      return this.afd.list(df).snapshotChanges();
+    let promise = new Promise((resolve, reject) => {
+      this.db.ref('/room/').orderByChild('id_game').equalTo(id_game).on('value',(snapshot)=> {
+        let lsGames = [];
+        let game: any;
+        try{
+          let games = snapshot.val();
+          //console.log(games);
+          let ids = Object.keys(games);
+          let count = Object.keys(games).length;
+          for(var i=0; i< count; i++){
+            let key = ids[i];
+            let item = snapshot.child(key).val();
+            console.log(item);
+            if(item.last == 1){
+              console.log(item.last);
+                game = {
+                id: key,
+                id_game: id_game,
+                player: item.player,
+                stats: item.stats,
+                table: item.table,
+                status: item.status,
+                timestamp: item.timestamp
+              }
+              lsGames.push(game);
+            }
+          }
+          resolve(lsGames);
+        }catch(err){
+          reject(err);
+        }
+      });
+
+    })
+    return promise;
   }
 
   getGame(id_game){
@@ -285,8 +321,34 @@ export class PartidaProvider {
       });
     })
     return promise
+  }
 
-
+  updateUserTable(player, id_table){
+      let control = true;
+      let write = true;
+      firebase.database().ref('/room/').orderByChild('player').equalTo(player).on('value', (snap) => {
+        try {
+          control = false;
+          let game = snap.val();
+          let ids = Object.keys(game);
+          let count = Object.keys(game).length;
+          let m:any;
+          for(var i=0; i< count; i++){
+            var key = ids[i];
+            var item = snap.child(key).val();
+            //A diferencia de get_my_game aquí se retorna el objeto completo
+            if(item.status == 'A' && write == true){
+              write = false;
+              //item.id = key;
+              item.table = id_table
+              this.afd.list('/room/').update(key, item);
+              //resolve(item);
+            }
+          }
+        }catch(err){
+          console.log(err);
+        }
+      });
   }
 
   update_my_room(room){

@@ -7,8 +7,8 @@ import * as firebase from 'firebase';
 import { Observable } from 'rxjs/Observable';
 import { HomePage } from "../home/home";
 import 'rxjs/add/observable/interval';
-
-
+import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
+import { FirebaseListObservable } from 'angularfire2/database-deprecated';
 /**
  * Generated class for the JuegoPage page.
  *
@@ -25,7 +25,7 @@ export class JuegoPage {
 
   //texto: string =  "SI";
   estadoPositivo = [];
-  
+
 
   tb:any;
   public id: any;
@@ -40,9 +40,12 @@ export class JuegoPage {
   subControl: any;
   owner: any;
   email: any;
+  currentCard: any;
+  players:any;
+  public games: any
 
 
-  constructor(public navCtrl: NavController,public partidaService: PartidaProvider, public navParams: NavParams, private modal: ModalController, private tableService: TableProvider) {
+  constructor(public navCtrl: NavController,public partidaService: PartidaProvider, public navParams: NavParams, private modal: ModalController, private tableService: TableProvider, public afDB: AngularFireDatabase) {
     this.game = {random: [0,0,0]}
     this.estadoPositivo[0] = false;
     this.estadoPositivo[1] = false;
@@ -67,6 +70,7 @@ export class JuegoPage {
     if (elem != null) {
       elem.style.display = 'flex';
     }
+    this.partidaService.leaveGame(this.user);
   }
 
   ionViewDidLoad() {
@@ -80,26 +84,69 @@ export class JuegoPage {
     this.play();
     this.partidaService.getGame(this.game_id).then( aa => {
       this.game = aa;
+
       this.intervalito = Number(this.game.settings.cardtimer);
     });
   }
 
   card(id){
-    console.log( id );
     //this.texto = (this.estadoPositivo) ?  "NO" : "SI";
     this.estadoPositivo[id] = !this.estadoPositivo[id];
-    //elementStyle(".si"); 
+    let valor = this.estadoPositivo[id];
+    let index = 0;
+    if(id < 4){
+
+    }
+    else if (id < 8) {
+      index = 1;
+      id = id - 4;
+    }else if(id < 12){
+      index = 2;
+      id = id - 8;
+    }else if(id <16){
+      index = 3;
+      id = id - 12;
+    }
+
+        let room;
+         this.partidaService.get_my_room(this.user.email).then(xa => {
+           room = xa;
+           room.stats[index][id].marked = valor;
+           this.partidaService.update_stats(room);
+           this.is_full(room);
+           this.is_blast(room);
+           this.is_center(room);
+           this.is_kuatro(room);
+          });
+
+    //elementStyle(".si");
   }
   ionViewWillEnter(){
     this.game_id = this.navParams.get('game');
     this.partidaService.getGame(this.game_id).then( ab => {
       this.owner = ab;
       this.owner = this.owner.owner;
+      this.afDB.list('/room/').valueChanges().subscribe(players => {
+        this.partidaService.getPlayers(this.game_id).then(
+          response => {
+            this.players = response;
+          }
+        )
+      });
+      if(this.email != this.owner){
+        this.afDB.list('/game/').valueChanges().subscribe(games => {
+        this.partidaService.getGame(this.game_id).then(response =>{
+
+          this.iniciar();
+        })
+      });
+      }
+
     });
   }
 
  // card(id){console.log( id )}
-  
+
   play(){
     this.tb=this.navParams.get('tabla');
     this.game_id = this.navParams.get('game');
@@ -131,12 +178,13 @@ export class JuegoPage {
         this.game = aa;
         if (this.user.email == this.game.owner) {
           this.game.currentCard = this.indice;
+          this.game.status = "I";
         this.partidaService.update_card(this.game_id, this.game);
         this.indice ++;
-        if(this.indice>15){
+        if(this.indice>53){
           this.indice = 0;
         }
-        }else{
+        }else if(this.user.email != this.game.owner && this.game.status == "I"){
           this.intervalito = 1;
           this.indice = this.game.currentCard;
         }
@@ -144,32 +192,63 @@ export class JuegoPage {
       });
      });
   }
+
 is_full(room){
-  room.stats.forEach(element => {
-    element.forEach(e => {
-      if(!e.marked){
-        console.log('no es full');
-      }
+  let a = room.stats;
+  if (
+    a[0][0].marked == true &&
+    a[0][1].marked == true &&
+    a[0][2].marked == true &&
+    a[0][3].marked == true &&
+    a[1][0].marked == true &&
+    a[1][1].marked == true &&
+    a[1][2].marked == true &&
+    a[1][3].marked == true &&
+    a[2][0].marked == true &&
+    a[2][1].marked == true &&
+    a[2][2].marked == true &&
+    a[2][3].marked == true &&
+    a[3][0].marked == true &&
+    a[3][1].marked == true &&
+    a[3][2].marked == true &&
+    a[3][3].marked == true
+  ){
+    this.partidaService.getGame(this.game_id).then( aa => {
+        let a:any = aa;
+      if (this.user.email == this.game.owner) {
+        a.control['wins']['full'] = this.user.email;
+      this.partidaService.update_card(this.game_id, a);}
     });
-  });
-  console.log('es full alv');
+  }
 }
 is_blast(room){
   let a = room.stats;
-  if((a[0][0].marked && a[1][1].marked && a[2][2].marked && a[3][3].marked)||(a[0][3].marked && a[1][2].marked && a[2][1].marked && a[2][0].marked)){
-    console.log('chorro');
+  if((a[0][0].marked == true && a[0][0].showed == true && a[1][1].marked == true && a[1][1].showed == true && a[2][2].marked == true && a[2][2].showed == true && a[3][3].marked == true && a[3][3].showed == true)||(a[0][3].marked == true && a[0][3].showed == true && a[1][2].marked == true && a[1][2].showed == true && a[2][1].marked == true && a[2][1].showed == true && a[2][0].marked == true && a[2][0].showed == true)){
+    this.partidaService.getGame(this.game_id).then(response =>{
+      let d:any = response;
+      d.control.wins.blast = this.user.email;
+      this.partidaService.update_wins(this.game_id, d);
+    })
   }
 }
 is_center(room){
   let a = room.stats;
-  if(a[1][1].marked && a[1][2].marked && a[2][1].marked && a[2][2].marked){
-    console.log('centro');
+  if(a[1][1].marked == true && a[1][1].showed == true && a[1][2].marked == true && a[1][2].showed == true && a[2][1].marked == true && a[2][1].showed == true && a[2][2].marked == true && a[2][2].showed == true){
+    this.partidaService.getGame(this.game_id).then(response =>{
+      let d:any = response;
+      d.control.wins.center = this.user.email;
+      this.partidaService.update_wins(this.game_id, d);
+    })
   }
 }
 is_kuatro(room){
   let a = room.stats;
-  if(a[0][0].marked && a[0][3].marked && a[3][0].marked && a[3][3].marked){
-    console.log('centro');
+  if(a[0][0].marked == true && a[0][0].showed == true && a[0][3].marked == true && a[0][3].showed == true && a[3][0].marked == true && a[3][0].showed == true && a[3][3].marked == true && a[3][3].showed == true){
+    this.partidaService.getGame(this.game_id).then(response =>{
+      let d:any = response;
+      d.control.wins.quarter = this.user.email;
+      this.partidaService.update_wins(this.game_id, d);
+    })
   }
 }
 
