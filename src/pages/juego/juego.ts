@@ -48,21 +48,15 @@ export class JuegoPage {
   ionViewDidLoad() {
     this.user= firebase.auth().currentUser;
     console.log('ionViewDidLoad JuegoPage');
+    let elem = <HTMLElement>document.querySelector(".tabbar");
+    if (elem != null) {
+      elem.style.display = 'none';
+    }
     this.play();
     this.partidaService.getGame(this.game_id).then( aa => {
       this.game = aa;
       this.intervalito = Number(this.game.settings.cardtimer);
     });
-    this.sub = Observable.interval(1000*this.intervalito).subscribe((val) => {
-      this.partidaService.getGame(this.game_id).then( aa => {
-        this.game = aa;
-        console.log(this.game.random[this.indice]);
-        this.indice ++;
-        if(this.indice>15){
-          this.indice = 0;
-        }
-      });
-     });
   }
 
   card(id){console.log( id )}
@@ -87,6 +81,19 @@ export class JuegoPage {
     this.sub.unsubscribe();
     this.partidaService.leaveGame(this.user);
     this.navCtrl.setRoot(HomePage);
+  }
+
+  iniciar(){
+    this.sub = Observable.interval(1000*this.intervalito).subscribe((val) => {
+      this.partidaService.getGame(this.game_id).then( aa => {
+        this.game = aa;
+        console.log(this.game.random[this.indice]);
+        this.indice ++;
+        if(this.indice>15){
+          this.indice = 0;
+        }
+      });
+     });
   }
 
 }
