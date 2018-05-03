@@ -100,6 +100,7 @@ export const firebaseConfig = {
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     AuthService,
     AngularFireAuth,
+    AngularFireDatabase,
     PartidaProvider,
     PerfilProvider,
     CardProvider,

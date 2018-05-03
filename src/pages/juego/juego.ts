@@ -7,8 +7,8 @@ import * as firebase from 'firebase';
 import { Observable } from 'rxjs/Observable';
 import { HomePage } from "../home/home";
 import 'rxjs/add/observable/interval';
-
-
+import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
+import { FirebaseListObservable } from 'angularfire2/database-deprecated';
 /**
  * Generated class for the JuegoPage page.
  *
@@ -40,9 +40,11 @@ export class JuegoPage {
   subControl: any;
   owner: any;
   email: any;
+  currentCard: any;
+  public games: any
 
 
-  constructor(public navCtrl: NavController,public partidaService: PartidaProvider, public navParams: NavParams, private modal: ModalController, private tableService: TableProvider) {
+  constructor(public navCtrl: NavController,public partidaService: PartidaProvider, public navParams: NavParams, private modal: ModalController, private tableService: TableProvider, public afDB: AngularFireDatabase) {
     this.game = {random: [0,0,0]}
     this.estadoPositivo[0] = false;
     this.estadoPositivo[1] = false;
@@ -80,6 +82,7 @@ export class JuegoPage {
     this.play();
     this.partidaService.getGame(this.game_id).then( aa => {
       this.game = aa;
+
       this.intervalito = Number(this.game.settings.cardtimer);
     });
   }
@@ -95,6 +98,19 @@ export class JuegoPage {
     this.partidaService.getGame(this.game_id).then( ab => {
       this.owner = ab;
       this.owner = this.owner.owner;
+      console.log(this.game_id);
+      console.log(this.email);
+      console.log(this.owner);
+      if(this.email != this.owner){
+        this.afDB.list('/game/').valueChanges().subscribe(games => {
+        this.games = games;
+        this.partidaService.getGame(this.game_id).then(response =>{
+          console.log(response);
+          this.iniciar();
+        })
+      });
+      }
+      
     });
   }
 
@@ -131,19 +147,22 @@ export class JuegoPage {
         this.game = aa;
         if (this.user.email == this.game.owner) {
           this.game.currentCard = this.indice;
+          this.game.status = "I";
         this.partidaService.update_card(this.game_id, this.game);
         this.indice ++;
         if(this.indice>15){
           this.indice = 0;
         }
-        }else{
+        }else if(this.user.email != this.game.owner && this.game.status == "I"){
           this.intervalito = 1;
           this.indice = this.game.currentCard;
+          console.log(this.indice);
         }
-        this.search_card(this.game.random[this.indice], this.table);
+        //this.search_card(this.game.random[this.indice], this.table);
       });
      });
   }
+  /*
 is_full(room){
   room.stats.forEach(element => {
     element.forEach(e => {
@@ -192,6 +211,6 @@ is_kuatro(room){
       }
 
     }
-  }
+  }*/
 
 }
