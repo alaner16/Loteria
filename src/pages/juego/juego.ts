@@ -33,6 +33,7 @@ export class JuegoPage {
   game_id:any;
   indice = 0;
   intervalito = 1;
+  subControl: any;
 
 
   constructor(public navCtrl: NavController,public partidaService: PartidaProvider, public navParams: NavParams, private modal: ModalController, private tableService: TableProvider) {
@@ -49,22 +50,15 @@ export class JuegoPage {
   ionViewDidLoad() {
     this.user= firebase.auth().currentUser;
     console.log('ionViewDidLoad JuegoPage');
+    let elem = <HTMLElement>document.querySelector(".tabbar");
+    if (elem != null) {
+      elem.style.display = 'none';
+    }
     this.play();
     this.partidaService.getGame(this.game_id).then( aa => {
       this.game = aa;
       this.intervalito = Number(this.game.settings.cardtimer);
     });
-    this.sub = Observable.interval(1000*this.intervalito).subscribe((val) => {
-      this.partidaService.getGame(this.game_id).then( aa => {
-        this.game = aa;
-        this.game.currentCard = this.game.random[this.indice];
-        this.partidaService.update_card(this.game_id, this.game);
-        this.indice ++;
-        if(this.indice>15){
-          this.indice = 0;
-        }
-      });
-     });
   }
 
   card(id){console.log( id )}
@@ -86,9 +80,25 @@ export class JuegoPage {
   }
 
   salir(){
-    this.sub.unsubscribe();
+    if(this.subControl == true){
+      this.sub.unsubscribe();
+    }
     this.partidaService.leaveGame(this.user);
     this.navCtrl.setRoot(HomePage);
+  }
+
+  iniciar(){
+    this.subControl = true;
+    this.sub = Observable.interval(1000*this.intervalito).subscribe((val) => {
+      this.partidaService.getGame(this.game_id).then( aa => {
+        this.game = aa;
+        console.log(this.game.random[this.indice]);
+        this.indice ++;
+        if(this.indice>15){
+          this.indice = 0;
+        }
+      });
+     });
   }
 
 }
