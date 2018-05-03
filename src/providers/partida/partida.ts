@@ -21,6 +21,9 @@ export class PartidaProvider {
   crearPartida(name){
     this.afd.list('/game/').push(name);
   }
+  update_card(element, obj){
+    this.afd.list('/game/').update(element, obj);
+  }
 
   get_my_game(player){
     let promise = new Promise((resolve, reject) => {
@@ -64,7 +67,7 @@ export class PartidaProvider {
           //console.log(item);
           if(item.status == 'w'){
             this.id = key;
-            
+
           }
         }
       //})
@@ -165,7 +168,7 @@ export class PartidaProvider {
   }
 
   updateTablesGame(id_game, id_table){
-      
+
       let control = true;
       this.db.ref('/game/').orderByKey().equalTo(id_game).on('value', result => {
         try{
@@ -176,7 +179,7 @@ export class PartidaProvider {
           let game = result.child(id[0]).val();
           game.id = id[0];
           console.log(id_table);
-        
+
           game.control.tables.push(id_table);
 
           this.afd.list('/game/').update(id[0], game);
@@ -185,11 +188,11 @@ export class PartidaProvider {
           }
           console.log('no entre en update tables');
         }catch(e){console.log(e)}
-       
+
       });
     }
- 
-  
+
+
 
   getPublicGames(){
     let promise = new Promise((resolve, reject) => {
@@ -268,7 +271,7 @@ export class PartidaProvider {
             var item = snap.child(key).val();
             //A diferencia de get_my_game aquí se retorna el objeto completo
             if(item.status == 'A'){
- 
+
               resolve(item);
             }
           }
@@ -306,7 +309,7 @@ export class PartidaProvider {
           }
         }
       }catch(e){console.log(e)}
-      
+
     });
   }
 

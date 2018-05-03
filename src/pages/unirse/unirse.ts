@@ -64,6 +64,12 @@ export class UnirsePage {
       id_game: id,
       player: this.email,
       table: 0,
+      stats: [
+        [{showed: false, marked:false},{showed: false, marked:false},{showed: false, marked:false},{showed: false, marked:false}],
+        [{showed: false, marked:false},{showed: false, marked:false},{showed: false, marked:false},{showed: false, marked:false}],
+        [{showed: false, marked:false},{showed: false, marked:false},{showed: false, marked:false},{showed: false, marked:false}],
+        [{showed: false, marked:false},{showed: false, marked:false},{showed: false, marked:false},{showed: false, marked:false}]
+        ],
       status: 'A',
       timestamp: timestamp
     }
