@@ -38,9 +38,9 @@ export class CrearPartidaPage {
       //console.log(this.Perfil);
     });}*/
   }
-  title:any='amoroso';
+  title:any='';
   description:any = null;
-  timestamp:any; players:any=2;
+  timestamp:any; players:6;
   cardtimer:any="3";
   full:any=true;
   blast:any=false;
