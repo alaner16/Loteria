@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, style } from '@angular/core';
 import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
 import { ChatPage } from '../chat/chat';
 import { PartidaProvider } from '../../providers/partida/partida';
@@ -23,6 +23,10 @@ import 'rxjs/add/observable/interval';
 })
 export class JuegoPage {
 
+  //texto: string =  "SI";
+  estadoPositivo = [];
+  
+
   tb:any;
   public id: any;
   public tables: any;
@@ -38,6 +42,22 @@ export class JuegoPage {
 
   constructor(public navCtrl: NavController,public partidaService: PartidaProvider, public navParams: NavParams, private modal: ModalController, private tableService: TableProvider) {
     this.game = {random: [0,0,0]}
+    this.estadoPositivo[0] = false;
+    this.estadoPositivo[1] = false;
+    this.estadoPositivo[2] = false;
+    this.estadoPositivo[3] = false;
+    this.estadoPositivo[4] = false;
+    this.estadoPositivo[5] = false;
+    this.estadoPositivo[6] = false;
+    this.estadoPositivo[7] = false;
+    this.estadoPositivo[8] = false;
+    this.estadoPositivo[9] = false;
+    this.estadoPositivo[10] = false;
+    this.estadoPositivo[11] = false;
+    this.estadoPositivo[12] = false;
+    this.estadoPositivo[13] = false;
+    this.estadoPositivo[14] = false;
+    this.estadoPositivo[15] = false;
   }
 
   ionViewWillLeave(){
@@ -61,7 +81,12 @@ export class JuegoPage {
     });
   }
 
-  card(id){console.log( id )}
+  card(id){
+    console.log( id );
+    //this.texto = (this.estadoPositivo) ?  "NO" : "SI";
+    this.estadoPositivo[id] = !this.estadoPositivo[id];
+    //elementStyle(".si"); 
+  }
 
   play(){
     this.tb=this.navParams.get('tabla');
