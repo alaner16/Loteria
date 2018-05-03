@@ -156,7 +156,7 @@ export class JuegoPage {
         if(this.indice>15){
           this.indice = 0;
         }
-        }else if(this.game.status = "I"){
+        }else if(this.user.email != this.game.owner && this.game.status == "I"){
           this.intervalito = 1;
           this.indice = this.game.currentCard;
           console.log(this.indice);
