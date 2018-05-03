@@ -149,8 +149,41 @@ export class PartidaProvider {
   }
 
   getPlayers(id_game){
-      let df = firebase.database().ref('/room/').orderByChild('id_game').equalTo(id_game);
-      return this.afd.list(df).snapshotChanges();
+    let promise = new Promise((resolve, reject) => {
+      this.db.ref('/room/').orderByChild('id_game').equalTo(id_game).on('value',(snapshot)=> {
+        let lsGames = [];
+        let game: any;
+        try{
+          let games = snapshot.val();
+          //console.log(games);
+          let ids = Object.keys(games);
+          let count = Object.keys(games).length;
+          for(var i=0; i< count; i++){
+            let key = ids[i];
+            let item = snapshot.child(key).val();
+            console.log(item);
+            if(item.last == 1){
+              console.log(item.last);
+                game = {
+                id: key,
+                id_game: id_game,
+                player: item.player,
+                stats: item.stats,
+                table: item.table,
+                status: item.status,
+                timestamp: item.timestamp
+              }
+              lsGames.push(game);
+            }
+          }
+          resolve(lsGames);
+        }catch(err){
+          reject(err);
+        }
+      });
+
+    })
+    return promise;
   }
 
   getGame(id_game){

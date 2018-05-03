@@ -25,7 +25,7 @@ export class JuegoPage {
 
   //texto: string =  "SI";
   estadoPositivo = [];
-  
+
 
   tb:any;
   public id: any;
@@ -41,6 +41,7 @@ export class JuegoPage {
   owner: any;
   email: any;
   currentCard: any;
+  players:any;
   public games: any
 
 
@@ -89,34 +90,64 @@ export class JuegoPage {
   }
 
   card(id){
-    console.log( id );
     //this.texto = (this.estadoPositivo) ?  "NO" : "SI";
     this.estadoPositivo[id] = !this.estadoPositivo[id];
-    //elementStyle(".si"); 
+    let valor = this.estadoPositivo[id];
+    let index = 0;
+    if(id < 4){
+
+    }
+    else if (id < 8) {
+      index = 1;
+      id = id - 4;
+    }else if(id < 12){
+      index = 2;
+      id = id - 8;
+    }else if(id <16){
+      index = 3;
+      id = id - 12;
+    }
+
+        let room;
+         this.partidaService.get_my_room(this.user.email).then(xa => {
+           room = xa;
+           room.stats[index][id].marked = valor;
+           this.partidaService.update_stats(room);
+           this.is_full(room);
+           this.is_blast(room);
+           this.is_center(room);
+           this.is_kuatro(room);
+          });
+
+    //elementStyle(".si");
   }
   ionViewWillEnter(){
     this.game_id = this.navParams.get('game');
     this.partidaService.getGame(this.game_id).then( ab => {
       this.owner = ab;
       this.owner = this.owner.owner;
-      console.log(this.game_id);
-      console.log(this.email);
-      console.log(this.owner);
+      this.afDB.list('/room/').valueChanges().subscribe(players => {
+        this.partidaService.getPlayers(this.game_id).then(
+          response => {
+            this.players = response;
+          }
+        )
+      });
       if(this.email != this.owner){
         this.afDB.list('/game/').valueChanges().subscribe(games => {
         this.games = games;
         this.partidaService.getGame(this.game_id).then(response =>{
-          console.log(response);
+
           this.iniciar();
         })
       });
       }
-      
+
     });
   }
 
  // card(id){console.log( id )}
-  
+
   play(){
     this.tb=this.navParams.get('tabla');
     this.game_id = this.navParams.get('game');
@@ -151,44 +182,56 @@ export class JuegoPage {
           this.game.status = "I";
         this.partidaService.update_card(this.game_id, this.game);
         this.indice ++;
-        if(this.indice>15){
+        if(this.indice>53){
           this.indice = 0;
         }
         }else if(this.user.email != this.game.owner && this.game.status == "I"){
           this.intervalito = 1;
           this.indice = this.game.currentCard;
-          console.log(this.indice);
         }
-        //this.search_card(this.game.random[this.indice], this.table);
+        this.search_card(this.game.random[this.indice], this.table);
       });
      });
   }
-  /*
+
 is_full(room){
-  room.stats.forEach(element => {
-    element.forEach(e => {
-      if(!e.marked){
-        console.log('no es full');
-      }
-    });
-  });
-  console.log('es full alv');
+  let a = room.stats;
+  if (
+    a[0][0].marked == true &&
+    a[0][1].marked == true &&
+    a[0][2].marked == true &&
+    a[0][3].marked == true &&
+    a[1][0].marked == true &&
+    a[1][1].marked == true &&
+    a[1][2].marked == true &&
+    a[1][3].marked == true &&
+    a[2][0].marked == true &&
+    a[2][1].marked == true &&
+    a[2][2].marked == true &&
+    a[2][3].marked == true &&
+    a[3][0].marked == true &&
+    a[3][1].marked == true &&
+    a[3][2].marked == true &&
+    a[3][3].marked == true
+  ){
+    console.log('es full alv');
+  }
 }
 is_blast(room){
   let a = room.stats;
-  if((a[0][0].marked && a[1][1].marked && a[2][2].marked && a[3][3].marked)||(a[0][3].marked && a[1][2].marked && a[2][1].marked && a[2][0].marked)){
+  if((a[0][0].marked == true && a[1][1].marked == true && a[2][2].marked == true && a[3][3].marked == true)||(a[0][3].marked == true && a[1][2].marked == true && a[2][1].marked == true && a[2][0].marked == true)){
     console.log('chorro');
   }
 }
 is_center(room){
   let a = room.stats;
-  if(a[1][1].marked && a[1][2].marked && a[2][1].marked && a[2][2].marked){
+  if(a[1][1].marked == true && a[1][2].marked == true && a[2][1].marked == true && a[2][2].marked == true){
     console.log('centro');
   }
 }
 is_kuatro(room){
   let a = room.stats;
-  if(a[0][0].marked && a[0][3].marked && a[3][0].marked && a[3][3].marked){
+  if(a[0][0].marked == true && a[0][3].marked == true && a[3][0].marked == true && a[3][3].marked == true){
     console.log('centro');
   }
 }
@@ -212,6 +255,6 @@ is_kuatro(room){
       }
 
     }
-  }*/
+  }
 
 }

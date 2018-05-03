@@ -27,14 +27,11 @@
           <button ion-button round color="verde" (click)="iniciar()" *ngIf="owner==email">Iniciar</button>
       </div>
     </ion-col>
-<!--
     <ion-col>
       <div col-12 no-padding col-md-2 col-lg-1>
-        {{game.random[indice]}}
-        <div *ngFor="let item of players | async as list" style="text-align:right">{{item.value.player}}</div>
+        <div><div *ngFor="let item of players" style="color:green;display:inline-block;display:right"><div style="background-color:green;color:green;display:inline-block;border-radius:50% 50%;">.</div><p>{{item.player}}</p></div></div>
       </div>
     </ion-col>
--->
   </ion-row>
 
 <ion-row>
@@ -42,7 +39,7 @@
   <ion-grid class="grid-estilo">
       <ion-row justify-content-center  *ngFor="let ite of table; let j = index;" >
         <div *ngFor="let it of ite; let l = index;" class="Carta">
-          <button class="tabla" [ngClass]="{si: estadoPositivo[it], no: !estadoPositivo[it]}" id="item{{it}}" (click)="card(it)">
+          <button class="tabla" [ngClass]="{si: estadoPositivo[j*4+l], no: !estadoPositivo[j*4+l]}" id="item{{it}}" (click)="card(j*4+l)">
             <img src="assets/cards/{{it}}.png">
           </button>
         </div>
