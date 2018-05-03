@@ -84,6 +84,7 @@ export class JuegoPage {
   }
 
   salir(){
+    this.sub.unsubscribe();
     this.partidaService.leaveGame(this.user);
     this.navCtrl.setRoot(HomePage);
   }
