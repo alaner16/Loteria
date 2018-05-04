@@ -56,6 +56,30 @@ export class PartidaProvider {
     return promise;
   }
 
+  getlastroom(player){
+    let promise = new Promise((resolve, reject)=>{
+      let control = true;
+
+      this.db.ref('/room/').orderByChild("player").limitToLast(1).on('value', (snap)=>{
+        try{
+          if(control == true){
+          control = false;
+          console.log("en last room service");
+          console.log(snap);
+          let lastRoom = snap.val();
+          let id = Object.keys(lastRoom);
+          let room = snap.child(id[0]).val();
+          room.id = id[0];
+          console.log(room);
+          console.log(room.id);
+          resolve(room);
+          }
+        }catch(err){ reject(err)}
+      })
+    })
+    return promise
+  }
+
   update_card(element, obj){
     this.afd.list('/game/').update(element, obj);
   }
@@ -272,7 +296,7 @@ export class PartidaProvider {
         }catch(e){console.log(e)}
 
       });
-    }
+  }
 
 
 
@@ -368,30 +392,25 @@ export class PartidaProvider {
 
   updateUserTable(player, id_table){
       let control = true;
-      let write = true;
-      firebase.database().ref('/room/').orderByChild('player').equalTo(player).on('value', (snap) => {
+      console.log(player.id_game);
+      firebase.database().ref('/room/').orderByKey().equalTo(player.id).on('value', (snap) => {
         try {
+        if(control == true){
           control = false;
-          let game = snap.val();
-          let ids = Object.keys(game);
-          let count = Object.keys(game).length;
-          let m:any;
-          for(var i=0; i< count; i++){
-            var key = ids[i];
-            var item = snap.child(key).val();
-            //A diferencia de get_my_game aquí se retorna el objeto completo
-            if(item.status == 'A' && write == true){
-              write = false;
-              //item.id = key;
-              item.table = id_table
-              this.afd.list('/room/').update(key, item);
-              //resolve(item);
-            }
-          }
+          let room = snap.val();
+          let ids = Object.keys(room);
+          var key = ids[0];
+          var updateUser = snap.child(key).val();
+          //Se actualiza el item tabla del objeto room_player
+          updateUser.table = id_table
+
+          console.log(updateUser)
+          this.afd.list('/room/').update(key, updateUser);
+        }
         }catch(err){
           console.log(err);
         }
-      });
+    });
   }
 
   update_my_room(room){
