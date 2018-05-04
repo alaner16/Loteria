@@ -42,28 +42,21 @@ export class ElegirCartaPage {
   getTables(){
     this.tableService.getTables().then(response =>{
       this.tables = response;
-      //console.log(this.tables);
     }).catch(err =>{
       console.error(err);
     })
   }
-
-  busyTables(){
-
-  }
   
   elegir(id$){
     this.view.dismiss(id$);
-    console.log('arriba de lastagame Function');
-  
-    this.partidaService.updateUserTable(this.player, id$);
-    //this.partidaService.get_my_room(this.player).then(obb => {
-      //this.room = obb;
-      //this.room.table = id$;
-      //this.partidaService.update_my_room(this.room);
-      //this.partidaService.updateTablesGame(this.room.id_game, this.room.table)
-    //});
-
+    console.log('arriba de last game Function');
+    this.partidaService.getlastroom(this.player).then(response =>{
+      console.log(response);
+      let player = response;
+      this.partidaService.updateUserTable(player, id$);
+    }).catch(err =>{
+      console.error(err);
+    })
     console.log(' aver el ID' + id$)
   }
 
