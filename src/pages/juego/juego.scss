@@ -56,11 +56,12 @@ page-juego {
 }
 .estilo-ficha{
     z-index: 4000;
-    top:-50px;
+    top:-80px;
     position:relative;
     transition: all .3s;
-
+    width: 60px; height: 60px;
 }
+
 
 //Diseño Baraja
 .baraja-diseño{
@@ -87,6 +88,7 @@ page-juego {
     background-color: transparent;
     border-radius: 6%;
     transition: all .3s;
+    margin-bottom: -60px;
 }
 .animacion-imagen{
     transition: all .3s ease;
