@@ -57,7 +57,7 @@
           <button class="tabla" [ngClass]="{si: estadoPositivo[j*4+l], no: !estadoPositivo[j*4+l]}" id="item{{it}}" (click)="card(j*4+l)">
             <img src="assets/cards/{{it}}.png" class="animacion-imagen">
               <!--fichas-->
-            <img src="assets/imgs/fichas/ficha14.png" style="width: 60px; height: 60px;" *ngIf="estadoPositivo[j*4+l]" class="estilo-ficha">
+            <img src="assets/imgs/fichas/ficha14.png" style="" *ngIf="estadoPositivo[j*4+l]" class="estilo-ficha tamaño">
           </button>
         </div>
       </ion-row>
