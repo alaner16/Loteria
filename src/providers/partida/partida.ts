@@ -18,6 +18,28 @@ export class PartidaProvider {
   id: any;
   public game:any;
   constructor(public afd: AngularFireDatabase) { }
+  get_room_by_id(player){
+    let promise = new Promise((resolve, reject) => {
+      firebase.database().ref('/room/').orderByChild('id').equalTo(player).on('value', (snap) => {
+        try {
+          let game = snap.val();
+          let ids = Object.keys(game);
+          let count = Object.keys(game).length;
+          let m:any;
+          for(var i=0; i< count; i++){
+            var key = ids[i];
+            var item = snap.child(key).val();
+             resolve(item);
+          }
+        }catch(err){
+          reject(err);
+        }
+
+      });
+    })
+    return promise
+  }
+
   crearPartida(name){
     this.afd.list('/game/').push(name);
   }
@@ -36,6 +58,159 @@ export class PartidaProvider {
   crear_request_center(obj){
     this.afd.list('/request_center_room/').push(obj);
   }
+
+  get_request_check(obj){
+    let promise = new Promise((resolve, reject) => {
+      this.db.ref('/request_check_room/').orderByChild('game_id').equalTo(obj).on('value',(snapshot)=> {
+        let lsGames = [];
+        let game: any;
+        try{
+          let games = snapshot.val();
+          let ids = Object.keys(games);
+          let count = Object.keys(games).length;
+          for(var i=0; i< count; i++){
+            let key = ids[i];
+            let item = snapshot.child(key).val();
+            if(item.status == true){
+                game = {
+                game_id:item.game_id,
+                player_room: item.player_room,
+                stats: item.stats,
+                status: item.status
+              }
+              lsGames.push(game);
+            }
+          }
+          resolve(lsGames);
+        }catch(err){
+          reject(err);
+        }
+      });
+
+    })
+    return promise;
+  }
+  get_request_full(obj){
+    let promise = new Promise((resolve, reject) => {
+      this.db.ref('/request_full_room/').orderByChild('game_id').equalTo(obj).limitToFirst(1).on('value',(snapshot)=> {
+        let lsGames = [];
+        let game: any;
+        try{
+          let games = snapshot.val();
+          let ids = Object.keys(games);
+          let count = Object.keys(games).length;
+          for(var i=0; i< count; i++){
+            let key = ids[i];
+            let item = snapshot.child(key).val();
+            if(item.status == true){
+                game = {
+                game_id:item.game_id,
+                player_room: item.player_room,
+                status: item.status
+              }
+              lsGames.push(game);
+            }
+          }
+          resolve(lsGames);
+        }catch(err){
+          reject(err);
+        }
+      });
+
+    })
+    return promise;
+  }
+  get_request_blast(obj){
+    let promise = new Promise((resolve, reject) => {
+      this.db.ref('/request_blast_room/').orderByChild('game_id').equalTo(obj).limitToFirst(1).on('value',(snapshot)=> {
+        let lsGames = [];
+        let game: any;
+        try{
+          let games = snapshot.val();
+          let ids = Object.keys(games);
+          let count = Object.keys(games).length;
+          for(var i=0; i< count; i++){
+            let key = ids[i];
+            let item = snapshot.child(key).val();
+            if(item.status == true){
+                game = {
+                game_id:item.game_id,
+                player_room: item.player_room,
+                status: item.status
+              }
+              lsGames.push(game);
+            }
+          }
+          resolve(lsGames);
+        }catch(err){
+          reject(err);
+        }
+      });
+
+    })
+    return promise;
+  }
+  get_request_square(obj){
+    let promise = new Promise((resolve, reject) => {
+      this.db.ref('/request_square_room/').orderByChild('game_id').equalTo(obj).limitToFirst(1).on('value',(snapshot)=> {
+        let lsGames = [];
+        let game: any;
+        try{
+          let games = snapshot.val();
+          let ids = Object.keys(games);
+          let count = Object.keys(games).length;
+          for(var i=0; i< count; i++){
+            let key = ids[i];
+            let item = snapshot.child(key).val();
+            if(item.status == true){
+                game = {
+                game_id:item.game_id,
+                player_room: item.player_room,
+                status: item.status
+              }
+              lsGames.push(game);
+            }
+          }
+          resolve(lsGames);
+        }catch(err){
+          reject(err);
+        }
+      });
+
+    })
+    return promise;
+  }
+  get_request_center(obj){
+    let promise = new Promise((resolve, reject) => {
+      this.db.ref('/request_center_room/').orderByChild('game_id').equalTo(obj).on('value',(snapshot)=> {
+        let lsGames = [];
+        let game: any;
+        try{
+          let games = snapshot.val();
+          let ids = Object.keys(games);
+          let count = Object.keys(games).length;
+          for(var i=0; i< count; i++){
+            let key = ids[i];
+            let item = snapshot.child(key).val();
+            if(item.status == true){
+                game = {
+                game_id:item.game_id,
+                player_room: item.player_room,
+                status: item.status
+              }
+              lsGames.push(game);
+            }
+          }
+          resolve(lsGames);
+        }catch(err){
+          reject(err);
+        }
+      });
+
+    })
+    return promise;
+  }
+
   createGame(game){
     let promise = new Promise((resolve,reject)=>{
       this.afd.list('/game/').push(game);
@@ -63,9 +238,7 @@ export class PartidaProvider {
           let game = snap.child(id[0]).val();
           //console.log("game");
           game.id = id[0];
-          console.log(game);
-          console.log(game.id);
-          console.log("hola");
+
           resolve(game);
           }
         }catch(err){ reject(err)}
@@ -384,7 +557,7 @@ export class PartidaProvider {
 
   get_my_room(player){
     let promise = new Promise((resolve, reject) => {
-      firebase.database().ref('/room/').orderByChild('player').equalTo(player).on('value', (snap) => {
+      firebase.database().ref('/room/').orderByChild('player').equalTo(player).limitToLast(1).on('value', (snap) => {
         try {
           let game = snap.val();
           let ids = Object.keys(game);

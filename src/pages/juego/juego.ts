@@ -9,6 +9,7 @@ import { HomePage } from "../home/home";
 import 'rxjs/add/observable/interval';
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import { FirebaseListObservable } from 'angularfire2/database-deprecated';
+import { NativeAudio } from '@ionic-native/native-audio';
 /**
  * Generated class for the JuegoPage page.
  *
@@ -37,6 +38,10 @@ export class JuegoPage {
   game_id:any;
   indice = 0;
   indice2 = 0;
+  s_full=false;
+  s_center = false;
+  s_square = false;
+  s_blast = false;
   intervalito = 1;
   subControl: any = false;
   owner: any;
@@ -55,7 +60,7 @@ export class JuegoPage {
   public showStats: any;
   public showStatscontrol: any;
 
-  constructor(public navCtrl: NavController,public partidaService: PartidaProvider, public navParams: NavParams, private modal: ModalController, private tableService: TableProvider, public afDB: AngularFireDatabase) {
+  constructor(public navCtrl: NavController,public partidaService: PartidaProvider, public navParams: NavParams, private modal: ModalController, private tableService: TableProvider, public afDB: AngularFireDatabase, private nativeAudio: NativeAudio) {
     this.game = {random: [0,0,0]}
     this.estadoPositivo[0] = false;
     this.estadoPositivo[1] = false;
@@ -86,7 +91,7 @@ export class JuegoPage {
   ionViewDidLoad() {
     this.user= firebase.auth().currentUser;
     this.email = this.user.email;
-    console.log('ionViewDidLoad JuegoPage');
+
     let elem = <HTMLElement>document.querySelector(".tabbar");
     if (elem != null) {
       elem.style.display = 'none';
@@ -100,7 +105,6 @@ export class JuegoPage {
   }
 
   card(id){
-    //this.texto = (this.estadoPositivo) ?  "NO" : "SI";
     this.estadoPositivo[id] = !this.estadoPositivo[id];
     let valor = this.estadoPositivo[id];
     let index = 0;
@@ -133,10 +137,6 @@ export class JuegoPage {
            this.partidaService.crear_request_check(req);
 
            //this.partidaService.update_stats(room);
-           //this.is_full(room);
-           //this.is_blast(room);
-           //this.is_center(room);
-           //this.is_kuatro(room);
           });
 
     //elementStyle(".si");
@@ -193,7 +193,7 @@ export class JuegoPage {
       //this.showCard.unsubscribe();
     }
     console.log(this.user);
-  
+
     this.partidaService.leaveGame(this.user);
     this.navCtrl.setRoot(HomePage);
   }
@@ -209,15 +209,90 @@ export class JuegoPage {
         this.partidaService.update_card(this.game_id, this.game);
         this.indice = this.game.currentCard;
         this.indice2 ++;
+        this.nativeAudio.preloadComplex('sonidocarta', 'assets/sounds/cartas/' + this.game.random[this.indice] + '.mp3',1,1,0);
+        console.log(this.game.random[this.indice]);
+        this.nativeAudio.play('sonidocarta');
         if(this.indice>53){
           this.indice = 0;
           this.indice2 = 0;
         }
+        ///////////////////////////////////////////////
+        console.log("pelan");
+          this.partidaService.get_request_check(this.game_id).then(gg => {
+            let f:any = gg;
+            f.forEach(element => {
+              console.log(element.player_room);
+              this.partidaService.get_room_by_id(element.player_room).then(xa => {
+                let room:any = xa;
+                room.stats[element.stats[0]][element.stats[1]].marked = true;
+                this.partidaService.update_stats(room);
+               });
+            });
+        });
+        if (this.game.control.wins.full == false){
+          this.partidaService.get_request_full(this.game_id).then( gg => {
+            let gf:any = gg[0];
+            this.partidaService.get_room_by_id(gf.player_room).then(
+              ff => {
+                let ag:any = ff;
+                this.game.control.stats.full = ag.player;
+              }
+            )
+          })
+        }
+        if (this.game.control.wins.blast == false){
+          this.partidaService.get_request_blast(this.game_id).then( gg => {
+            let gf:any = gg[0];
+            this.partidaService.get_room_by_id(gf.player_room).then(
+              ff => {
+                let ag:any = ff;
+                this.game.control.stats.blast = ag.player;
+              }
+            )
+          })
+        }
+        if (this.game.control.wins.quarter == false){
+          this.partidaService.get_request_square(this.game_id).then( gg => {
+            let gf:any = gg[0];
+            this.partidaService.get_room_by_id(gf.player_room).then(
+              ff => {
+                let ag:any = ff;
+                this.game.control.stats.quarter = ag.player;
+              }
+            )
+          })
+        }
+        if (this.game.control.wins.center == false){
+          this.partidaService.get_request_center(this.game_id).then( gg => {
+            let gf:any = gg[0];
+            this.partidaService.get_room_by_id(gf.player_room).then(
+              ff => {
+                let ag:any = ff;
+                this.game.control.stats = ag.player;
+              }
+            )
+          })
+        }
+        this.partidaService.getPlayers(this.game_id).then(hh => {
+          let as:any = hh;
+          this.search_card(this.game.random[this.indice], this.table, as.player);
+        })
+        ///////////////////////////////////////////////
         }else if(this.user.email != this.game.owner && this.game.status == "I"){
           this.intervalito = 1;
           this.indice = this.game.currentCard;
         }
-        this.search_card(this.game.random[this.indice], this.table);
+        this.partidaService.get_my_room(this.user.email).then(xa => {
+          let roomy:any = xa;
+          if (this.s_full)
+          this.is_full(roomy)
+          if (this.s_blast)
+          this.is_blast(roomy)
+          if (this.s_square)
+          this.is_kuatro(roomy)
+          if (this.s_center)
+          this.is_center(roomy)
+         });
       });
      });
   }
@@ -247,12 +322,7 @@ is_full(room){
     req.player_room = room.id;
 
     this.partidaService.crear_request_full(req);
-    //this.partidaService.getGame(this.game_id).then( aa => {
-    //    let a:any = aa;
-    //  if (this.user.email == this.game.owner) {
-    //    a.control['wins']['full'] = this.user.email;
-    //  this.partidaService.update_card(this.game_id, a);}
-    //});
+    this.s_full = false;
   }
 }
 is_blast(room){
@@ -263,11 +333,7 @@ is_blast(room){
     req.player_room = room.id;
 
     this.partidaService.crear_request_blast(req);
-    //this.partidaService.getGame(this.game_id).then(response =>{
-      //let d:any = response;
-      //d.control.wins.blast = this.user.email;
-      //this.partidaService.update_wins(this.game_id, d);
-    //})
+    this.s_blast = false;
   }
 }
 is_center(room){
@@ -278,11 +344,7 @@ is_center(room){
     req.player_room = room.id;
 
     this.partidaService.crear_request_center(req);
-    //this.partidaService.getGame(this.game_id).then(response =>{
-      //let d:any = response;
-      //d.control.wins.center = this.user.email;
-      //this.partidaService.update_wins(this.game_id, d);
-    //})
+    this.s_center = false;
   }
 }
 is_kuatro(room){
@@ -293,28 +355,19 @@ is_kuatro(room){
     req.player_room = room.id;
 
     this.partidaService.crear_request_square(req);
-    //this.partidaService.getGame(this.game_id).then(response =>{
-      //let d:any = response;
-      //d.control.wins.quarter = this.user.email;
-      //this.partidaService.update_wins(this.game_id, d);
-    //})
+    this.s_square = false;
   }
 }
 
-  search_card(carta, table){
+  search_card(carta, table, user){
     for (let index = 0; index < table.length; index++) {
       for (let i = 0; i < table[index].length; i++) {
         if (table[index][i] == carta) {
          let room;
-         this.partidaService.get_my_room(this.user.email).then(xa => {
+         this.partidaService.get_my_room(user).then(xa => {
            room = xa;
            room.stats[index][i].showed = true;
-
-           //this.partidaService.update_stats(room);
-           //this.is_full(room);
-           //this.is_blast(room);
-           //this.is_center(room);
-           //this.is_kuatro(room);
+           this.partidaService.update_stats(room);
           });
           break;
         }
