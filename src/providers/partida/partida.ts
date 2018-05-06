@@ -33,21 +33,21 @@ export class PartidaProvider {
       })
     })
   }
+
   getlastgame(player){
     let promise = new Promise((resolve, reject)=>{
       let control = true;
-      this.db.ref('/game/').orderByChild("player").limitToLast(1).on('value',(snap)=>{
+      this.db.ref('/game/').orderByChild("owner").equalTo(player).limitToLast(1).on('value',(snap)=>{
         try{
           if(control == true){
           control = false;
           console.log("en last game service");
-          console.log(snap);
           let lastGame = snap.val();
           let id = Object.keys(lastGame);
           let game = snap.child(id[0]).val();
           game.id = id[0];
-          //console.log(game);
-          //console.log(game.id);
+          console.log(game);
+          console.log(game.id);
           resolve(game);
           }
         }catch(err){ reject(err)}
@@ -60,12 +60,11 @@ export class PartidaProvider {
     let promise = new Promise((resolve, reject)=>{
       let control = true;
 
-      this.db.ref('/room/').orderByChild("player").limitToLast(1).on('value', (snap)=>{
+      this.db.ref('/room/').orderByChild("player").equalTo(player).limitToLast(1).on('value', (snap)=>{
         try{
           if(control == true){
           control = false;
           console.log("en last room service");
-          console.log(snap);
           let lastRoom = snap.val();
           let id = Object.keys(lastRoom);
           let room = snap.child(id[0]).val();
@@ -153,47 +152,48 @@ export class PartidaProvider {
   }
 
   leaveGame(user){
-    let z=true;
-    let gg = true;
-    let control_room = true;
-    let ddd;
-    firebase.database().ref('/room/').orderByChild('last').equalTo(1).on('value', (snapshot) => {
-        try{
-          Object.keys(snapshot.val()).forEach(element => {
-            if(snapshot.child(element).val().player == user.email){
-              let obj = snapshot.child(element).val();
-              ddd = obj;
-              obj.status = 'L';
-              obj.last = 0;
-              if(control_room == true){
-                control_room = false;
-              console.log('estoy en leave room');
-              this.afd.list('/room/').update(element, obj);
-              }
-            }
-          });
-          this.db.ref('/game/').orderByKey().equalTo(ddd.id_game).on('value', result =>{
-            let item = result.val();
-            let id = Object.keys(item);
-            let game = result.child(id[0]).val();
-            if (gg) {
-              gg=false;
-              game.control.players = game.control.players - 1;
-              if (game.owner == user.email){
-                game.status = "L";
-                console.log('Saliendo de juego en servicio');
-                console.log('estoy en leave game');
-              }else if (game.control.players < game.settings.players){
-                  game.status = "w";
-                }
-                this.afd.list('/game/').update(id[0], game);
-            }
-          });
-        }catch{}
+    let gamecontrol = true;
+    let roomcontrol = true;
+    console.log(user);
+    this.db.ref('/game/').orderByChild("owner").equalTo(user.email).limitToLast(1).on('value',(snap)=>{
+      try{
+        if(gamecontrol == true){
+        gamecontrol = false;
+        console.log("en leave game method");
+        let lastGame = snap.val();
+        let id = Object.keys(lastGame);
+        let game = snap.child(id[0]).val();
+        game.id = id[0];
+        console.log(game);
+        game.status = "L"
+        this.afd.list('/game/').update(id[0], game);
+        }
+      }catch(err){
+        console.log(err);
+      }
     });
+    this.db.ref('/room/').orderByChild("player").equalTo(user.email).limitToLast(1).on('value', (snap)=>{
+      try{
+        if(roomcontrol == true){
+        roomcontrol = false;
+        console.log("en leave room method");
+        let lastRoom = snap.val();
+        let id = Object.keys(lastRoom);
+        let room = snap.child(id[0]).val();
+        //room.id = id[0];
+        console.log(room);
+        room.status = "L";
+        this.afd.list('/room/').update(id[0], room);
+        }
+      }catch(err){
+        console.log(err);
+      }
+    })
+    
   }
 
   joinGame(player){
+    console.log('Estoy en joinGame');
     let z=true;
     let gg = true;
     firebase.database().ref('/room/').orderByChild('id_game').equalTo(player.id_game).on('value', (snapshot) => {
