@@ -20,9 +20,9 @@
 
 
 <ion-content #content padding id="content" style="background-color: rgba(255, 255, 255, 0.397);">
-<ion-card *ngFor="let message of messages" class="msnChat">
+<ion-card *ngFor="let message of messages">
 <ion-card-header>
-  {{ message.email }} a las 00:00hrs
+  {{ message.nombre }} a las {{ message.hora | date: 'HH:mm' }}
 </ion-card-header>
 <ion-card-content>
   {{ message.mensaje }}
