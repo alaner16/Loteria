@@ -37,14 +37,16 @@ export class JuegoPage {
   game_id:any;
   indice = 0;
   intervalito = 1;
-  subControl: any;
+  subControl: any = false;
   owner: any;
   email: any;
   currentCard: any;
   players:any;
   public games: any;
   public showCard: any;
-  public showControl: any;
+  public showClientControl: any = false;
+  public showStats: any;
+  public showStatscontrol: any;
 
   constructor(public navCtrl: NavController,public partidaService: PartidaProvider, public navParams: NavParams, private modal: ModalController, private tableService: TableProvider, public afDB: AngularFireDatabase) {
     this.game = {random: [0,0,0]}
@@ -135,9 +137,8 @@ export class JuegoPage {
         )
       });
       if(this.email != this.owner){
-        this.showControl = true;
-        this.showCard = this.afDB.list('/game/');
-        this.showCard.valueChanges().subscribe(games => {
+        this.showClientControl = true;
+        this.showCard = this.afDB.list('/game/').valueChanges().subscribe(games => {
           this.partidaService.getGame(this.game_id).then(response =>{
           this.iniciar();
         })
@@ -168,9 +169,11 @@ export class JuegoPage {
   salir(){
     if(this.subControl == true){
       this.sub.unsubscribe();
+      this.subControl = false;
     }
-    if(this.showControl = true){
-      //this.showCard.unsubscribe();
+    if(this.showClientControl = true){
+      this.showClientControl = false;
+      this.showCard.unsubscribe();
     }
     this.partidaService.leaveGame(this.user);
     this.navCtrl.setRoot(HomePage);
@@ -187,7 +190,8 @@ export class JuegoPage {
         this.partidaService.update_card(this.game_id, this.game);
         this.indice ++;
         if(this.indice>53){
-          this.indice = 0;
+          alert('Fin del juego');
+          this.salir();
         }
         }else if(this.user.email != this.game.owner && this.game.status == "I"){
           this.intervalito = 1;
