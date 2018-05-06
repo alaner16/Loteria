@@ -19,13 +19,16 @@
     <ion-row>
       <ion-col col-12 col-md-6 offset-md-3 col-xl-4 offset-xl-4>
 <div>
-  <button ion-button color="secundary" round float-right (click)="refreshGames()" (click)="presentToast()">
+  <button ion-button color="secondary" float-right (click)="crearPartida()">
+    <ion-icon name="add"></ion-icon>
+  </button>
+  <button ion-button color="primary" float-right (click)="refreshGames()" (click)="presentToast()">
     <ion-icon name="refresh"></ion-icon>
   </button>
+  
 <h6>Partidas disponibles</h6>
 
   <ion-list>
-    Lista:
     <button ion-item *ngFor="let game of listGame" (click)="goPlay(game.id_game)">
        <p style="display:inline-block;width:70%">{{ game.title }}</p><div *ngIf="game.status == 'w'" style="color:green;display:inline-flex">  {{game.control.players}}/{{game.settings.players}}</div>
     </button>
