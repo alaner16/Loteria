@@ -20,16 +20,16 @@
     </button>
     <ion-fab-list>
       <button ion-fab>
-        <ion-icon name="star"></ion-icon>
+        <ion-icon name="star" (click)="s_full=true"></ion-icon>
       </button>
       <button ion-fab>
-        <ion-icon name="resize"></ion-icon>
+        <ion-icon name="resize" (click)="s_blast=true"></ion-icon>
       </button>
       <button ion-fab>
-        <ion-icon name="qr-scanner"></ion-icon>
+        <ion-icon name="qr-scanner" (click)="s_square=true"></ion-icon>
       </button>
       <button ion-fab>
-        <ion-icon name="podium"></ion-icon>
+        <ion-icon name="podium" (click)="s_center=true"></ion-icon>
       </button>
     </ion-fab-list>
   </ion-fab>
@@ -46,7 +46,7 @@
           <button ion-button round color="verde" (click)="iniciar()" *ngIf="owner==email">Iniciar</button>
       </div>
     </ion-col>
-    
+
   </ion-row>
 
 <ion-row>
