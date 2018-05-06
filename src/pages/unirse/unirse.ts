@@ -4,6 +4,7 @@ import { AngularFireDatabase } from 'angularfire2/database';
 import { PartidaProvider } from '../../providers/partida/partida';
 import { ElegirCartaPage } from '../elegir-carta/elegir-carta';
 import { JuegoPage } from "../juego/juego";
+import { CrearPartidaPage } from '../crear-partida/crear-partida';
 import { ToastController } from 'ionic-angular';
 import * as firebase from 'firebase';
 
@@ -98,6 +99,10 @@ export class UnirsePage {
 
   play(dataUser){
     console.log(dataUser);
+  }
+
+  crearPartida(){
+    this.navCtrl.push(CrearPartidaPage);
   }
 
 }

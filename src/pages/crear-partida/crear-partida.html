@@ -22,25 +22,36 @@
             <ion-input type="text" [(ngModel)]="title"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-label><ion-icon name="logo-usd"></ion-icon> por carta</ion-label>
-            <ion-input type="number" placeholder="10"></ion-input>
+            <ion-label><ion-icon name="logo-usd"></ion-icon> Precio por carta</ion-label>
+            <ion-select [(ngModel)]="pricecard" (ionChange)="updatePriceValues()">
+              <ion-option value="1">1</ion-option>
+              <ion-option value="2">2</ion-option>
+              <ion-option value="5">5</ion-option>
+              <ion-option value="10">10</ion-option>
+              <ion-option value="20">20</ion-option>
+            </ion-select>
           </ion-item>
           <ion-item>
             <ion-label>Numero de jugadores máximo</ion-label>
-            <ion-select [(ngModel)]="players">
+            <ion-select [(ngModel)]="players" (ionChange)="updatePriceValues()">
               <ion-option value="2">2</ion-option>
               <ion-option value="3">3</ion-option>
               <ion-option value="4">4</ion-option>
               <ion-option value="5">5</ion-option>
               <ion-option value="6">6</ion-option>
+              <ion-option value="7">7</ion-option>
+              <ion-option value="8">8</ion-option>
+              <ion-option value="9">9</ion-option>
+              <ion-option value="10">10</ion-option>
             </ion-select>
           </ion-item>
           <ion-item>
             <ion-label>Tiempo de espera de carta</ion-label>
             <ion-select [(ngModel)]="cardtimer">
               <ion-option value="1">1 segundo</ion-option>
-              <ion-option value="2">3 segundos</ion-option>
-              <ion-option value="3">5 segundos</ion-option>
+              <ion-option value="2">2 segundos</ion-option>
+              <ion-option value="3">3 segundos</ion-option>
+              <ion-option value="5">5 segundos</ion-option>
             </ion-select>
           </ion-item>
           <ion-item>
@@ -51,21 +62,21 @@
               </ion-select>
             </ion-item>
           <ion-item>
-            <ion-label>Llenas <!--Aqui poner variable de ganancia --></ion-label>
+            <ion-label>Llenas - $ {{fullvalue}}</ion-label>
             <ion-checkbox color="dark" checked="true" [(ngModel)]="full"></ion-checkbox>
 
           </ion-item>
           <ion-item>
-            <ion-label>Chorro</ion-label>
+            <ion-label>Chorro - $ {{blastvalue}}</ion-label>
             <ion-checkbox color="dark" [(ngModel)]="blast"></ion-checkbox>
           </ion-item>
           <ion-item>
-            <ion-label>4 esquinas</ion-label>
+            <ion-label>4 esquinas - $ {{quartersvalue}}</ion-label>
             <ion-checkbox color="dark" [(ngModel)]="quarters"></ion-checkbox>
 
           </ion-item>
           <ion-item>
-            <ion-label>Centrito</ion-label>
+            <ion-label>Centrito - $ {{middlevalue}}</ion-label>
             <ion-checkbox color="dark" [(ngModel)]="middle"></ion-checkbox>
 
           </ion-item>
