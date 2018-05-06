@@ -21,7 +21,21 @@ export class PartidaProvider {
   crearPartida(name){
     this.afd.list('/game/').push(name);
   }
-  
+  crear_request_check(obj){
+    this.afd.list('/request_check_room/').push(obj);
+  }
+  crear_request_full(obj){
+    this.afd.list('/request_full_room/').push(obj);
+  }
+  crear_request_blast(obj){
+    this.afd.list('/request_blast_room/').push(obj);
+  }
+  crear_request_square(obj){
+    this.afd.list('/request_square_room/').push(obj);
+  }
+  crear_request_center(obj){
+    this.afd.list('/request_center_room/').push(obj);
+  }
   createGame(game){
     let promise = new Promise((resolve,reject)=>{
       this.afd.list('/game/').push(game);

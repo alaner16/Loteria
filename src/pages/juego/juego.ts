@@ -46,6 +46,11 @@ export class JuegoPage {
   public games: any;
   public showCard: any;
   public showControl: any;
+  public room_request_check:any = {player_room: null, game_id: null, stats:[null,null,null], status: true};
+  public room_request_full:any = {player_room: null, game_id: null, status: true};
+  public room_request_blast:any = {player_room: null, game_id: null, status: true};
+  public room_request_square:any = {player_room: null, game_id: null, status: true};
+  public room_request_center:any = {player_room: null, game_id: null, status: true};
 
   constructor(public navCtrl: NavController,public partidaService: PartidaProvider, public navParams: NavParams, private modal: ModalController, private tableService: TableProvider, public afDB: AngularFireDatabase) {
     this.game = {random: [0,0,0]}
@@ -114,11 +119,21 @@ export class JuegoPage {
          this.partidaService.get_my_room(this.user.email).then(xa => {
            room = xa;
            room.stats[index][id].marked = valor;
-           this.partidaService.update_stats(room);
-           this.is_full(room);
-           this.is_blast(room);
-           this.is_center(room);
-           this.is_kuatro(room);
+
+           let req = this.room_request_check;
+           req.player_room = room.id;
+           req.game_id = this.game_id;
+           req.stats[0] = index;
+           req.stats[1] = id;
+          req.stats[2] = valor;
+
+           this.partidaService.crear_request_check(req);
+
+           //this.partidaService.update_stats(room);
+           //this.is_full(room);
+           //this.is_blast(room);
+           //this.is_center(room);
+           //this.is_kuatro(room);
           });
 
     //elementStyle(".si");
@@ -190,6 +205,7 @@ export class JuegoPage {
         this.indice2 ++;
         if(this.indice>53){
           this.indice = 0;
+          this.indice2 = 0;
         }
         }else if(this.user.email != this.game.owner && this.game.status == "I"){
           this.intervalito = 1;
@@ -220,42 +236,62 @@ is_full(room){
     a[3][2].marked == true &&
     a[3][3].marked == true
   ){
-    this.partidaService.getGame(this.game_id).then( aa => {
-        let a:any = aa;
-      if (this.user.email == this.game.owner) {
-        a.control['wins']['full'] = this.user.email;
-      this.partidaService.update_card(this.game_id, a);}
-    });
+    let req = this.room_request_full;
+    req.game_id = this.game_id;
+    req.player_room = room.id;
+
+    this.partidaService.crear_request_full(req);
+    //this.partidaService.getGame(this.game_id).then( aa => {
+    //    let a:any = aa;
+    //  if (this.user.email == this.game.owner) {
+    //    a.control['wins']['full'] = this.user.email;
+    //  this.partidaService.update_card(this.game_id, a);}
+    //});
   }
 }
 is_blast(room){
   let a = room.stats;
   if((a[0][0].marked == true && a[0][0].showed == true && a[1][1].marked == true && a[1][1].showed == true && a[2][2].marked == true && a[2][2].showed == true && a[3][3].marked == true && a[3][3].showed == true)||(a[0][3].marked == true && a[0][3].showed == true && a[1][2].marked == true && a[1][2].showed == true && a[2][1].marked == true && a[2][1].showed == true && a[2][0].marked == true && a[2][0].showed == true)){
-    this.partidaService.getGame(this.game_id).then(response =>{
-      let d:any = response;
-      d.control.wins.blast = this.user.email;
-      this.partidaService.update_wins(this.game_id, d);
-    })
+    let req = this.room_request_blast;
+    req.game_id = this.game_id;
+    req.player_room = room.id;
+
+    this.partidaService.crear_request_blast(req);
+    //this.partidaService.getGame(this.game_id).then(response =>{
+      //let d:any = response;
+      //d.control.wins.blast = this.user.email;
+      //this.partidaService.update_wins(this.game_id, d);
+    //})
   }
 }
 is_center(room){
   let a = room.stats;
   if(a[1][1].marked == true && a[1][1].showed == true && a[1][2].marked == true && a[1][2].showed == true && a[2][1].marked == true && a[2][1].showed == true && a[2][2].marked == true && a[2][2].showed == true){
-    this.partidaService.getGame(this.game_id).then(response =>{
-      let d:any = response;
-      d.control.wins.center = this.user.email;
-      this.partidaService.update_wins(this.game_id, d);
-    })
+    let req = this.room_request_center;
+    req.game_id = this.game_id;
+    req.player_room = room.id;
+
+    this.partidaService.crear_request_center(req);
+    //this.partidaService.getGame(this.game_id).then(response =>{
+      //let d:any = response;
+      //d.control.wins.center = this.user.email;
+      //this.partidaService.update_wins(this.game_id, d);
+    //})
   }
 }
 is_kuatro(room){
   let a = room.stats;
   if(a[0][0].marked == true && a[0][0].showed == true && a[0][3].marked == true && a[0][3].showed == true && a[3][0].marked == true && a[3][0].showed == true && a[3][3].marked == true && a[3][3].showed == true){
-    this.partidaService.getGame(this.game_id).then(response =>{
-      let d:any = response;
-      d.control.wins.quarter = this.user.email;
-      this.partidaService.update_wins(this.game_id, d);
-    })
+    let req = this.room_request_square;
+    req.game_id = this.game_id;
+    req.player_room = room.id;
+
+    this.partidaService.crear_request_square(req);
+    //this.partidaService.getGame(this.game_id).then(response =>{
+      //let d:any = response;
+      //d.control.wins.quarter = this.user.email;
+      //this.partidaService.update_wins(this.game_id, d);
+    //})
   }
 }
 
@@ -267,11 +303,12 @@ is_kuatro(room){
          this.partidaService.get_my_room(this.user.email).then(xa => {
            room = xa;
            room.stats[index][i].showed = true;
-           this.partidaService.update_stats(room);
-           this.is_full(room);
-           this.is_blast(room);
-           this.is_center(room);
-           this.is_kuatro(room);
+
+           //this.partidaService.update_stats(room);
+           //this.is_full(room);
+           //this.is_blast(room);
+           //this.is_center(room);
+           //this.is_kuatro(room);
           });
           break;
         }
