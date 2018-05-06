@@ -35,7 +35,7 @@
                 </ion-list-header>
                 
                 <button ion-button (click)='Login()' block round *ngIf="!auth.authenticated">Iniciar Sesión</button>
-                <button ion-button color="light" round block (click)="crearPartida()" [disabled]="!auth.authenticated">Crear partida</button>
+                <button ion-button color="dark" outline round block (click)="crearPartida()" [disabled]="!auth.authenticated">Crear partida</button>
                 <button ion-button color="dark" round block (click)="unirsePartida()" [disabled]="!auth.authenticated">Unirse a partida</button>
               </ion-card-content>
             

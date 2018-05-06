@@ -4,6 +4,7 @@ import { AngularFireDatabase } from 'angularfire2/database';
 import { PartidaProvider } from '../../providers/partida/partida';
 import { ElegirCartaPage } from '../elegir-carta/elegir-carta';
 import { JuegoPage } from "../juego/juego";
+import { CrearPartidaPage } from '../crear-partida/crear-partida';
 import { ToastController } from 'ionic-angular';
 import * as firebase from 'firebase';
 
@@ -73,6 +74,7 @@ export class UnirsePage {
       status: 'A',
       timestamp: timestamp
     }
+    console.log('En unirse' + id);
     this.partidaService.getGame(id).then(response =>{
       let currentGame: any = [];
       currentGame = response
@@ -98,6 +100,10 @@ export class UnirsePage {
 
   play(dataUser){
     console.log(dataUser);
+  }
+
+  crearPartida(){
+    this.navCtrl.push(CrearPartidaPage);
   }
 
 }

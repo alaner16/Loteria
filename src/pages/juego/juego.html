@@ -55,7 +55,8 @@
       <ion-row justify-content-center  *ngFor="let ite of table; let j = index;" >
         <div *ngFor="let it of ite; let l = index;" class="Carta">
           <button class="tabla" [ngClass]="{si: estadoPositivo[j*4+l], no: !estadoPositivo[j*4+l]}" id="item{{it}}" (click)="card(j*4+l)">
-            <img src="assets/cards/{{it}}.png">
+            <img src="assets/cards/{{it}}.png" class="animacion-imagen">
+            <img src="http://via.placeholder.com/350x150" *ngIf="estadoPositivo[j*4+l]" class="estilo-ficha">
           </button>
         </div>
       </ion-row>

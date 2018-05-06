@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
 import { JuegoPage } from "../juego/juego";
 import { PartidaProvider } from '../../providers/partida/partida';
+import { PerfilProvider } from '../../providers/perfil/perfil';
 import { ElegirCartaPage } from '../elegir-carta/elegir-carta';
 import * as firebase from 'firebase';
 
@@ -20,32 +21,43 @@ import * as firebase from 'firebase';
 export class CrearPartidaPage {
   auth:any;
   user:any;
+  perfil: any;
   i:any;
   email:any;
   public player: any;
   newGame = {title: '', description: null, timestamp: 0, owner: '', type: '', status:'', settings: {},random:{}, currentCard: 0, control:{players: 1,wins:{full:false, blast:false, center: false,quarter:false}, tables:[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19]}};
-  settings = {players:0, cardtimer:0, full:false, blast:false, quarters:false, middle:false};
+  settings = {players:0,pricecard: 0, cardtimer:0, full:false, blast:false, quarters:false, middle:false};
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,public pp:PartidaProvider, private modal: ModalController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,public pp:PartidaProvider, private modal: ModalController, public perfilService: PerfilProvider) {
     this.i=true;
     this.user= firebase.auth().currentUser;
     this.email=this.user.email;
     //console.log(this.email);
     /*if(this.i==true){
     this.i=false;
+    */
     this.perfilService.getPerfil((this.user.email),(result) => {
-      if(result!=null)this.email=result;
-      //console.log(this.Perfil);
-    });}*/
+      if(result!=null)this.perfil =result;
+      console.log(this.perfil.Apodo);
+      this.title = this.perfil.Apodo;
+    });
+    //this.title = this.perfil.Apodo;
+    this.updatePriceValues();
   }
-  title:any='';
+  title:any= "";
   description:any = null;
-  timestamp:any; players:6;
+  timestamp:any;
+  pricecard: any = 2; 
+  players: any = 5;
   cardtimer:any="3";
   full:any=true;
+  fullvalue : any = 0;
   blast:any=false;
+  blastvalue : any = 0;
   quarters:any=false;
+  quartersvalue: any = 0;
   middle:any=false;
+  middlevalue: any = 0;
   status:any;
   type:any = 'public';
 
@@ -60,6 +72,7 @@ export class CrearPartidaPage {
     this.newGame.type = this.type;
     this.newGame.status = this.status;
     this.settings.players = this.players;
+    this.settings.pricecard = this.pricecard;
     this.settings.cardtimer = this.cardtimer;
     this.settings.full = this.full;
     this.settings.blast = this.blast;
@@ -117,7 +130,7 @@ export class CrearPartidaPage {
       table: 0,
       timestamp: this.timestamp
     }
-    this.pp.getlastgame(this.player).then(response =>{
+    this.pp.getlastgame(this.player.player).then(response =>{
       response;
       console.log(response);
       this.pp.newRoom(this.player, response);
@@ -129,5 +142,12 @@ export class CrearPartidaPage {
 
   ionViewDidLoad() {
     console.log("ionViewDidLoad CrearPartidaPage");
+  }
+
+  updatePriceValues(){
+    this.fullvalue = Math.round(this.pricecard * this.players  * .50);
+    this.blastvalue = Math.round(this.pricecard * this.players  * .20);
+    this.quartersvalue = Math.round(this.pricecard * this.players  * .20);
+    this.middlevalue = Math.round(this.pricecard * this.players  * .10);
   }
 }
