@@ -9,6 +9,7 @@ import { HomePage } from "../home/home";
 import 'rxjs/add/observable/interval';
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import { FirebaseListObservable } from 'angularfire2/database-deprecated';
+import { NativeAudio } from '@ionic-native/native-audio';
 /**
  * Generated class for the JuegoPage page.
  *
@@ -59,7 +60,7 @@ export class JuegoPage {
   public showStats: any;
   public showStatscontrol: any;
 
-  constructor(public navCtrl: NavController,public partidaService: PartidaProvider, public navParams: NavParams, private modal: ModalController, private tableService: TableProvider, public afDB: AngularFireDatabase) {
+  constructor(public navCtrl: NavController,public partidaService: PartidaProvider, public navParams: NavParams, private modal: ModalController, private tableService: TableProvider, public afDB: AngularFireDatabase, private nativeAudio: NativeAudio) {
     this.game = {random: [0,0,0]}
     this.estadoPositivo[0] = false;
     this.estadoPositivo[1] = false;
@@ -208,6 +209,9 @@ export class JuegoPage {
         this.partidaService.update_card(this.game_id, this.game);
         this.indice = this.game.currentCard;
         this.indice2 ++;
+        this.nativeAudio.preloadComplex('sonidocarta', 'assets/sounds/cartas/' + this.game.random[this.indice] + '.mp3',1,1,0);
+        console.log(this.game.random[this.indice]);
+        this.nativeAudio.play('sonidocarta');
         if(this.indice>53){
           this.indice = 0;
           this.indice2 = 0;
