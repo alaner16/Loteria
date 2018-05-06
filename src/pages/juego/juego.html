@@ -27,11 +27,7 @@
           <button ion-button round color="verde" (click)="iniciar()" *ngIf="owner==email">Iniciar</button>
       </div>
     </ion-col>
-    <ion-col>
-      <div col-12 no-padding col-md-2 col-lg-1>
-        <div><div *ngFor="let item of players" style="color:green;display:inline-block;display:right"><p>{{item.player}}</p></div></div>
-      </div>
-    </ion-col>
+    
   </ion-row>
 
 <ion-row>
@@ -47,7 +43,15 @@
   </ion-grid>
 
   </ion-row>
-
+<ion-col>
+  <div col-12 no-padding col-md-2 col-lg-1>
+    <div>
+      <div *ngFor="let item of players" class="conectado" style="">
+        <p>{{item.player}}</p>
+      </div>
+    </div>
+  </div>
+</ion-col>
 </ion-grid>
 
 <ion-fab right bottom>
