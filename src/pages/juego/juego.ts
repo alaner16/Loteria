@@ -192,7 +192,7 @@ export class JuegoPage {
       //this.showCard.unsubscribe();
     }
     console.log(this.user);
-  
+
     this.partidaService.leaveGame(this.user);
     this.navCtrl.setRoot(HomePage);
   }
@@ -212,13 +212,12 @@ export class JuegoPage {
           this.indice = 0;
           this.indice2 = 0;
         }
-        }else if(this.user.email != this.game.owner && this.game.status == "I"){
-          this.intervalito = 1;
-          this.indice = this.game.currentCard;
-
+        ///////////////////////////////////////////////
+        console.log("pelan");
           this.partidaService.get_request_check(this.game_id).then(gg => {
             let f:any = gg;
             f.forEach(element => {
+              console.log(element.player_room);
               this.partidaService.get_room_by_id(element.player_room).then(xa => {
                 let room:any = xa;
                 room.stats[element.stats[0]][element.stats[1]].marked = true;
@@ -274,6 +273,10 @@ export class JuegoPage {
           let as:any = hh;
           this.search_card(this.game.random[this.indice], this.table, as.player);
         })
+        ///////////////////////////////////////////////
+        }else if(this.user.email != this.game.owner && this.game.status == "I"){
+          this.intervalito = 1;
+          this.indice = this.game.currentCard;
         }
         this.partidaService.get_my_room(this.user.email).then(xa => {
           let roomy:any = xa;
