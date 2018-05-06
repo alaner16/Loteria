@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, MenuController } from 'ionic-angular';
-
+import { IonicPage, NavController, NavParams, MenuController, PopoverController, AlertController, Alert } from 'ionic-angular';
+import { AngularFireDatabase } from 'angularfire2/database';
+import * as firebase from 'firebase';
+import { PartidaProvider } from "../../providers/partida/partida";
 /**
  * Generated class for the RecordPage page.
  *
@@ -14,9 +16,22 @@ import { IonicPage, NavController, NavParams, MenuController } from 'ionic-angul
   templateUrl: 'record.html',
 })
 export class RecordPage {
+  showCard: any;
+  showClientControl: any;
   partidas: boolean = false;
   cartas: boolean = true;
-  constructor(public navCtrl: NavController, public navParams: NavParams, private menu: MenuController) {
+  owner: any;
+  game_id: any;
+  players: any;
+  email: any;
+  constructor(
+    public navCtrl: NavController, 
+    public navParams: NavParams, 
+    private menu: MenuController,
+    private popoverCtrl: PopoverController,
+    private alertCtrl: AlertController,
+    private afd: AngularFireDatabase,
+    private pp: PartidaProvider) {
     
   }
 
@@ -28,4 +43,35 @@ export class RecordPage {
     this.menu.enable(false,'menurecords');
   }
 
+  modal(myEvent){
+    console.log("game" + this.game_id)
+    this.pp.getlastgame("abraham-alvarado@hotmail.com").then( ab => {
+      this.owner = ab;
+      console.log(this.owner);
+      
+
+    });
+    
+    let alert = this.alertCtrl.create({
+      title: 'PARTIDA FINALIZADA',
+      message: 'El juego a terminado:<br/> <br/>Chorro:  '+ (this.owner.control.wins.blast) +'<br/>Cuatro Esquinas:  '+ (this.owner.control.wins.quarter) +'<br/>Centrito:  '+ (this.owner.control.wins.center) +'<br/>Llenas:  '+ (this.owner.control.wins.full) +'',
+      buttons: [
+        {
+          text: 'Salir Sala',
+          role: 'cancel',
+          handler: () => {
+            //console.log(this.pp.getGame());
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Volver a Jugar',
+          handler: () => {
+            console.log('Buy clicked');
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
 }
