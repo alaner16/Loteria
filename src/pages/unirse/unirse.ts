@@ -74,6 +74,7 @@ export class UnirsePage {
       status: 'A',
       timestamp: timestamp
     }
+    console.log('En unirse' + id);
     this.partidaService.getGame(id).then(response =>{
       let currentGame: any = [];
       currentGame = response

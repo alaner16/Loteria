@@ -38,7 +38,7 @@ export class JuegoPage {
   indice = 0;
   indice2 = 0;
   intervalito = 1;
-  subControl: any;
+  subControl: any = false;
   owner: any;
   email: any;
   currentCard: any;
@@ -51,6 +51,9 @@ export class JuegoPage {
   public room_request_blast:any = {player_room: null, game_id: null, status: true};
   public room_request_square:any = {player_room: null, game_id: null, status: true};
   public room_request_center:any = {player_room: null, game_id: null, status: true};
+  public showClientControl: any = false;
+  public showStats: any;
+  public showStatscontrol: any;
 
   constructor(public navCtrl: NavController,public partidaService: PartidaProvider, public navParams: NavParams, private modal: ModalController, private tableService: TableProvider, public afDB: AngularFireDatabase) {
     this.game = {random: [0,0,0]}
@@ -151,9 +154,8 @@ export class JuegoPage {
         )
       });
       if(this.email != this.owner){
-        this.showControl = true;
-        this.showCard = this.afDB.list('/game/');
-        this.showCard.valueChanges().subscribe(games => {
+        this.showClientControl = true;
+        this.showCard = this.afDB.list('/game/').valueChanges().subscribe(games => {
           this.partidaService.getGame(this.game_id).then(response =>{
           this.iniciar();
         })
@@ -184,10 +186,14 @@ export class JuegoPage {
   salir(){
     if(this.subControl == true){
       this.sub.unsubscribe();
+      this.subControl = false;
     }
-    if(this.showControl = true){
+    if(this.showClientControl = true){
+      this.showClientControl = false;
       //this.showCard.unsubscribe();
     }
+    console.log(this.user);
+  
     this.partidaService.leaveGame(this.user);
     this.navCtrl.setRoot(HomePage);
   }
