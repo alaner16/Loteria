@@ -57,11 +57,15 @@ export class PartidaProvider {
           control = false;
           console.log("en last game service");
           let lastGame = snap.val();
+          console.log(lastGame);
           let id = Object.keys(lastGame);
+          //console.log("game");
           let game = snap.child(id[0]).val();
+          //console.log("game");
           game.id = id[0];
           console.log(game);
           console.log(game.id);
+          console.log("hola");
           resolve(game);
           }
         }catch(err){ reject(err)}
