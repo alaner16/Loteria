@@ -5,7 +5,6 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { TabsPage } from '../pages/tabs/tabs';
 import { AuthService } from '../services/auth.service';
 import { NativeAudio } from '@ionic-native/native-audio';
-//import { ConfigPage } from '../pages/config/config';
 
 @Component({
   templateUrl: 'app.html'
@@ -19,10 +18,7 @@ export class Loteria {
       // Here you can do any higher level native things you might need.
       statusBar.styleDefault();
       splashScreen.hide();
-      this.nativeAudio.preloadComplex('rolilla', 'assets/sounds/rolilla.mp3',1,1,0).then(this.onSuccessPreloading, this.onError);
-      //this.nativeAudio.play('rolilla');
-    //this.nativeAudio.loop('rolilla');
-    //this.nativeAudio.setVolumeForComplexAsset('rolilla',0.5);
+      this.nativeAudio.preloadComplex('rolilla', 'assets/sounds/rolilla.mp3',0.3,1,0).then(this.onSuccessPreloading, this.onError);
     });
   }
   onSuccessPreloading = (data) => {
