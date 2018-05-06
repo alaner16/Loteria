@@ -36,6 +36,7 @@ export class JuegoPage {
   game:any;
   game_id:any;
   indice = 0;
+  indice2 = 0;
   intervalito = 1;
   subControl: any;
   owner: any;
@@ -182,10 +183,11 @@ export class JuegoPage {
       this.partidaService.getGame(this.game_id).then( aa => {
         this.game = aa;
         if (this.user.email == this.game.owner) {
-          this.game.currentCard = this.indice;
+          this.game.currentCard = this.indice2;
           this.game.status = "I";
         this.partidaService.update_card(this.game_id, this.game);
-        this.indice ++;
+        this.indice = this.game.currentCard;
+        this.indice2 ++;
         if(this.indice>53){
           this.indice = 0;
         }
