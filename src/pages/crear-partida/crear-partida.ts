@@ -130,7 +130,7 @@ export class CrearPartidaPage {
       table: 0,
       timestamp: this.timestamp
     }
-    this.pp.getlastgame(this.player).then(response =>{
+    this.pp.getlastgame(this.player.player).then(response =>{
       response;
       console.log(response);
       this.pp.newRoom(this.player, response);

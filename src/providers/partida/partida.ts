@@ -207,6 +207,7 @@ export class PartidaProvider {
   }
 
   joinGame(player){
+    console.log('Estoy en joinGame');
     let z=true;
     let gg = true;
     firebase.database().ref('/room/').orderByChild('id_game').equalTo(player.id_game).on('value', (snapshot) => {

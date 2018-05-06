@@ -190,8 +190,10 @@ export class JuegoPage {
     }
     if(this.showClientControl = true){
       this.showClientControl = false;
-      this.showCard.unsubscribe();
+      //this.showCard.unsubscribe();
     }
+    console.log(this.user);
+  
     this.partidaService.leaveGame(this.user);
     this.navCtrl.setRoot(HomePage);
   }
