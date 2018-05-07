@@ -20,11 +20,11 @@ import { ElegirCartaPage } from '../pages/elegir-carta/elegir-carta';
 import { PerfilPage } from '../pages/perfil/perfil';
 import { ChatPage } from '../pages/chat/chat';
 import { AvatarPage } from '../pages/avatar/avatar';
-//pelan putos
 // Ionic Native
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { NativeAudio } from '@ionic-native/native-audio';
+import { SocialSharing } from '@ionic-native/social-sharing';
 
 //Server modules
 import { AngularFireModule } from 'angularfire2';
@@ -106,6 +106,7 @@ export const firebaseConfig = {
     CardProvider,
     TableProvider,
     NativeAudio,
+    SocialSharing
   ]
 })
 export class AppModule {}

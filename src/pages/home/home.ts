@@ -6,13 +6,14 @@ import { RecordPage } from "../record/record";
 import { AuthService } from '../../services/auth.service';
 import { LoginPage } from '../login/login';
 import { NativeAudio } from '@ionic-native/native-audio';
+import { SocialSharing } from '@ionic-native/social-sharing';
 
 @Component({
   selector: "page-home",
   templateUrl: "home.html"
 })
 export class HomePage {
-  constructor(public navCtrl: NavController, private auth: AuthService, private nativeAudio: NativeAudio) {
+  constructor(public navCtrl: NavController, private auth: AuthService, public socialSharing: SocialSharing, private nativeAudio: NativeAudio) {
     
   }
 
@@ -41,4 +42,14 @@ export class HomePage {
     this.auth.signOut();
     this.navCtrl.setRoot(HomePage);
   }
+  compartir() {
+    // Share
+    this.socialSharing.shareViaWhatsApp('Te invito a jugar lotería conmigo, solo tienes que bajarla: ', 'http://i68.tinypic.com/ngvi20.png', 'https://goo.gl/Zg51eD').then(() => {
+      // Success!
+    }).catch(() => {
+      // Error!
+    });
+  }
 }
+
+
