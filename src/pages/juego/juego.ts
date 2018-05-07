@@ -293,43 +293,49 @@ export class JuegoPage {
             }
           })
         }
-        // if (this.game.control.wins.blast == false){
-        //   this.partidaService.get_request_blast(this.game_id).then( gg => {
-        //     let gf:any = gg[0];
-        //     this.partidaService.get_room_by_id(gf.player_room).then(
-        //       ff => {
-        //         let ag:any = ff;
-        //         this.game.control.stats.blast = ag.player;
-        //       }
-        //     )
-        //   })
-        // }
-        // if (this.game.control.wins.quarter == false){
-        //   this.partidaService.get_request_square(this.game_id).then( gg => {
-        //     let gf:any = gg[0];
-        //     this.partidaService.get_room_by_id(gf.player_room).then(
-        //       ff => {
-        //         let ag:any = ff;
-        //         this.game.control.stats.quarter = ag.player;
-        //       }
-        //     )
-        //   })
-        // }
-        // if (this.game.control.wins.center == false){
-        //   this.partidaService.get_request_center(this.game_id).then( gg => {
-        //     let gf:any = gg[0];
-        //     this.partidaService.get_room_by_id(gf.player_room).then(
-        //       ff => {
-        //         let ag:any = ff;
-        //         this.game.control.stats = ag.player;
-        //       }
-        //     )
-        //   })
-        // }
-        // this.partidaService.getPlayers(this.game_id).then(hh => {
-        //   let as:any = hh;
-        //   this.search_card(this.game.random[this.indice], this.table, as.player);
-        // })
+        if (this.game.control.wins.blast == false){
+          this.partidaService.get_request_blast(this.game_id).then( gg => {
+            let gf:any = gg;
+            if (gf.length>0){
+              gf = gf[0];
+              this.partidaService.get_room_by_id(gf.player_room).then(
+                ff => {
+                  let ag:any = ff;
+                this.game.control.stats.blast = ag.player;
+              }
+            )}
+          })
+        }
+        if (this.game.control.wins.quarter == false){
+          this.partidaService.get_request_square(this.game_id).then( gg => {
+            let gf:any = gg;
+            if (gf.length>0){
+              gf = gf[0];
+              this.partidaService.get_room_by_id(gf.player_room).then(
+                ff => {
+                  let ag:any = ff;
+                this.game.control.stats.quarter = ag.player;
+              }
+            )}
+          })
+        }
+        if (this.game.control.wins.center == false){
+          this.partidaService.get_request_center(this.game_id).then( gg => {
+            let gf:any = gg;
+            if (gf.length>0){
+              gf = gf[0];
+              this.partidaService.get_room_by_id(gf.player_room).then(
+                ff => {
+                  let ag:any = ff;
+                this.game.control.stats = ag.player;
+              }
+            )}
+          })
+        }
+        this.partidaService.getPlayers(this.game_id).then(hh => {
+          let as:any = hh;
+          this.search_card(this.game.random[this.indice], this.table, as.player);
+        })
         ///////////////////////////////////////////////
         }else if(this.user.email != this.game.owner && this.game.status == "I"){
           this.intervalito = 1;
