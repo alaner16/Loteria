@@ -160,7 +160,7 @@ export class JuegoPage {
         console.log(this.showClientControl);
         this.showCard = this.afDB.list('/game/').valueChanges().subscribe(games => {
           this.partidaService.getGame(this.game_id).then(response =>{
-            if(this.game.status = "I"){
+            if(response['status'] == "I"){
             this.iniciar();
             }
         })
@@ -188,8 +188,9 @@ export class JuegoPage {
     modalChat.present();
   }
   ngOnDestroy(): void {
-    this.showCard.unsubscribe('games');
+    //this.showCard.unsubscribe('games');
     this.gettingrooms.unsubscribe();
+    this.partidaService.leaveGame(this.user);
     console.log('en onDestroy');
   }
   salir(){
@@ -198,9 +199,9 @@ export class JuegoPage {
       this.subControl = false;
       this.gettingrooms.unsubscribe();
     }
-    if(this.showClientControl = true && this.user.email != this.game.owner){
+    if(this.showClientControl == true && this.user.email != this.game.owner){
       this.showClientControl = false;
-      this.showCard.unsubscribe('games');
+      this.showCard.unsubscribe();
 
     }
     console.log(this.user);
