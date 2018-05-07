@@ -61,6 +61,7 @@ export class JuegoPage {
   public showStats: any;
   public showStatscontrol: any;
   public gettingrooms: any;
+  public initCard: any = true;
 
   constructor(private alertCtrl: AlertController, public navCtrl: NavController,public partidaService: PartidaProvider, public navParams: NavParams, private modal: ModalController, private tableService: TableProvider, public afDB: AngularFireDatabase, private nativeAudio: NativeAudio) {
     this.game = {random: [0,0,0]}
@@ -246,6 +247,7 @@ export class JuegoPage {
   ///////////////////////////////////////////////juego.html
 
   iniciar(){
+    this.initCard = false;
     this.subControl = true;
     this.sub = Observable.interval(1000*this.intervalito).subscribe((val) => {
       this.partidaService.getGame(this.game_id).then( aa => {
