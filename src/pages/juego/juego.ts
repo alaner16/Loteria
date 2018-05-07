@@ -59,6 +59,7 @@ export class JuegoPage {
   public showClientControl: any = false;
   public showStats: any;
   public showStatscontrol: any;
+  public gettingrooms: any; 
 
   constructor(public navCtrl: NavController,public partidaService: PartidaProvider, public navParams: NavParams, private modal: ModalController, private tableService: TableProvider, public afDB: AngularFireDatabase, private nativeAudio: NativeAudio) {
     this.game = {random: [0,0,0]}
@@ -146,7 +147,7 @@ export class JuegoPage {
     this.partidaService.getGame(this.game_id).then( ab => {
       this.owner = ab;
       this.owner = this.owner.owner;
-      this.afDB.list('/room/').valueChanges().subscribe(players => {
+      this.gettingrooms = this.afDB.list('/room/').valueChanges().subscribe(players => {
         this.partidaService.getPlayers(this.game_id).then(
           response => {
             this.players = response;
@@ -155,9 +156,12 @@ export class JuegoPage {
       });
       if(this.email != this.owner){
         this.showClientControl = true;
+        console.log(this.showClientControl);
         this.showCard = this.afDB.list('/game/').valueChanges().subscribe(games => {
           this.partidaService.getGame(this.game_id).then(response =>{
-          this.iniciar();
+            if(this.game.status = "I"){
+            this.iniciar();
+            }
         })
       });
       }
@@ -165,7 +169,7 @@ export class JuegoPage {
     });
   }
 
- // card(id){console.log( id )}
+
 
   play(){
     this.tb=this.navParams.get('tabla');
@@ -182,15 +186,21 @@ export class JuegoPage {
     const modalChat = this.modal.create(ChatPage);
     modalChat.present();
   }
-
+  ngOnDestroy(): void {
+    this.showCard.unsubscribe('games');
+    this.gettingrooms.unsubscribe();
+    console.log('en onDestroy');
+  }
   salir(){
     if(this.subControl == true){
       this.sub.unsubscribe();
       this.subControl = false;
+      this.gettingrooms.unsubscribe();
     }
-    if(this.showClientControl = true){
+    if(this.showClientControl = true && this.user.email != this.game.owner){
       this.showClientControl = false;
-      //this.showCard.unsubscribe();
+      this.showCard.unsubscribe('games');
+ 
     }
     console.log(this.user);
 

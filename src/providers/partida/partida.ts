@@ -230,9 +230,9 @@ export class PartidaProvider {
         try{
           if(control == true){
           control = false;
-          console.log("en last game service");
+
           let lastGame = snap.val();
-          console.log(lastGame);
+
           let id = Object.keys(lastGame);
           //console.log("game");
           let game = snap.child(id[0]).val();
@@ -255,13 +255,13 @@ export class PartidaProvider {
         try{
           if(control == true){
           control = false;
-          console.log("en last room service");
+
           let lastRoom = snap.val();
           let id = Object.keys(lastRoom);
           let room = snap.child(id[0]).val();
           room.id = id[0];
-          console.log(room);
-          console.log(room.id);
+
+
           resolve(room);
           }
         }catch(err){ reject(err)}
@@ -336,7 +336,7 @@ export class PartidaProvider {
       //})
       player.id_game = this.id;
       player['last'] = 1;
-      console.log('creando la sala');
+
       this.db.ref('/room/').push(player);
       }
     });
@@ -346,12 +346,11 @@ export class PartidaProvider {
     let gamecontrol = true;
     let roomcontrol = true;
     let leaveControl = true;
-    console.log(user);
     this.db.ref('/game/').orderByChild("owner").equalTo(user.email).limitToLast(1).on('value',(snap)=>{
       try{
         if(gamecontrol == true){
         gamecontrol = false;
-        console.log("en leave game method");
+
         let lastGame = snap.val();
         let id = Object.keys(lastGame);
         let game = snap.child(id[0]).val();
@@ -373,7 +372,7 @@ export class PartidaProvider {
       try{
         if(roomcontrol == true){
         roomcontrol = false;
-        console.log("en leave room method");
+
         let lastRoom = snap.val();
         let id = Object.keys(lastRoom);
         let room = snap.child(id[0]).val();
@@ -391,8 +390,6 @@ export class PartidaProvider {
               game.id = id[0];
               let currentUsers = game.control.players
               let updatenumUsers = currentUsers - 1;
-              console.log(currentUsers);
-              console.log(updatenumUsers);
               if(currentUsers > 1){
                 game.control.players = updatenumUsers;
                 this.afd.list('/game/').update(id[0], game);
@@ -411,7 +408,7 @@ export class PartidaProvider {
   }
 
   joinGame(player){
-    console.log('Estoy en joinGame');
+
     let z=true;
     let gg = true;
     firebase.database().ref('/room/').orderByChild('id_game').equalTo(player.id_game).on('value', (snapshot) => {
@@ -438,10 +435,13 @@ export class PartidaProvider {
 
   getPlayers(id_game){
     let promise = new Promise((resolve, reject) => {
+      let controlplayers = true;
       this.db.ref('/room/').orderByChild('id_game').equalTo(id_game).on('value',(snapshot)=> {
         let lsGames = [];
         let game: any;
         try{
+          if(controlplayers == true){
+            controlplayers = false;
           let games = snapshot.val();
           //console.log(games);
           let ids = Object.keys(games);
@@ -449,7 +449,7 @@ export class PartidaProvider {
           for(var i=0; i< count; i++){
             let key = ids[i];
             let item = snapshot.child(key).val();
-            console.log(item);
+
             if(item.status == 'A'){
               //console.log(item.last);
                 game = {
@@ -465,6 +465,7 @@ export class PartidaProvider {
             }
           }
           resolve(lsGames);
+        }
         }catch(err){
           reject(err);
         }
@@ -476,17 +477,23 @@ export class PartidaProvider {
 
   getGame(id_game){
     let promise = new Promise((resolve, reject) =>{
+      let controlgame = true;
+      if(controlgame = true){
       this.db.ref('/game/').orderByKey().equalTo(id_game).on('value', result => {
         try{
+          if(controlgame = true){
+            controlgame = false;
           let item = result.val();
           let id = Object.keys(item);
           let game = result.child(id[0]).val();
           game.id = id[0];
           resolve(game)
+          }
         }catch(err){
           reject(err);
         }
       });
+    }
     })
     return promise;
   }
@@ -508,7 +515,7 @@ export class PartidaProvider {
 
           this.afd.list('/game/').update(id[0], game);
           control = false;
-          console.log(control);
+
           }
           console.log('no entre en update tables');
         }catch(e){console.log(e)}
@@ -646,7 +653,7 @@ export class PartidaProvider {
           if(item.status == 'A'){
             if(z == true){
               z=false;
-            console.log('update player in room');
+
             //console.log(room);
             //console.log(key);
             this.afd.list('/room/').update(key, room);
