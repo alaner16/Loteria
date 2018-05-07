@@ -1,11 +1,12 @@
 import { Component, style } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController, AlertController } from 'ionic-angular';
 import { ChatPage } from '../chat/chat';
 import { PartidaProvider } from '../../providers/partida/partida';
 import { TableProvider } from '../../providers/partida/table';
 import * as firebase from 'firebase';
 import { Observable } from 'rxjs/Observable';
 import { HomePage } from "../home/home";
+import { CrearPartidaPage } from "../crear-partida/crear-partida";
 import 'rxjs/add/observable/interval';
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import { FirebaseListObservable } from 'angularfire2/database-deprecated';
@@ -61,7 +62,7 @@ export class JuegoPage {
   public showStatscontrol: any;
   public gettingrooms: any; 
 
-  constructor(public navCtrl: NavController,public partidaService: PartidaProvider, public navParams: NavParams, private modal: ModalController, private tableService: TableProvider, public afDB: AngularFireDatabase, private nativeAudio: NativeAudio) {
+  constructor(private alertCtrl: AlertController, public navCtrl: NavController,public partidaService: PartidaProvider, public navParams: NavParams, private modal: ModalController, private tableService: TableProvider, public afDB: AngularFireDatabase, private nativeAudio: NativeAudio) {
     this.game = {random: [0,0,0]}
     this.estadoPositivo[0] = false;
     this.estadoPositivo[1] = false;
@@ -207,6 +208,41 @@ export class JuegoPage {
     this.partidaService.leaveGame(this.user);
     this.navCtrl.setRoot(HomePage);
   }
+  /////////////////////////////////////////juego.html
+  modal2(){
+    console.log("game" + this.game_id)
+    this.partidaService.getlastgame(this.owner).then( ab => {
+      this.owner = ab;
+      console.log(this.owner);
+      
+
+    });
+    
+    let alert = this.alertCtrl.create({
+      title: 'PARTIDA FINALIZADA',
+      message: 'El juego a terminado:<br/> <br/>Chorro:  '+ (this.owner.control.wins.blast) +'<br/>Cuatro Esquinas:  '+ (this.owner.control.wins.quarter) +'<br/>Centrito:  '+ (this.owner.control.wins.center) +'<br/>Llenas:  '+ (this.owner.control.wins.full) +'',
+      buttons: [
+        {
+          text: 'Salir Sala',
+          role: 'cancel',
+          handler: () => {
+            this.navCtrl.push(HomePage);
+            //console.log(this.pp.getGame());
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Volver a Jugar',
+          handler: () => {
+            this.navCtrl.push(CrearPartidaPage);
+            console.log('Buy clicked');
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
+  ///////////////////////////////////////////////juego.html
 
   iniciar(){
     this.subControl = true;
@@ -223,6 +259,7 @@ export class JuegoPage {
         console.log(this.game.random[this.indice]);
         this.nativeAudio.play('sonidocarta');
         if(this.indice>53){
+          this.modal2();
           this.indice = 0;
           this.indice2 = 0;
         }
