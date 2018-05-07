@@ -37,7 +37,8 @@
   <ion-row>
     <ion-col>
       <div class="Baraja" col-3 no-padding col-md-2 col-lg-1>
-        <img class="baraja-diseño" src="assets/cards/{{game.random[indice]}}.png">
+        <img *ngIf="initCard == true" class="baraja-diseño" src="assets/cards/0.png">
+        <img  *ngIf="initCard == false" class="baraja-diseño" src="assets/cards/{{game.random[indice]}}.png">
       </div>
     </ion-col>
 
