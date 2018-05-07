@@ -20,16 +20,19 @@ export class PartidaProvider {
   constructor(public afd: AngularFireDatabase) { }
   get_room_by_id(player){
     let promise = new Promise((resolve, reject) => {
-      firebase.database().ref('/room/').orderByChild('id').equalTo(player).on('value', (snap) => {
+      firebase.database().ref('/room/').orderByKey().equalTo(player).on('value', (snap) => {
         try {
           let game = snap.val();
-          let ids = Object.keys(game);
+          if (game){
+            let ids = Object.keys(game);
           let count = Object.keys(game).length;
           let m:any;
           for(var i=0; i< count; i++){
             var key = ids[i];
             var item = snap.child(key).val();
+            item.id = key;
              resolve(item);
+          }
           }
         }catch(err){
           reject(err);
@@ -66,8 +69,10 @@ export class PartidaProvider {
         let game: any;
         try{
           let games = snapshot.val();
-          let ids = Object.keys(games);
+          if (games){
+            let ids = Object.keys(games);
           let count = Object.keys(games).length;
+
           for(var i=0; i< count; i++){
             let key = ids[i];
             let item = snapshot.child(key).val();
@@ -80,6 +85,7 @@ export class PartidaProvider {
               }
               lsGames.push(game);
             }
+          }
           }
           resolve(lsGames);
         }catch(err){
@@ -97,7 +103,8 @@ export class PartidaProvider {
         let game: any;
         try{
           let games = snapshot.val();
-          let ids = Object.keys(games);
+          if (games){
+            let ids = Object.keys(games);
           let count = Object.keys(games).length;
           for(var i=0; i< count; i++){
             let key = ids[i];
@@ -110,6 +117,8 @@ export class PartidaProvider {
               }
               lsGames.push(game);
             }
+          }
+
           }
           resolve(lsGames);
         }catch(err){
@@ -127,7 +136,8 @@ export class PartidaProvider {
         let game: any;
         try{
           let games = snapshot.val();
-          let ids = Object.keys(games);
+          if(games){
+            let ids = Object.keys(games);
           let count = Object.keys(games).length;
           for(var i=0; i< count; i++){
             let key = ids[i];
@@ -140,6 +150,7 @@ export class PartidaProvider {
               }
               lsGames.push(game);
             }
+          }
           }
           resolve(lsGames);
         }catch(err){
@@ -157,7 +168,8 @@ export class PartidaProvider {
         let game: any;
         try{
           let games = snapshot.val();
-          let ids = Object.keys(games);
+          if(games){
+            let ids = Object.keys(games);
           let count = Object.keys(games).length;
           for(var i=0; i< count; i++){
             let key = ids[i];
@@ -170,6 +182,7 @@ export class PartidaProvider {
               }
               lsGames.push(game);
             }
+          }
           }
           resolve(lsGames);
         }catch(err){
@@ -187,7 +200,8 @@ export class PartidaProvider {
         let game: any;
         try{
           let games = snapshot.val();
-          let ids = Object.keys(games);
+          if(games){
+            let ids = Object.keys(games);
           let count = Object.keys(games).length;
           for(var i=0; i< count; i++){
             let key = ids[i];
@@ -200,6 +214,7 @@ export class PartidaProvider {
               }
               lsGames.push(game);
             }
+          }
           }
           resolve(lsGames);
         }catch(err){
@@ -309,10 +324,8 @@ export class PartidaProvider {
   }
 
   newRoom(player, game){
-    console.log(game.id);
     player.id_game = game.id;
     player['last'] = 1;
-    console.log('creando la sala');
     this.db.ref('/room/').push(player);
   }
 
@@ -404,7 +417,7 @@ export class PartidaProvider {
         console.log(err);
       }
     })
-    
+
   }
 
   joinGame(player){
@@ -509,7 +522,6 @@ export class PartidaProvider {
           let id = Object.keys(item);
           let game = result.child(id[0]).val();
           game.id = id[0];
-          console.log(id_table);
 
           game.control.tables.push(id_table);
 
@@ -517,7 +529,6 @@ export class PartidaProvider {
           control = false;
 
           }
-          console.log('no entre en update tables');
         }catch(e){console.log(e)}
 
       });
@@ -617,7 +628,6 @@ export class PartidaProvider {
 
   updateUserTable(player, id_table){
       let control = true;
-      console.log(player.id_game);
       firebase.database().ref('/room/').orderByKey().equalTo(player.id).on('value', (snap) => {
         try {
         if(control == true){
@@ -629,7 +639,6 @@ export class PartidaProvider {
           //Se actualiza el item tabla del objeto room_player
           updateUser.table = id_table
 
-          console.log(updateUser)
           this.afd.list('/room/').update(key, updateUser);
         }
         }catch(err){

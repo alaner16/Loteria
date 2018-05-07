@@ -60,7 +60,7 @@ export class JuegoPage {
   public showClientControl: any = false;
   public showStats: any;
   public showStatscontrol: any;
-  public gettingrooms: any; 
+  public gettingrooms: any;
 
   constructor(private alertCtrl: AlertController, public navCtrl: NavController,public partidaService: PartidaProvider, public navParams: NavParams, private modal: ModalController, private tableService: TableProvider, public afDB: AngularFireDatabase, private nativeAudio: NativeAudio) {
     this.game = {random: [0,0,0]}
@@ -201,7 +201,7 @@ export class JuegoPage {
     if(this.showClientControl = true && this.user.email != this.game.owner){
       this.showClientControl = false;
       this.showCard.unsubscribe('games');
- 
+
     }
     console.log(this.user);
 
@@ -214,10 +214,10 @@ export class JuegoPage {
     this.partidaService.getlastgame(this.owner).then( ab => {
       this.owner = ab;
       console.log(this.owner);
-      
+
 
     });
-    
+
     let alert = this.alertCtrl.create({
       title: 'PARTIDA FINALIZADA',
       message: 'El juego a terminado:<br/> <br/>Chorro:  '+ (this.owner.control.wins.blast) +'<br/>Cuatro Esquinas:  '+ (this.owner.control.wins.quarter) +'<br/>Centrito:  '+ (this.owner.control.wins.center) +'<br/>Llenas:  '+ (this.owner.control.wins.full) +'',
@@ -255,75 +255,81 @@ export class JuegoPage {
         this.partidaService.update_card(this.game_id, this.game);
         this.indice = this.game.currentCard;
         this.indice2 ++;
-        this.nativeAudio.preloadComplex('sonidocarta', 'assets/sounds/cartas/' + this.game.random[this.indice] + '.mp3',1,1,0);
-        console.log(this.game.random[this.indice]);
-        this.nativeAudio.play('sonidocarta');
+        //this.nativeAudio.preloadComplex('sonidocarta', 'assets/sounds/cartas/' + this.game.random[this.indice] + '.mp3',1,1,0);
+        //this.nativeAudio.play('sonidocarta');
         if(this.indice>53){
           this.modal2();
           this.indice = 0;
           this.indice2 = 0;
         }
-        ///////////////////////////////////////////////
-        console.log("pelan");
+        //////////////////////////////////////////////
+        //funciona esto ya
           this.partidaService.get_request_check(this.game_id).then(gg => {
             let f:any = gg;
             f.forEach(element => {
-              console.log(element.player_room);
+              try {
               this.partidaService.get_room_by_id(element.player_room).then(xa => {
                 let room:any = xa;
                 room.stats[element.stats[0]][element.stats[1]].marked = true;
                 this.partidaService.update_stats(room);
                });
+              } catch (error) {
+
+              }
             });
         });
+        /////////////////////////////////////////////7
         if (this.game.control.wins.full == false){
           this.partidaService.get_request_full(this.game_id).then( gg => {
-            let gf:any = gg[0];
-            this.partidaService.get_room_by_id(gf.player_room).then(
-              ff => {
-                let ag:any = ff;
-                this.game.control.stats.full = ag.player;
-              }
-            )
+            let gf:any = gg;
+            if (gf.length>0){
+              gf = gf[0];
+              this.partidaService.get_room_by_id(gf.player_room).then(
+                ff => {
+                  let ag:any = ff;
+                  this.game.control.stats.full = ag.player;
+                }
+              )
+            }
           })
         }
-        if (this.game.control.wins.blast == false){
-          this.partidaService.get_request_blast(this.game_id).then( gg => {
-            let gf:any = gg[0];
-            this.partidaService.get_room_by_id(gf.player_room).then(
-              ff => {
-                let ag:any = ff;
-                this.game.control.stats.blast = ag.player;
-              }
-            )
-          })
-        }
-        if (this.game.control.wins.quarter == false){
-          this.partidaService.get_request_square(this.game_id).then( gg => {
-            let gf:any = gg[0];
-            this.partidaService.get_room_by_id(gf.player_room).then(
-              ff => {
-                let ag:any = ff;
-                this.game.control.stats.quarter = ag.player;
-              }
-            )
-          })
-        }
-        if (this.game.control.wins.center == false){
-          this.partidaService.get_request_center(this.game_id).then( gg => {
-            let gf:any = gg[0];
-            this.partidaService.get_room_by_id(gf.player_room).then(
-              ff => {
-                let ag:any = ff;
-                this.game.control.stats = ag.player;
-              }
-            )
-          })
-        }
-        this.partidaService.getPlayers(this.game_id).then(hh => {
-          let as:any = hh;
-          this.search_card(this.game.random[this.indice], this.table, as.player);
-        })
+        // if (this.game.control.wins.blast == false){
+        //   this.partidaService.get_request_blast(this.game_id).then( gg => {
+        //     let gf:any = gg[0];
+        //     this.partidaService.get_room_by_id(gf.player_room).then(
+        //       ff => {
+        //         let ag:any = ff;
+        //         this.game.control.stats.blast = ag.player;
+        //       }
+        //     )
+        //   })
+        // }
+        // if (this.game.control.wins.quarter == false){
+        //   this.partidaService.get_request_square(this.game_id).then( gg => {
+        //     let gf:any = gg[0];
+        //     this.partidaService.get_room_by_id(gf.player_room).then(
+        //       ff => {
+        //         let ag:any = ff;
+        //         this.game.control.stats.quarter = ag.player;
+        //       }
+        //     )
+        //   })
+        // }
+        // if (this.game.control.wins.center == false){
+        //   this.partidaService.get_request_center(this.game_id).then( gg => {
+        //     let gf:any = gg[0];
+        //     this.partidaService.get_room_by_id(gf.player_room).then(
+        //       ff => {
+        //         let ag:any = ff;
+        //         this.game.control.stats = ag.player;
+        //       }
+        //     )
+        //   })
+        // }
+        // this.partidaService.getPlayers(this.game_id).then(hh => {
+        //   let as:any = hh;
+        //   this.search_card(this.game.random[this.indice], this.table, as.player);
+        // })
         ///////////////////////////////////////////////
         }else if(this.user.email != this.game.owner && this.game.status == "I"){
           this.intervalito = 1;
