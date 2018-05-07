@@ -110,7 +110,8 @@ page-juego {
 //RESPONSIVE
 @media (min-width:340px){
     .grid-estilo{
-        margin-top: 26%;
+        margin-top: 7%;
+        width: 85%;
     }
     .baraja-diseño{
         max-width: 200%;
@@ -126,7 +127,8 @@ page-juego {
 }
 @media (min-width:420px){
     .grid-estilo{
-        margin-top: 26%;
+        margin-top: 10%;
+        width: 75%;
     }
 }
  @media (min-width:460px){
@@ -136,8 +138,8 @@ page-juego {
  }
  @media (min-width:660px){
     .grid-estilo{
-        width:  60%;
-        margin-top:15%;
+        width: 45%;
+        margin-top: -4%;
     }
 }
 @media (min-width:870px){
@@ -153,11 +155,21 @@ page-juego {
 }
 @media (min-width:1200px){
     .grid-estilo{
-        width:  24%;
+        width: 25%;
         margin-top: -1%;
     }
     .Carta{
         margin-top: 2%;
+    }
+    .estilo-ficha{
+        top: -90px;
+    }
+    .estilo-ficha.tamaño{
+        width:auto;
+        height: 70px;
+    }
+    .si{
+        margin-bottom:-80px;
     }
 }
 
