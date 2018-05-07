@@ -345,6 +345,7 @@ export class PartidaProvider {
   leaveGame(user){
     let gamecontrol = true;
     let roomcontrol = true;
+    let leaveControl = true;
     console.log(user);
     this.db.ref('/game/').orderByChild("owner").equalTo(user.email).limitToLast(1).on('value',(snap)=>{
       try{
@@ -355,9 +356,14 @@ export class PartidaProvider {
         let id = Object.keys(lastGame);
         let game = snap.child(id[0]).val();
         game.id = id[0];
-        console.log(game);
-        game.status = "L"
-        this.afd.list('/game/').update(id[0], game);
+        //console.log(game);
+        if(game.owner == user.email){
+          /*let currentUsers = game.control.players
+          let updatenumUsers = currentUsers - 1;
+          game.control.palyers = updatenumUsers;*/
+          game.status = "L"
+          this.afd.list('/game/').update(id[0], game);
+          }
         }
       }catch(err){
         console.log(err);
@@ -372,9 +378,30 @@ export class PartidaProvider {
         let id = Object.keys(lastRoom);
         let room = snap.child(id[0]).val();
         //room.id = id[0];
-        console.log(room);
+        //console.log(room);
         room.status = "L";
         this.afd.list('/room/').update(id[0], room);
+          this.db.ref('/game/').orderByKey().equalTo(room.id_game).on('value', result => {
+            try{
+              if(leaveControl == true){
+                leaveControl = false;
+              let item = result.val();
+              let id = Object.keys(item);
+              let game = result.child(id[0]).val();
+              game.id = id[0];
+              let currentUsers = game.control.players
+              let updatenumUsers = currentUsers - 1;
+              console.log(currentUsers);
+              console.log(updatenumUsers);
+              if(currentUsers > 1){
+                game.control.players = updatenumUsers;
+                this.afd.list('/game/').update(id[0], game);
+              }
+              }
+            }catch(err){
+              console.log(err);
+            }
+          });
         }
       }catch(err){
         console.log(err);
@@ -423,8 +450,8 @@ export class PartidaProvider {
             let key = ids[i];
             let item = snapshot.child(key).val();
             console.log(item);
-            if(item.last == 1){
-              console.log(item.last);
+            if(item.status == 'A'){
+              //console.log(item.last);
                 game = {
                 id: key,
                 id_game: id_game,
