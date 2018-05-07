@@ -62,7 +62,8 @@ page-juego {
    
 }
 .estilo-ficha.tamaño{
-     width: auto; height: auto;
+    width: 36px;
+    height: auto;
 }
 
 
@@ -115,7 +116,7 @@ page-juego {
         margin-top: 26%;
     }
     .baraja-diseño{
-        max-width: 300%;
+        max-width: 200%;
     }
     .estilo-ficha.tamaño {
         width: auto;
@@ -144,14 +145,19 @@ page-juego {
 }
 @media (min-width:870px){
     .grid-estilo{
-        width:  47%;
-        margin-top: -0%;
+        width:  35%;
+        margin-top: -2%;
+    }
+}
+@media (min-width:990px){
+    .baraja-diseño{
+        max-width: 300%;
     }
 }
 @media (min-width:1200px){
     .grid-estilo{
-        width:  35%;
-        margin-top: -0%;
+        width:  24%;
+        margin-top: -1%;
     }
     .Carta{
         margin-top: 2%;
