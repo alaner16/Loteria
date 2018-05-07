@@ -19,55 +19,76 @@
  
  
  <ion-content padding>
-  <ion-item>
- <ion-avatar item-start>
-  <ion-img src="assets/imgs/perfil/{{Perfil.Avatar}}"></ion-img>
-  <button ion-button round color="verde" (click)="presentPopover($event)">Cambiar</button>
+   <ion-grid col-12 col-md-6 offset-md-3 col-xl-4 offset-xl-4>
+     <ion-row>
+      <ion-item>
+        <ion-avatar item-start>
+          <ion-img src="assets/imgs/perfil/{{Perfil.Avatar}}"></ion-img>
+          <button ion-button round color="verde" (click)="presentPopover($event)">Cambiar</button>
+      
+        </ion-avatar>
+      </ion-item>
+      <!-- Hay que usar este modelo, para seleccionar entre una coleccion de img de perfil -->
+      <ion-list [virtualScroll]="items">
+      
+        <ion-item *virtualItem="let item">
+          <ion-avatar item-start>
+            <ion-img [src]="item.avatarUrl" [(ngModel)]="Perfil.Avatar"></ion-img>
+          </ion-avatar>
+          {{ item.firstName }} {{ item.lastName }}
+        </ion-item>
+      
+      </ion-list>
+     </ion-row>
+     <ion-row>
+      <ion-item>
+        <ion-label stacked floating col-12>
+          Nombre</ion-label>
+        <ion-input type="text" [(ngModel)]="Perfil.Nombre"></ion-input>
+      </ion-item>
+     </ion-row>
+     <ion-row>
+        <ion-item>
+          <ion-label stacked floating>
+            <ion-icon name="person"></ion-icon> Apodo</ion-label>
+          <ion-input type="text" [(ngModel)]="Perfil.Apodo"></ion-input>
+        </ion-item>
+     </ion-row>
+     <ion-row>
+        <ion-item>
+          <ion-label stacked floating>
+            <ion-icon name="md-calendar"></ion-icon> Fecha de Nacimiento</ion-label>
+          <ion-datetime displayFormat="DD/MMM/YYYY" min="1960" max="2018" [(ngModel)]="Perfil.FechaNacimiento"> </ion-datetime>
+        </ion-item>
+     </ion-row>
+     <ion-row>
+      <ion-item>
+        <ion-label stacked floating>
+          <ion-icon name="home"></ion-icon> Ciudad</ion-label>
+        <ion-select [(ngModel)]="Perfil.Ciudad">
+          <ion-option value="lm">Los Mochis</ion-option>
+          <ion-option value="clc">Culiacán</ion-option>
+          <ion-option value="gsv">Guasave</ion-option>
+          <ion-option value="mzt">Mazatlán</ion-option>
+        </ion-select>
+      </ion-item>
+     </ion-row>
+     <ion-row>
+<button ion-button block full (click)="save()" (click)="presentToast()">
+  Guardar
+</button>
+     </ion-row>
+   </ion-grid>
   
- </ion-avatar>
-  </ion-item>
-  <!-- Hay que usar este modelo, para seleccionar entre una coleccion de img de perfil -->
-  <ion-list [virtualScroll]="items">
   
-    <ion-item *virtualItem="let item">
-      <ion-avatar item-start>
-        <ion-img [src]="item.avatarUrl" [(ngModel)]="Perfil.Avatar"></ion-img>
-      </ion-avatar>
-      {{ item.firstName }} {{ item.lastName }}
-    </ion-item>
   
-  </ion-list>
-  <ion-item>
-    <ion-label stacked floating col-12>
-       Nombre</ion-label>
-    <ion-input type="text" [(ngModel)]="Perfil.Nombre"></ion-input>
-  </ion-item>
  
-  <ion-item>
-    <ion-label stacked floating>
-      <ion-icon name="person"></ion-icon> Apodo</ion-label>
-    <ion-input type="text" [(ngModel)]="Perfil.Apodo"></ion-input>
-  </ion-item>
+  
  
-  <ion-item>
-    <ion-label stacked floating>
-        <ion-icon name="md-calendar"></ion-icon> Fecha de Nacimiento</ion-label>
-    <ion-datetime displayFormat="DD/MMM/YYYY" min="1960" max="2018" [(ngModel)]="Perfil.FechaNacimiento"> </ion-datetime>
-  </ion-item>
+  
  
-  <ion-item>
-    <ion-label stacked floating>
-        <ion-icon name="home"></ion-icon> Ciudad</ion-label>
-    <ion-select [(ngModel)]="Perfil.Ciudad">
-      <ion-option value="lm">Los Mochis</ion-option>
-      <ion-option value="clc">Culiacán</ion-option>
-      <ion-option value="gsv">Guasave</ion-option>
-      <ion-option value="mzt">Mazatlán</ion-option>
-    </ion-select>
-  </ion-item>
+  
   <br><hr><br>
-  <button ion-button block full (click)="save()" (click)="presentToast()">
-    Guardar
-  </button>
+  
  
  </ion-content>
