@@ -62,6 +62,7 @@ export class JuegoPage {
   public showStatscontrol: any;
   public gettingrooms: any;
   public initCard: any = true;
+  public putoelkelolea:any = true;
 
   constructor(private alertCtrl: AlertController, public navCtrl: NavController,public partidaService: PartidaProvider, public navParams: NavParams, private modal: ModalController, private tableService: TableProvider, public afDB: AngularFireDatabase, private nativeAudio: NativeAudio) {
     this.game = {random: [0,0,0]}
@@ -264,20 +265,17 @@ export class JuegoPage {
       this.partidaService.getGame(this.game_id).then( aa => {
         this.game = aa;
         if (this.user.email == this.game.owner) {
+
           this.game.currentCard = this.indice2;
           this.game.status = "I";
         this.partidaService.update_card(this.game_id, this.game);
         this.indice = this.game.currentCard;
         this.indice2 ++;
-        //this.nativeAudio.preloadComplex('sonidocarta', 'assets/sounds/cartas/' + this.game.random[this.indice] + '.mp3',1,1,0);
-        //this.nativeAudio.play('sonidocarta');
         this.nativeAudio.play((this.game.random[this.indice]).toString(), () => { this.nativeAudio.unload(this.game.random[this.indice]).toString()});
-        if(this.indice>53){
-          this.modal2();
-          this.indice = 0;
-          this.indice2 = 0;
-          this.sub.unsubscribe();
-        }
+          if(this.indice2>53){
+            this.indice2=53;
+          }
+
         //////////////////////////////////////////////
         //funciona esto ya
           this.partidaService.get_request_check(this.game_id).then(gg => {
@@ -304,6 +302,7 @@ export class JuegoPage {
                 ff => {
                   let ag:any = ff;
                   this.game.control.stats.full = ag.player;
+                  this.s_full = true;
                 }
               )
             }
@@ -318,6 +317,7 @@ export class JuegoPage {
                 ff => {
                   let ag:any = ff;
                 this.game.control.stats.blast = ag.player;
+                this.s_blast = true;
               }
             )}
           })
@@ -331,6 +331,7 @@ export class JuegoPage {
                 ff => {
                   let ag:any = ff;
                 this.game.control.stats.quarter = ag.player;
+                this.s_square = true;
               }
             )}
           })
@@ -344,6 +345,7 @@ export class JuegoPage {
                 ff => {
                   let ag:any = ff;
                 this.game.control.stats = ag.player;
+                this.s_center = true;
               }
             )}
           })
@@ -368,8 +370,9 @@ export class JuegoPage {
         }
         this.partidaService.get_my_room(this.user.email).then(xa => {
           let roomy:any = xa;
-          if (this.s_full)
-          this.is_full(roomy)
+          if (this.s_full){
+          this.is_full(roomy);
+          this.modal2();}
           if (this.s_blast)
           this.is_blast(roomy)
           if (this.s_square)
