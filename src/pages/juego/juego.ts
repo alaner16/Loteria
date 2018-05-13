@@ -61,6 +61,7 @@ export class JuegoPage {
   public showStats: any;
   public showStatscontrol: any;
   public gettingrooms: any;
+  public initCard: any = true;
 
   constructor(private alertCtrl: AlertController, public navCtrl: NavController,public partidaService: PartidaProvider, public navParams: NavParams, private modal: ModalController, private tableService: TableProvider, public afDB: AngularFireDatabase, private nativeAudio: NativeAudio) {
     this.game = {random: [0,0,0]}
@@ -156,11 +157,17 @@ export class JuegoPage {
         )
       });
       if(this.email != this.owner){
+        let z=false;
         this.showClientControl = true;
         console.log(this.showClientControl);
         this.showCard = this.afDB.list('/game/').valueChanges().subscribe(games => {
           this.partidaService.getGame(this.game_id).then(response =>{
             if(response['status'] == "I"){
+              if(z==false){
+                this.iniciar();
+                z=true;
+                console.log('perros');
+              }
             this.iniciar();
             }
         })
@@ -246,6 +253,12 @@ export class JuegoPage {
   ///////////////////////////////////////////////juego.html
 
   iniciar(){
+    for(let i=0; i<=54; i++){
+      this.nativeAudio.preloadSimple(i.toString(),'assets/sounds/cartas/'+i.toString()+'.mp3');
+      //console.log(this.game.random[this.indice]);
+    }
+    this.nativeAudio.play('0',()=>{this.nativeAudio.unload('0')});
+    this.initCard = false;
     this.subControl = true;
     this.sub = Observable.interval(1000*this.intervalito).subscribe((val) => {
       this.partidaService.getGame(this.game_id).then( aa => {
@@ -258,10 +271,12 @@ export class JuegoPage {
         this.indice2 ++;
         //this.nativeAudio.preloadComplex('sonidocarta', 'assets/sounds/cartas/' + this.game.random[this.indice] + '.mp3',1,1,0);
         //this.nativeAudio.play('sonidocarta');
+        this.nativeAudio.play((this.game.random[this.indice]).toString(), () => { this.nativeAudio.unload(this.game.random[this.indice]).toString()});
         if(this.indice>53){
           this.modal2();
           this.indice = 0;
           this.indice2 = 0;
+          this.sub.unsubscribe();
         }
         //////////////////////////////////////////////
         //funciona esto ya
@@ -349,6 +364,7 @@ export class JuegoPage {
         }else if(this.user.email != this.game.owner && this.game.status == "I"){
           this.intervalito = 1;
           this.indice = this.game.currentCard;
+          this.nativeAudio.play((this.game.random[this.indice]).toString(), () => { this.nativeAudio.unload(this.game.random[this.indice]).toString()});
         }
         this.partidaService.get_my_room(this.user.email).then(xa => {
           let roomy:any = xa;
