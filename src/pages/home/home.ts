@@ -3,6 +3,7 @@ import { NavController } from 'ionic-angular';
 import { CrearPartidaPage } from '../crear-partida/crear-partida';
 import { UnirsePage } from "../unirse/unirse";
 import { RecordPage } from "../record/record";
+import { AboutPage } from "../about/about";
 import { AuthService } from '../../services/auth.service';
 import { LoginPage } from '../login/login';
 import { NativeAudio } from '@ionic-native/native-audio';
@@ -13,6 +14,7 @@ import { SocialSharing } from '@ionic-native/social-sharing';
   templateUrl: "home.html"
 })
 export class HomePage {
+  Contador= 0;
   constructor(public navCtrl: NavController, private auth: AuthService, public socialSharing: SocialSharing, private nativeAudio: NativeAudio) {
     
   }
@@ -25,7 +27,13 @@ export class HomePage {
   ionViewWillLeave(){
     //this.nativeAudio.stop('rolilla');
   }
-
+  easteregg(){
+    this.Contador=this.Contador+1;
+    
+    if (this.Contador>5){
+      this.navCtrl.push(AboutPage);
+    }
+  }
   crearPartida(): void {
     this.navCtrl.push(CrearPartidaPage);
   }
