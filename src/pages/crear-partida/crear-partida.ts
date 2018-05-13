@@ -25,8 +25,9 @@ export class CrearPartidaPage {
   i:any;
   email:any;
   public player: any;
-  newGame = {title: '', description: null, timestamp: 0, owner: '', type: '', status:'', settings: {},random:{}, currentCard: 0, control:{players: 1,wins:{full:false, blast:false, center: false,quarter:false}, tables:[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19]}};
+  newGame = {title: '', description: null, timestamp: 0, owner: '', type: '', status:'', settings: {},random:{}, currentCard: 0, control:{players: 1,wins:{full:false, blast:false, center: false,quarter:false}, tables:[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19], values: {} }};
   settings = {players:0,pricecard: 0, cardtimer:0, full:false, blast:false, quarters:false, middle:false};
+  values= {fullvalue:0,blastvalue:0,quartervalue:0,middlevalue:0};
 
   constructor(public navCtrl: NavController, public navParams: NavParams,public pp:PartidaProvider, private modal: ModalController, public perfilService: PerfilProvider) {
     this.i=true;
@@ -41,7 +42,6 @@ export class CrearPartidaPage {
       console.log(this.perfil.Apodo);
       this.title = this.perfil.Apodo;
     });
-    //this.title = this.perfil.Apodo;
     this.updatePriceValues();
   }
   title:any= "";
@@ -60,6 +60,10 @@ export class CrearPartidaPage {
   middlevalue: any = 0;
   status:any;
   type:any = 'public';
+  porcfull = 100;
+  porcblast = 0;
+  porcquarters = 0;
+  porcmiddle = 0;
 
   ok:any;
 
@@ -78,6 +82,10 @@ export class CrearPartidaPage {
     this.settings.blast = this.blast;
     this.settings.quarters = this.quarters;
     this.settings.middle = this.middle;
+    this.values.fullvalue = this.fullvalue;
+    this.values.blastvalue = this.blastvalue;
+    this.values.quartervalue = this.quartersvalue;
+    this.values.middlevalue = this.middlevalue;
 
     //Define la cantidad de numeros aleatorios.
     var numCards = 54;
@@ -98,6 +106,7 @@ export class CrearPartidaPage {
     }
     this.newGame.random = myArray;
     this.newGame.settings = this.settings;
+    this.newGame.control.values = this.values;
 
   }
   entrarJuego(): void {
@@ -145,9 +154,42 @@ export class CrearPartidaPage {
   }
 
   updatePriceValues(){
-    this.fullvalue = Math.round(this.pricecard * this.players  * .50);
-    this.blastvalue = Math.round(this.pricecard * this.players  * .20);
-    this.quartersvalue = Math.round(this.pricecard * this.players  * .20);
-    this.middlevalue = Math.round(this.pricecard * this.players  * .10);
+
+    this.fullvalue = Math.round(this.pricecard * this.players  * (this.porcfull* 0.01));
+    this.blastvalue = Math.round(this.pricecard * this.players  * (this.porcblast* 0.01));
+    this.quartersvalue = Math.round(this.pricecard * this.players  * (this.porcquarters* 0.01));
+    this.middlevalue = Math.round(this.pricecard * this.players  * (this.porcmiddle* 0.01));
+    
   }
+
+  updatePorc(juego){
+    if (juego=="blast"){
+      if (this.blast){
+        this.porcblast = 20;
+        this.porcfull -= 20;
+      }else{
+        this.porcblast = 0;
+        this.porcfull += 20;
+      }
+    }else if (juego=="quarters"){
+      if (this.quarters){
+        this.porcquarters = 20;
+        this.porcfull -= 20;
+      }else{
+        this.porcquarters = 0;
+        this.porcfull += 20;
+      }
+    }else if (juego=="middle"){
+      if (this.middle){
+        this.porcmiddle = 10;
+        this.porcfull -= 10;
+      }else{
+        this.porcmiddle = 0;
+        this.porcfull += 10;
+      }
+    }
+
+    this.updatePriceValues();
+  }
+
 }
