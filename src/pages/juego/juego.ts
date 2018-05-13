@@ -237,6 +237,7 @@ export class JuegoPage {
           handler: () => {
             this.navCtrl.push(HomePage);
             //console.log(this.pp.getGame());
+            this.salir();
             console.log('Cancel clicked');
           }
         },
