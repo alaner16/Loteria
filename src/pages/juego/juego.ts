@@ -335,7 +335,15 @@ export class JuegoPage {
         }
         this.partidaService.getPlayers(this.game_id).then(hh => {
           let as:any = hh;
-          this.search_card(this.game.random[this.indice], this.table, as.player);
+          console.log(as);
+          as.forEach(element => {
+            this.tableService.getTables().then(response =>{
+              this.search_card(this.game.random[this.indice], this.tables[this.tb], element.player);
+            }).catch(err =>{
+              console.error(err);
+            })
+
+          });
         })
         ///////////////////////////////////////////////
         }else if(this.user.email != this.game.owner && this.game.status == "I"){
@@ -424,8 +432,12 @@ is_kuatro(room){
       for (let i = 0; i < table[index].length; i++) {
         if (table[index][i] == carta) {
          let room;
+         console.log("carta:", carta);
+         console.log("otro:", table[index][i]);
+         console.log("otro:", user);
          this.partidaService.get_my_room(user).then(xa => {
            room = xa;
+           console.log(room);
            room.stats[index][i].showed = true;
            this.partidaService.update_stats(room);
           });
