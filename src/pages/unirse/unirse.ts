@@ -6,6 +6,7 @@ import { ElegirCartaPage } from '../elegir-carta/elegir-carta';
 import { JuegoPage } from "../juego/juego";
 import { CrearPartidaPage } from '../crear-partida/crear-partida';
 import { ToastController } from 'ionic-angular';
+import { ChatPage } from '../chat/chat';
 import * as firebase from 'firebase';
 
 /**
@@ -96,6 +97,12 @@ export class UnirsePage {
 
       }
     });
+  }
+
+  abrirChat(){
+    const modalChat = this.modal.create(ChatPage, {pagename: 'UnirsePage'});
+    modalChat.present();
+
   }
 
   play(dataUser){

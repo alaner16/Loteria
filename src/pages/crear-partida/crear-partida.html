@@ -63,21 +63,21 @@
             </ion-item>
           <ion-item>
             <ion-label>Llenas - $ {{fullvalue}}</ion-label>
-            <ion-checkbox color="dark" checked="true" [(ngModel)]="full"></ion-checkbox>
+            <ion-checkbox color="dark" checked="true" disabled="true" [(ngModel)]="full"></ion-checkbox>
 
           </ion-item>
           <ion-item>
             <ion-label>Chorro - $ {{blastvalue}}</ion-label>
-            <ion-checkbox color="dark" [(ngModel)]="blast"></ion-checkbox>
+            <ion-checkbox color="dark" [(ngModel)]="blast" (ionChange)="updatePorc('blast')"></ion-checkbox>
           </ion-item>
           <ion-item>
             <ion-label>4 esquinas - $ {{quartersvalue}}</ion-label>
-            <ion-checkbox color="dark" [(ngModel)]="quarters"></ion-checkbox>
+            <ion-checkbox color="dark" [(ngModel)]="quarters" (ionChange)="updatePorc('quarters')"></ion-checkbox>
 
           </ion-item>
           <ion-item>
             <ion-label>Centrito - $ {{middlevalue}}</ion-label>
-            <ion-checkbox color="dark" [(ngModel)]="middle"></ion-checkbox>
+            <ion-checkbox color="dark" [(ngModel)]="middle" (ionChange)="updatePorc('middle')"></ion-checkbox>
 
           </ion-item>
           <button ion-button color="secondary" float-right (click)="entrarJuego()">Comenzar</button>

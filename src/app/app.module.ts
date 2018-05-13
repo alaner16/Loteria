@@ -4,6 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { Loteria } from './app.component';
 import { NgxErrorsModule } from  '@ultimate/ngxerrors';
+import { TextToSpeech } from '@ionic-native/text-to-speech';
 // Paginas
 import { AboutPage } from '../pages/about/about';
 import { ContactPage } from '../pages/contact/contact';
@@ -65,7 +66,7 @@ export const firebaseConfig = {
     ElegirCartaPage,
     PerfilPage,
     ChatPage,
-    AvatarPage
+    AvatarPage,
   ],
   imports: [
     FormsModule,
@@ -106,7 +107,8 @@ export const firebaseConfig = {
     CardProvider,
     TableProvider,
     NativeAudio,
-    SocialSharing
+    SocialSharing,
+    TextToSpeech,
   ]
 })
 export class AppModule {}

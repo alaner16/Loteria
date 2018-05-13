@@ -487,7 +487,29 @@ export class PartidaProvider {
     })
     return promise;
   }
-
+  getCarta(id_game){
+    let promise = new Promise((resolve, reject) =>{
+      let controlgame = true;
+      if(controlgame = true){
+      this.db.ref('/card/').orderByChild('id').equalTo(id_game).on('value', result => {
+        try{
+          if(controlgame = true){
+            controlgame = false;
+          let item = result.val();
+          let id = Object.keys(item);
+          let gg = result.child(id[0]).val();
+          gg.id = id[0];
+          //console.log(gg);
+          resolve(gg)
+          }
+        }catch(err){
+          reject(err);
+        }
+      });
+    }
+    })
+    return promise;
+  }
   getGame(id_game){
     let promise = new Promise((resolve, reject) =>{
       let controlgame = true;
