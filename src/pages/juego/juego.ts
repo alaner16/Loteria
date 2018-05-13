@@ -63,6 +63,7 @@ export class JuegoPage {
   public showStatscontrol: any;
   public gettingrooms: any;
   public initCard: any = true;
+  public putoelkelolea:any = true;
 
   constructor(private tts: TextToSpeech,private alertCtrl: AlertController, public navCtrl: NavController,public partidaService: PartidaProvider, public navParams: NavParams, private modal: ModalController, private tableService: TableProvider, public afDB: AngularFireDatabase, private nativeAudio: NativeAudio) {
     this.game = {random: [0,0,0]}
@@ -268,6 +269,7 @@ export class JuegoPage {
       this.partidaService.getGame(this.game_id).then( aa => {
         this.game = aa;
         if (this.user.email == this.game.owner) {
+
           this.game.currentCard = this.indice2;
           this.game.status = "I";
         this.partidaService.update_card(this.game_id, this.game);
@@ -282,6 +284,7 @@ export class JuegoPage {
         }).then(() => console.log('Success')).catch((reason: any) => console.log(reason));        });
 
         this.indice2 ++;
+<<<<<<< HEAD
         //this.nativeAudio.preloadComplex('sonidocarta', 'assets/sounds/cartas/' + this.game.random[this.indice] + '.mp3',1,1,0);
         //this.nativeAudio.play('sonidocarta');
         
@@ -291,6 +294,13 @@ export class JuegoPage {
           this.indice = 0;
           this.indice2 = 0;
         }
+=======
+        this.nativeAudio.play((this.game.random[this.indice]).toString(), () => { this.nativeAudio.unload(this.game.random[this.indice]).toString()});
+          if(this.indice2>53){
+            this.indice2=53;
+          }
+
+>>>>>>> 9274172369e3165ed3608a30b348276a423972fb
         //////////////////////////////////////////////
         //funciona esto ya
           this.partidaService.get_request_check(this.game_id).then(gg => {
@@ -317,6 +327,7 @@ export class JuegoPage {
                 ff => {
                   let ag:any = ff;
                   this.game.control.stats.full = ag.player;
+                  this.s_full = true;
                 }
               )
             }
@@ -331,6 +342,7 @@ export class JuegoPage {
                 ff => {
                   let ag:any = ff;
                 this.game.control.stats.blast = ag.player;
+                this.s_blast = true;
               }
             )}
           })
@@ -344,6 +356,7 @@ export class JuegoPage {
                 ff => {
                   let ag:any = ff;
                 this.game.control.stats.quarter = ag.player;
+                this.s_square = true;
               }
             )}
           })
@@ -357,13 +370,22 @@ export class JuegoPage {
                 ff => {
                   let ag:any = ff;
                 this.game.control.stats = ag.player;
+                this.s_center = true;
               }
             )}
           })
         }
         this.partidaService.getPlayers(this.game_id).then(hh => {
           let as:any = hh;
-          this.search_card(this.game.random[this.indice], this.table, as.player);
+          console.log(as);
+          as.forEach(element => {
+            this.tableService.getTables().then(response =>{
+              this.search_card(this.game.random[this.indice], this.tables[this.tb], element.player);
+            }).catch(err =>{
+              console.error(err);
+            })
+
+          });
         })
         ///////////////////////////////////////////////
         }else if(this.user.email != this.game.owner && this.game.status == "I"){
@@ -379,8 +401,9 @@ export class JuegoPage {
         }
         this.partidaService.get_my_room(this.user.email).then(xa => {
           let roomy:any = xa;
-          if (this.s_full)
-          this.is_full(roomy)
+          if (this.s_full){
+          this.is_full(roomy);
+          this.modal2();}
           if (this.s_blast)
           this.is_blast(roomy)
           if (this.s_square)
@@ -459,8 +482,12 @@ is_kuatro(room){
       for (let i = 0; i < table[index].length; i++) {
         if (table[index][i] == carta) {
          let room;
+         console.log("carta:", carta);
+         console.log("otro:", table[index][i]);
+         console.log("otro:", user);
          this.partidaService.get_my_room(user).then(xa => {
            room = xa;
+           console.log(room);
            room.stats[index][i].showed = true;
            this.partidaService.update_stats(room);
           });
