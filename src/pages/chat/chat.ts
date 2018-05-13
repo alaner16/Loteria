@@ -26,10 +26,12 @@ export class ChatPage {
   public email: any;
   public date: any = new Date();
   public gameid: any;
+
   public pagename: any;
   constructor(public navCtrl: NavController, public navParams: NavParams, private view: ViewController, private fb: FormBuilder, private partida: PartidaProvider) {
     this.user= firebase.auth().currentUser;
     this.email = this.user.email;
+
     this.myForm = this.fb.group({
       'message': ['', Validators.required]
     });
@@ -86,6 +88,7 @@ export class ChatPage {
       this.content.scrollToBottom(0);
     });
   }
+
   sendMessage(){
     this.date = Date.now();
     console.log();
