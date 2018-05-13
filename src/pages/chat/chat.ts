@@ -26,16 +26,10 @@ export class ChatPage {
   public email: any;
   public date: any = new Date();
   public gameid: any;
+  public pagename: any;
   constructor(public navCtrl: NavController, public navParams: NavParams, private view: ViewController, private fb: FormBuilder, private partida: PartidaProvider) {
     this.user= firebase.auth().currentUser;
     this.email = this.user.email;
-    this.partida.getlastroom(this.email).then(response=>{
-      this.gameid = response['id_game'];
-    }).catch(err =>{
-      console.log(err);
-    });
-    
-    this.getMessages();
     this.myForm = this.fb.group({
       'message': ['', Validators.required]
     });
@@ -61,11 +55,37 @@ export class ChatPage {
 
   }
 
-  
+  ionView
  ionViewDidLoad() {
     console.log('ionViewDidLoad ChatPage');
   }
+  ionViewWillEnter(){
+    this.pagename = this.navParams.get('pagename');
+    if (this.pagename == 'UnirsePage'){
+      this.gameid = "general";
+      this.getGeneralMessages();
+    }
+    else {
+      this.partida.getlastroom(this.email).then(response=>{
+        this.gameid = response['id_game'];
+      }).catch(err =>{
+        console.log(err);
+      });
+      this.getMessages();
+    }
+  }
+  getGeneralMessages(){
+    var messagesRef = firebase.database().ref('/messages/').orderByChild("idgame").equalTo("general");
+    messagesRef.on("value", (snap) => {
+      var data = snap.val();
+      this.messages = [];
+      for(var key in data){
+        this.messages.push(data[key]);
+      }
 
+      this.content.scrollToBottom(0);
+    });
+  }
   sendMessage(){
     this.date = Date.now();
     console.log();
