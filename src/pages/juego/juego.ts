@@ -218,17 +218,18 @@ export class JuegoPage {
   }
   /////////////////////////////////////////juego.html
   modal2(){
+    console.log(this.game);
     console.log("game" + this.game_id)
     this.partidaService.getlastgame(this.owner).then( ab => {
       this.owner = ab;
-      console.log(this.owner);
-
-
+      //console.log(this.owner);
     });
-
+    console.log("antes de alerta"); 
+    let choro  = this.game.control.wins.blast;
+    console.log(choro);
     let alert = this.alertCtrl.create({
       title: 'PARTIDA FINALIZADA',
-      message: 'El juego a terminado:<br/> <br/>Chorro:  '+ (this.owner.control.wins.blast) +'<br/>Cuatro Esquinas:  '+ (this.owner.control.wins.quarter) +'<br/>Centrito:  '+ (this.owner.control.wins.center) +'<br/>Llenas:  '+ (this.owner.control.wins.full) +'',
+      message: 'El juego a terminado:<br/> <br/>Chorro:  '+ (this.game.control.wins.blast) + '<br/>Cuatro Esquinas: ' + (this.game.control.wins.quarter) + '<br/>Centrito:  ' + (this.game.control.wins.center) + '<br/>Llenas: ' + (this.game.control.wins.full) +'',
       buttons: [
         {
           text: 'Salir Sala',
@@ -249,6 +250,7 @@ export class JuegoPage {
       ]
     });
     alert.present();
+    console.log("hola 2")
   }
   ///////////////////////////////////////////////juego.html
 
@@ -272,7 +274,10 @@ export class JuegoPage {
         //this.nativeAudio.preloadComplex('sonidocarta', 'assets/sounds/cartas/' + this.game.random[this.indice] + '.mp3',1,1,0);
         //this.nativeAudio.play('sonidocarta');
         this.nativeAudio.play((this.game.random[this.indice]).toString(), () => { this.nativeAudio.unload(this.game.random[this.indice]).toString()});
-        if(this.indice>53){
+        console.log(this.indice2);
+        if(this.indice>=53){
+          console.log(this.players);
+          console.log("entre");
           this.modal2();
           this.indice = 0;
           this.indice2 = 0;
@@ -350,7 +355,7 @@ export class JuegoPage {
         }
         this.partidaService.getPlayers(this.game_id).then(hh => {
           let as:any = hh;
-          console.log(as);
+          //console.log(as);
           as.forEach(element => {
             this.tableService.getTables().then(response =>{
               this.search_card(this.game.random[this.indice], this.tables[this.tb], element.player);
@@ -365,6 +370,13 @@ export class JuegoPage {
           this.intervalito = 1;
           this.indice = this.game.currentCard;
           this.nativeAudio.play((this.game.random[this.indice]).toString(), () => { this.nativeAudio.unload(this.game.random[this.indice]).toString()});
+          if(this.indice>=53){
+            console.log("entre");
+            this.modal2();
+            this.indice = 0;
+            this.indice2 = 0;
+            this.sub.unsubscribe();
+          }
         }
         this.partidaService.get_my_room(this.user.email).then(xa => {
           let roomy:any = xa;
@@ -448,12 +460,12 @@ is_kuatro(room){
       for (let i = 0; i < table[index].length; i++) {
         if (table[index][i] == carta) {
          let room;
-         console.log("carta:", carta);
-         console.log("otro:", table[index][i]);
-         console.log("otro:", user);
+        //  console.log("carta:", carta);
+        //  console.log("otro:", table[index][i]);
+        //  console.log("otro:", user);
          this.partidaService.get_my_room(user).then(xa => {
            room = xa;
-           console.log(room);
+          //  console.log(room);
            room.stats[index][i].showed = true;
            this.partidaService.update_stats(room);
           });
