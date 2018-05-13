@@ -11,6 +11,7 @@ import 'rxjs/add/observable/interval';
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import { FirebaseListObservable } from 'angularfire2/database-deprecated';
 import { NativeAudio } from '@ionic-native/native-audio';
+import { TextToSpeech } from '@ionic-native/text-to-speech';
 /**
  * Generated class for the JuegoPage page.
  *
@@ -63,7 +64,7 @@ export class JuegoPage {
   public gettingrooms: any;
   public initCard: any = true;
 
-  constructor(private alertCtrl: AlertController, public navCtrl: NavController,public partidaService: PartidaProvider, public navParams: NavParams, private modal: ModalController, private tableService: TableProvider, public afDB: AngularFireDatabase, private nativeAudio: NativeAudio) {
+  constructor(private tts: TextToSpeech,private alertCtrl: AlertController, public navCtrl: NavController,public partidaService: PartidaProvider, public navParams: NavParams, private modal: ModalController, private tableService: TableProvider, public afDB: AngularFireDatabase, private nativeAudio: NativeAudio) {
     this.game = {random: [0,0,0]}
     this.estadoPositivo[0] = false;
     this.estadoPositivo[1] = false;
@@ -168,7 +169,6 @@ export class JuegoPage {
                 z=true;
                 console.log('perros');
               }
-            this.iniciar();
             }
         })
       });
@@ -253,11 +253,15 @@ export class JuegoPage {
   ///////////////////////////////////////////////juego.html
 
   iniciar(){
-    for(let i=0; i<=54; i++){
+      this.tts.speak(
+        {text:'Se va y se corre perros csm alv',
+        locale:'es-MX'
+    }).then(() => console.log('Perros')).catch((reason: any) => console.log(reason));
+    /*for(let i=0; i<=54; i++){
       this.nativeAudio.preloadSimple(i.toString(),'assets/sounds/cartas/'+i.toString()+'.mp3');
       //console.log(this.game.random[this.indice]);
-    }
-    this.nativeAudio.play('0',()=>{this.nativeAudio.unload('0')});
+    }*/
+    //this.nativeAudio.play('0',()=>{this.nativeAudio.unload('0')});
     this.initCard = false;
     this.subControl = true;
     this.sub = Observable.interval(1000*this.intervalito).subscribe((val) => {
@@ -268,15 +272,24 @@ export class JuegoPage {
           this.game.status = "I";
         this.partidaService.update_card(this.game_id, this.game);
         this.indice = this.game.currentCard;
+        console.log(this.indice)
+        this.partidaService.getCarta(this.game.random[this.indice]).then(zz=>{
+          let ff:any=zz;
+          console.log(ff.name);
+          this.tts.speak(
+            {text:ff.name,
+            locale:'es-MX'
+        }).then(() => console.log('Success')).catch((reason: any) => console.log(reason));        });
+
         this.indice2 ++;
         //this.nativeAudio.preloadComplex('sonidocarta', 'assets/sounds/cartas/' + this.game.random[this.indice] + '.mp3',1,1,0);
         //this.nativeAudio.play('sonidocarta');
-        this.nativeAudio.play((this.game.random[this.indice]).toString(), () => { this.nativeAudio.unload(this.game.random[this.indice]).toString()});
+        
+       // this.nativeAudio.play((this.game.random[this.indice]).toString(), () => { this.nativeAudio.unload(this.game.random[this.indice]).toString()});
         if(this.indice>53){
           this.modal2();
           this.indice = 0;
           this.indice2 = 0;
-          this.sub.unsubscribe();
         }
         //////////////////////////////////////////////
         //funciona esto ya
@@ -356,7 +369,13 @@ export class JuegoPage {
         }else if(this.user.email != this.game.owner && this.game.status == "I"){
           this.intervalito = 1;
           this.indice = this.game.currentCard;
-          this.nativeAudio.play((this.game.random[this.indice]).toString(), () => { this.nativeAudio.unload(this.game.random[this.indice]).toString()});
+          this.partidaService.getCarta(this.game.random[this.indice]).then(zz=>{
+            let ff:any=zz;
+            console.log(ff.name);
+            this.tts.speak(
+              {text:ff.name,
+              locale:'es-MX'
+          }).then(() => console.log('Success')).catch((reason: any) => console.log(reason));        });
         }
         this.partidaService.get_my_room(this.user.email).then(xa => {
           let roomy:any = xa;
