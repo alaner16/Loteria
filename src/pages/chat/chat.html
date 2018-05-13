@@ -28,19 +28,24 @@
   {{ message.mensaje }}
 </ion-card-content>
 </ion-card>
-<div id="content-end"></div>
 </ion-content>
 
-<ion-footer>
-  <ion-item>
-    <ion-input type="text" placeholder="Mensaje" [(ngModel)]="message"></ion-input>
+  <ion-footer>
+      <form [formGroup]="myForm" (ngSubmit)="sendMessage()">
+    <ion-item>
+      <ion-input type="text" placeholder="Mensaje" formControlName="message" [(ngModel)]="message" ></ion-input>
+      
+        <button ion-button item-right color="secondary" type="submit" [disabled]="!myForm.valid"><ion-icon name="send"></ion-icon> </button>
+  
+      
+    </ion-item>
     
-      <button ion-button item-right color="secondary" (click)="sendMessage()"><ion-icon name="send"></ion-icon> </button>
+      
+    </form>
 
-    
-  </ion-item>
+  </ion-footer>
+
+
   
-    
-  
-</ion-footer>
+
  
