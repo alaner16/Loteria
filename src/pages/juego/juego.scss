@@ -63,7 +63,7 @@ page-juego {
     border: 2px solid white;
     border-radius: 7%;
     box-shadow: 0px 1px 11px black;
-    max-width: 210%;
+    max-width: 110%;
    
 }
 
@@ -126,9 +126,9 @@ page-juego {
 
 @media (max-width:340px){
     .estilo-boton{
-        top: -103%;
-        height: 96%;
-        width: 210%;
+        top: -111%;
+    height: 104%;
+    width: 114%;
     }
 }
 @media (min-width:340px){
@@ -137,7 +137,7 @@ page-juego {
         width: 85%;
     }
     .baraja-diseño{
-        max-width: 200%;
+        max-width: 110%;
     }
     .estilo-ficha.tamaño {
         width: auto;
@@ -148,20 +148,20 @@ page-juego {
 
     }
     .estilo-boton{
-        top: -118%;
-        height: 111%;
-        width: 202%;
+        top: -133%;
+        height: 126%;
+        width: 115%;
     }
 }
 @media (min-width:420px){
     .grid-estilo{
-        margin-top: 10%;
+        margin-top: 12%;
         width: 75%;
     }
     .estilo-boton{
-        top: -136%;
-        height: 130%;
-        width: 202%;
+        top: -153%;
+        height: 146%;
+        width: 115%;
 }
 }
  @media (min-width:460px){
