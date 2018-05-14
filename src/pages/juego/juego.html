@@ -19,16 +19,16 @@
       <ion-icon name="trophy"></ion-icon>
     </button>
     <ion-fab-list>
-      <button ion-fab (click)="s_full=true" class="Llenas">
+      <button ion-fab (click)="s_full=true" class="Llenas" *ngIf="settings.full == true">
         <img src="assets/imgs/posiciones/buenas.png">
       </button>
-      <button ion-fab (click)="s_blast=true" class="Chorro">
+      <button ion-fab (click)="s_blast=true" class="Chorro" *ngIf="settings.blast == true">
         <img src="assets/imgs/posiciones/chorro.png">
       </button>
-      <button ion-fab (click)="s_square=true" class="4Esquinas">
+      <button ion-fab (click)="s_square=true" class="4Esquinas" *ngIf="settings.quarters == true">
         <img src="assets/imgs/posiciones/4esquinas.png">
       </button>
-      <button ion-fab (click)="s_center=true" class="Centrito">
+      <button ion-fab (click)="s_center=true" class="Centrito" *ngIf="settings.middle == true">
         <img src="assets/imgs/posiciones/centrito.png">
       </button>
     </ion-fab-list>
