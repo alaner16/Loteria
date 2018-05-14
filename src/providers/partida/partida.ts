@@ -226,17 +226,6 @@ export class PartidaProvider {
     return promise;
   }
 
-  createGame(game){
-    let promise = new Promise((resolve,reject)=>{
-      this.afd.list('/game/').push(game);
-      this.get_my_game(game).then(response =>{
-        resolve(response);
-        //console.log(this.tables);
-      }).catch(err =>{
-        reject(err);
-      })
-    })
-  }
 
   getlastgame(player){
     let promise = new Promise((resolve, reject)=>{
@@ -295,7 +284,7 @@ export class PartidaProvider {
     this.afd.list('/room/').update(obj.id, obj);
   }
 
-  get_my_game(player){
+  /*get_my_game(player){
     let promise = new Promise((resolve, reject) => {
       firebase.database().ref('/room/').orderByChild('player').equalTo(player).on('value', (snap) => {
         try {
@@ -319,9 +308,7 @@ export class PartidaProvider {
       });
     })
     return promise
-
-
-  }
+  }*/
 
   newRoom(player, game){
     player.id_game = game.id;
@@ -329,31 +316,6 @@ export class PartidaProvider {
     this.db.ref('/room/').push(player);
   }
 
-  createRoom(player){
-    let z = true;
-    this.db.ref('/game/').orderByChild('owner').equalTo(player.player).on('value', (snapshopt) =>{
-      if(z==true){
-        z = false;
-        let game = snapshopt.val();
-        let ids = Object.keys(game);
-        let count = Object.keys(game).length;
-        for(var i=0; i< count; i++){
-          var key = ids[i];
-          var item = snapshopt.child(key).val();
-          //console.log(item);
-          if(item.status == 'w'){
-            this.id = key;
-
-          }
-        }
-      //})
-      player.id_game = this.id;
-      player['last'] = 1;
-
-      this.db.ref('/room/').push(player);
-      }
-    });
-  }
 
   leaveGame(user){
     let gamecontrol = true;

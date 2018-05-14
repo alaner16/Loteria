@@ -38,6 +38,7 @@ export class JuegoPage {
   sub:any;
   game:any;
   game_id:any;
+  settings: any = {players:0,pricecard: 0, cardtimer:0, full:false, blast:false, quarters:false, middle:false};
   indice = 0;
   indice2 = 0;
   s_full=false;
@@ -83,6 +84,12 @@ export class JuegoPage {
     this.estadoPositivo[13] = false;
     this.estadoPositivo[14] = false;
     this.estadoPositivo[15] = false;
+    this.game_id = this.navParams.get('game');
+    this.partidaService.getGame(this.game_id).then(response => {
+      let currentGame: any = [];
+      currentGame = response;
+      this.settings = currentGame.settings;
+    })
   }
 
   ionViewWillLeave(){
@@ -149,8 +156,9 @@ export class JuegoPage {
   ionViewWillEnter(){
     this.game_id = this.navParams.get('game');
     this.partidaService.getGame(this.game_id).then( ab => {
-      this.owner = ab;
-      this.owner = this.owner.owner;
+      let currentGame: any = [];
+      currentGame = ab;
+      this.owner = currentGame.owner;
       this.gettingrooms = this.afDB.list('/room/').valueChanges().subscribe(players => {
         this.partidaService.getPlayers(this.game_id).then(
           response => {
@@ -161,14 +169,12 @@ export class JuegoPage {
       if(this.email != this.owner){
         let z=false;
         this.showClientControl = true;
-        console.log(this.showClientControl);
         this.showCard = this.afDB.list('/game/').valueChanges().subscribe(games => {
           this.partidaService.getGame(this.game_id).then(response =>{
             if(response['status'] == "I"){
               if(z==false){
                 this.iniciar();
                 z=true;
-                console.log('perros');
               }
             }
         })
@@ -266,7 +272,7 @@ export class JuegoPage {
       this.partidaService.getGame(this.game_id).then( aa => {
         this.game = aa;
         if (this.user.email == this.game.owner) {
-
+          if (this.putoelkelolea){
           this.game.currentCard = this.indice2;
           this.game.status = "I";
         this.partidaService.update_card(this.game_id, this.game);
@@ -281,14 +287,13 @@ export class JuegoPage {
         }).then(() => console.log('Success')).catch((reason: any) => console.log(reason));        });
 
         this.indice2 ++;
-        //this.nativeAudio.play((this.game.random[this.indice]).toString(), () => { this.nativeAudio.unload(this.game.random[this.indice]).toString()});
-          if(this.indice2>53){
-            this.modal2();
-            this.indice2=0;
-            this.indice=0;
-            this.sub.unsubscribe();
+        this.nativeAudio.play((this.game.random[this.indice]).toString(), () => { this.nativeAudio.unload(this.game.random[this.indice]).toString()});
+          if(this.indice>53){
+            this.indice=53;
+            this.indice2=53;
+            this.putoelkelolea = false;
           }
-
+        }
         //////////////////////////////////////////////
         //funciona esto ya
           this.partidaService.get_request_check(this.game_id).then(gg => {
@@ -315,7 +320,6 @@ export class JuegoPage {
                 ff => {
                   let ag:any = ff;
                   this.game.control.stats.full = ag.player;
-                  this.s_full = true;
                 }
               )
             }
@@ -330,7 +334,6 @@ export class JuegoPage {
                 ff => {
                   let ag:any = ff;
                 this.game.control.stats.blast = ag.player;
-                this.s_blast = true;
               }
             )}
           })
@@ -344,7 +347,6 @@ export class JuegoPage {
                 ff => {
                   let ag:any = ff;
                 this.game.control.stats.quarter = ag.player;
-                this.s_square = true;
               }
             )}
           })
@@ -358,7 +360,6 @@ export class JuegoPage {
                 ff => {
                   let ag:any = ff;
                 this.game.control.stats = ag.player;
-                this.s_center = true;
               }
             )}
           })

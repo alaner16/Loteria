@@ -116,8 +116,10 @@ export class CrearPartidaPage {
     this.addItem();
     const modalElegirCarta = this.modal.create(ElegirCartaPage);
     modalElegirCarta.onDidDismiss(data => {
-      this.pp.get_my_game(this.player.player).then(obb => {
-        this.ok = obb;
+      this.pp.getlastgame(this.player.player).then(obb => {
+        let currentGame: any = [];
+        currentGame = obb;
+        this.ok = currentGame.id;
         console.log('en el crear partida con datos y carta');
         this.navCtrl.push(JuegoPage,{tabla:data, game: this.ok});
       });
