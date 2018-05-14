@@ -6,6 +6,8 @@ page-juego {
     //background-color: darkblue;
     height: 11rem;
     margin-bottom: 1rem;
+     
+
 }
 
 
@@ -62,16 +64,31 @@ page-juego {
     border-radius: 7%;
     box-shadow: 0px 1px 11px black;
     max-width: 210%;
+   
 }
+
+
 .Fondo{
     background-image: url(../assets/imgs/mesas/f1.jpg);
     background-repeat: no-repeat;
     background-size: cover;
 }
+.estilo-boton{
+    top: -118%;
+    height: 111%;
+    border-radius: 5%;
+    width: 198%;
+    left: -5%;
+    background-color: black;
+    opacity: 0.5;
 
-/*.Fondo{
-    
-}*/
+
+}
+
+.icono-play{
+    width:100%;
+}
+
 .conectado{
     color:rgb(0, 161, 126);
     display: box;
@@ -106,6 +123,14 @@ page-juego {
 }
 */
 //RESPONSIVE
+
+@media (max-width:340px){
+    .estilo-boton{
+        top: -103%;
+        height: 96%;
+        width: 210%;
+    }
+}
 @media (min-width:340px){
     .grid-estilo{
         margin-top: 7%;
@@ -122,12 +147,22 @@ page-juego {
         width: auto; height: 30px;
 
     }
+    .estilo-boton{
+        top: -118%;
+        height: 111%;
+        width: 202%;
+    }
 }
 @media (min-width:420px){
     .grid-estilo{
         margin-top: 10%;
         width: 75%;
     }
+    .estilo-boton{
+        top: -136%;
+        height: 130%;
+        width: 202%;
+}
 }
  @media (min-width:460px){
      .grid-estilo{
@@ -139,6 +174,11 @@ page-juego {
         width: 45%;
         margin-top: -4%;
     }
+    .estilo-boton{
+        top: -174%;
+        height: 167%;
+        width: 202%;
+    }
 }
 @media (min-width:870px){
     .grid-estilo{
@@ -149,6 +189,11 @@ page-juego {
 @media (min-width:990px){
     .baraja-diseño{
         max-width: 300%;
+    }
+    .estilo-boton{
+        top: -177%;
+        height: 169%;
+        width: 300%;
     }
 }
 @media (min-width:1200px){
@@ -168,6 +213,11 @@ page-juego {
     }
     .si{
         margin-bottom:-80px;
+    }
+    .estilo-boton{
+        top: -253%;
+        height: 245%;
+        width: 300%;
     }
 }
 
