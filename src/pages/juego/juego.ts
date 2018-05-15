@@ -287,12 +287,13 @@ export class JuegoPage {
         }).then(() => console.log('Success')).catch((reason: any) => console.log(reason));        });
 
         this.indice2 ++;
+        if(this.indice>53){
+          this.indice=53;
+          this.indice2=53;
+          this.putoelkelolea = false;
+        }
         this.nativeAudio.play((this.game.random[this.indice]).toString(), () => { this.nativeAudio.unload(this.game.random[this.indice]).toString()});
-          if(this.indice>53){
-            this.indice=53;
-            this.indice2=53;
-            this.putoelkelolea = false;
-          }
+
         }
         //////////////////////////////////////////////
         //funciona esto ya
