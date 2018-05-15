@@ -48,6 +48,7 @@ export class RecordPage {
     this.menu.enable(false,'menurecords');
   }
 
+<<<<<<< HEAD
   modal(myEvent){
     console.log("game" + this.game_id)
     this.pp.getlastgame("abraham-alvarado@hotmail.com").then( ab => {
@@ -79,4 +80,7 @@ export class RecordPage {
     });
     alert.present();
   }
+=======
+ 
+>>>>>>> 9afffbe10e87516a5b0ea383ca12a488a4868b1a
 }

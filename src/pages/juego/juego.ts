@@ -225,14 +225,15 @@ export class JuegoPage {
   }
   /////////////////////////////////////////juego.html
   modal2(){
+    console.log(this.game);
     console.log("game" + this.game_id)
     this.partidaService.getlastgame(this.owner).then( ab => {
       this.owner = ab;
-      console.log(this.owner);
-
-
+      //console.log(this.owner);
     });
-
+    console.log("antes de alerta"); 
+    let choro  = this.game.control.wins.blast;
+    console.log(choro);
     let alert = this.alertCtrl.create({
       title: 'PARTIDA FINALIZADA',
       message: 'El juego a terminado:<br/> <br/>Chorro:  '+ (this.game.control.wins.blast) +'<br/>Cuatro Esquinas:  '+ (this.game.control.wins.quarter) +'<br/>Centrito:  '+ (this.game.control.wins.center) +'<br/>Llenas:  '+ (this.game.control.wins.full) +'',
@@ -257,6 +258,7 @@ export class JuegoPage {
       ]
     });
     alert.present();
+    console.log("hola 2")
   }
   ///////////////////////////////////////////////juego.html
 
@@ -290,7 +292,6 @@ export class JuegoPage {
           this.indice2 ++;
         }
         this.nativeAudio.play((this.game.random[this.indice]).toString(), () => { this.nativeAudio.unload(this.game.random[this.indice]).toString()});
-
         }
         //////////////////////////////////////////////
         //funciona esto ya
@@ -364,7 +365,7 @@ export class JuegoPage {
         }
         this.partidaService.getPlayers(this.game_id).then(hh => {
           let as:any = hh;
-          console.log(as);
+          //console.log(as);
           as.forEach(element => {
             this.tableService.getTables().then(response =>{
               this.search_card(this.game.random[this.indice], this.tables[this.tb], element.player);
@@ -469,12 +470,12 @@ is_kuatro(room){
       for (let i = 0; i < table[index].length; i++) {
         if (table[index][i] == carta) {
          let room;
-         console.log("carta:", carta);
-         console.log("otro:", table[index][i]);
-         console.log("otro:", user);
+        //  console.log("carta:", carta);
+        //  console.log("otro:", table[index][i]);
+        //  console.log("otro:", user);
          this.partidaService.get_my_room(user).then(xa => {
            room = xa;
-           console.log(room);
+          //  console.log(room);
            room.stats[index][i].showed = true;
            this.partidaService.update_stats(room);
           });
