@@ -229,7 +229,6 @@ export class JuegoPage {
     console.log("game" + this.game_id)
     this.partidaService.getlastgame(this.owner).then( ab => {
       this.owner = ab;
-      //console.log(this.owner);
     });
     console.log("antes de alerta"); 
     let choro  = this.game.control.wins.blast;
@@ -243,16 +242,13 @@ export class JuegoPage {
           role: 'cancel',
           handler: () => {
             this.navCtrl.push(HomePage);
-            //console.log(this.pp.getGame());
             this.salir();
-            console.log('Cancel clicked');
           }
         },
         {
           text: 'Volver a Jugar',
           handler: () => {
             this.navCtrl.push(CrearPartidaPage);
-            console.log('Buy clicked');
           }
         }
       ]
