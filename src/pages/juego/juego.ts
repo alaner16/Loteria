@@ -286,11 +286,8 @@ export class JuegoPage {
             locale:'es-MX'
         }).then(() => console.log('Success')).catch((reason: any) => console.log(reason));        });
 
-        this.indice2 ++;
-        if(this.indice>53){
-          this.indice=53;
-          this.indice2=53;
-          this.putoelkelolea = false;
+        if(this.indice<53){
+          this.indice2 ++;
         }
         this.nativeAudio.play((this.game.random[this.indice]).toString(), () => { this.nativeAudio.unload(this.game.random[this.indice]).toString()});
 
