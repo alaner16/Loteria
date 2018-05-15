@@ -7,8 +7,8 @@
 <ion-header>
 
   <ion-navbar color="amarillo1">
-    
-    
+
+
     <ion-buttons left>
         <button ion-button icon-only menuToggle>
           <ion-icon name="menu"></ion-icon>
@@ -16,17 +16,16 @@
     </ion-buttons>
     <ion-title text-center>Records</ion-title>
   </ion-navbar>
-  
+
 </ion-header>
 
   <ion-content>
-    <p [hidden]="partidas">Partidas ganadas</p>
-    <p [hidden]="tablas">Mejores tablas</p>
-    <p [hidden]="jugadores">Mejores jugadores</p>
-    <p [hidden]="chorro">Mas chorros</p>
-    <p [hidden]="esquina">Mas 4 esquinas</p>
-    <p [hidden]="centrito">Mas centritos</p>
-    <p [hidden]="perdedores">Los mas perdedores</p>
+    <p [hidden]="partidas">Partidas ganadas - {{cosas.full}}</p>
+    <p>Mejores tablas</p>
+    <p>Chorros - {{cosas.blast}}</p>
+    <p>4 esquinas - {{cosas.quarter}}</p>
+    <p>Centritos - {{cosas.center}}</p>
+    <p>Partidas totales - {{cosas.total}}</p>
 
 <button ion-button (click)="modal($event)">MODAL</button>
   </ion-content>

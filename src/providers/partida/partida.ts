@@ -495,6 +495,7 @@ export class PartidaProvider {
     return promise;
   }
 
+
   updateTablesGame(id_game, id_table){
 
       let control = true;
@@ -546,6 +547,42 @@ export class PartidaProvider {
                 type: item.type
               }
               lsGames.push(game);
+            }
+          }
+          resolve(lsGames);
+        }catch(err){
+          reject(err);
+        }
+      });
+
+    })
+    return promise;
+  }
+
+  getGamesWhereWin(user){
+    let promise = new Promise((resolve, reject) => {
+      this.db.ref('/game/').on('value',(snapshot)=> {
+        let lsGames = {full:0,blast:0,quarter:0, center:0, total:0};
+        try{
+          let games = snapshot.val();
+          //console.log(games);
+          let ids = Object.keys(games);
+          let count = Object.keys(games).length;
+          for(var i=0; i< count; i++){
+            let key = ids[i];
+            let item = snapshot.child(key).val();
+            if (item['control']) {
+              if(item.control.wins.full == user){
+                lsGames.full++;
+              }if(item.control.wins.blast == user){
+                lsGames.blast++;
+                console.log('ddddddddddd');
+              }if(item.control.wins.quarter == user){
+                lsGames.quarter++;
+              }if(item.control.wins.center == user){
+                lsGames.center++;
+              }
+              lsGames.total++;
             }
           }
           resolve(lsGames);

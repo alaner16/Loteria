@@ -23,16 +23,21 @@ export class RecordPage {
   owner: any;
   game_id: any;
   players: any;
+  user:any;
   email: any;
+  cosas:any = {full:0,blast:0,quarter:0, center:0, total:0};
   constructor(
-    public navCtrl: NavController, 
-    public navParams: NavParams, 
+    public navCtrl: NavController,
+    public navParams: NavParams,
     private menu: MenuController,
     private popoverCtrl: PopoverController,
     private alertCtrl: AlertController,
     private afd: AngularFireDatabase,
     private pp: PartidaProvider) {
-    
+    this.user = firebase.auth().currentUser;
+    pp.getGamesWhereWin(this.user.email).then(mi_codigo_mi_variable => {
+      this.cosas = mi_codigo_mi_variable;
+    });
   }
 
   ionViewWillEnter(){
@@ -48,10 +53,10 @@ export class RecordPage {
     this.pp.getlastgame("abraham-alvarado@hotmail.com").then( ab => {
       this.owner = ab;
       console.log(this.owner);
-      
+
 
     });
-    
+
     let alert = this.alertCtrl.create({
       title: 'PARTIDA FINALIZADA',
       message: 'El juego a terminado:<br/> <br/>Chorro:  '+ (this.owner.control.wins.blast) +'<br/>Cuatro Esquinas:  '+ (this.owner.control.wins.quarter) +'<br/>Centrito:  '+ (this.owner.control.wins.center) +'<br/>Llenas:  '+ (this.owner.control.wins.full) +'',
