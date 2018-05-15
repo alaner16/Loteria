@@ -262,7 +262,7 @@ export class JuegoPage {
 
   iniciar(){
       this.tts.speak(
-        {text:'Se va y se corre perros csm alv',
+        {text:'Se va y se corre',
         locale:'es-MX'
     }).then(() => console.log('Perros')).catch((reason: any) => console.log(reason));
 
