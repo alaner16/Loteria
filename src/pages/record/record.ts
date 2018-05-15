@@ -48,39 +48,5 @@ export class RecordPage {
     this.menu.enable(false,'menurecords');
   }
 
-<<<<<<< HEAD
-  modal(myEvent){
-    console.log("game" + this.game_id)
-    this.pp.getlastgame("abraham-alvarado@hotmail.com").then( ab => {
-      this.owner = ab;
-      console.log(this.owner);
-
-
-    });
-
-    let alert = this.alertCtrl.create({
-      title: 'PARTIDA FINALIZADA',
-      message: 'El juego a terminado:<br/> <br/>Chorro:  '+ (this.owner.control.wins.blast) +'<br/>Cuatro Esquinas:  '+ (this.owner.control.wins.quarter) +'<br/>Centrito:  '+ (this.owner.control.wins.center) +'<br/>Llenas:  '+ (this.owner.control.wins.full) +'',
-      buttons: [
-        {
-          text: 'Salir Sala',
-          role: 'cancel',
-          handler: () => {
-            //console.log(this.pp.getGame());
-            console.log('Cancel clicked');
-          }
-        },
-        {
-          text: 'Volver a Jugar',
-          handler: () => {
-            console.log('Buy clicked');
-          }
-        }
-      ]
-    });
-    alert.present();
-  }
-=======
- 
->>>>>>> 9afffbe10e87516a5b0ea383ca12a488a4868b1a
+  
 }

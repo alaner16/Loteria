@@ -225,14 +225,17 @@ export class JuegoPage {
   }
   /////////////////////////////////////////juego.html
   modal2(){
-    console.log(this.game);
-    console.log("game" + this.game_id)
+    this.sub.unsubscribe();
+    this.subControl = false;
+    this.gettingrooms.unsubscribe();
+    // console.log(this.game);
+    // console.log("game" + this.game_id)
     this.partidaService.getlastgame(this.owner).then( ab => {
       this.owner = ab;
     });
-    console.log("antes de alerta"); 
+    // console.log("antes de alerta"); 
     let choro  = this.game.control.wins.blast;
-    console.log(choro);
+    // console.log(choro);
     let alert = this.alertCtrl.create({
       title: 'PARTIDA FINALIZADA',
       message: 'El juego a terminado:<br/> <br/>Chorro:  '+ (this.game.control.wins.blast) +'<br/>Cuatro Esquinas:  '+ (this.game.control.wins.quarter) +'<br/>Centrito:  '+ (this.game.control.wins.center) +'<br/>Llenas:  '+ (this.game.control.wins.full) +'',
@@ -422,6 +425,7 @@ is_full(room){
     let req = this.room_request_full;
     req.game_id = this.game_id;
     req.player_room = room.id;
+    console.log(req);
 
     this.partidaService.crear_request_full(req);
     this.s_full = false;
